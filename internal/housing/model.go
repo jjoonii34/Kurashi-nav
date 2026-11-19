@@ -5,6 +5,7 @@ import (
 
 	"github.com/jjoonii34/kurashi-nav/internal/cost"
 	"github.com/jjoonii34/kurashi-nav/internal/geo"
+	"github.com/jjoonii34/kurashi-nav/internal/i18n"
 	"github.com/jjoonii34/kurashi-nav/internal/source"
 )
 
@@ -43,7 +44,7 @@ type Section struct {
 // Report is the response of a housing check.
 type Report struct {
 	Location    geo.Point            `json:"location"`
-	Lang        Lang                 `json:"lang"`
+	Lang        i18n.Lang            `json:"lang"`
 	Sections    []Section            `json:"sections"`
 	Cost        *cost.Result         `json:"cost,omitempty"`
 	Partial     bool                 `json:"partial"` // true if any section is unavailable

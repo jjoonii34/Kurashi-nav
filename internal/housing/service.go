@@ -16,6 +16,7 @@ import (
 
 	"github.com/jjoonii34/kurashi-nav/internal/cost"
 	"github.com/jjoonii34/kurashi-nav/internal/geo"
+	"github.com/jjoonii34/kurashi-nav/internal/i18n"
 	"github.com/jjoonii34/kurashi-nav/internal/parallel"
 	"github.com/jjoonii34/kurashi-nav/internal/source"
 )
@@ -84,7 +85,7 @@ func NewService(o Options) (*Service, error) {
 
 // Check builds a report for one location.
 func (s *Service) Check(ctx context.Context, req CheckRequest) (Report, error) {
-	lang := ParseLang(req.Lang)
+	lang := i18n.Parse(req.Lang)
 
 	// 1. Validate everything that needs no I/O first (fail fast, cheap).
 	var costResult *cost.Result
@@ -163,7 +164,7 @@ func (s *Service) resolve(ctx context.Context, req CheckRequest) (geo.Point, err
 // needed; Wait provides the happens-before edge for reading them afterwards.
 // The goroutines always return nil: a failed layer becomes a section with
 // Status "unavailable" instead of cancelling its siblings (docs/adr/0003).
-func (s *Service) lookupAll(ctx context.Context, p geo.Point, lang Lang) []Section {
+func (s *Service) lookupAll(ctx context.Context, p geo.Point, lang i18n.Lang) []Section {
 	sections := make([]Section, len(s.layers))
 
 	g, gctx := parallel.WithContext(ctx)
@@ -178,7 +179,7 @@ func (s *Service) lookupAll(ctx context.Context, p geo.Point, lang Lang) []Secti
 	return sections
 }
 
-func (s *Service) lookupOne(ctx context.Context, spec LayerSpec, p geo.Point, lang Lang) Section {
+func (s *Service) lookupOne(ctx context.Context, spec LayerSpec, p geo.Point, lang i18n.Lang) Section {
 	start := time.Now()
 	ctx, cancel := context.WithTimeout(ctx, s.layerTimeout)
 	defer cancel()

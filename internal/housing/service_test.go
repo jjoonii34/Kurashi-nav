@@ -12,6 +12,7 @@ import (
 	"github.com/jjoonii34/kurashi-nav/internal/fakesource"
 	"github.com/jjoonii34/kurashi-nav/internal/geocode"
 	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kurashi-nav/internal/i18n"
 	"github.com/jjoonii34/kurashi-nav/internal/source"
 )
 
@@ -191,7 +192,7 @@ func TestCheck_AddressAndCost(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if rep.Lang != housing.LangKO {
+	if rep.Lang != i18n.KO {
 		t.Errorf("Lang = %s, want ko", rep.Lang)
 	}
 	if rep.Cost == nil || rep.Cost.TotalYen != 160_000 {

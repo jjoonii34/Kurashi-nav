@@ -23,6 +23,17 @@ whenever monetisation is considered.
 - Requests must be spaced out; the client enforces a token bucket
   (`REINFOLIB_RPS`, `REINFOLIB_BURST`).
 
+### Reference rules used by the room API (`internal/room`)
+
+| Rule | Source | Used for |
+|---|---|---|
+| 1畳 = at least 1.62㎡ in listings | 不動産の表示に関する公正競争規約 (不動産公正取引協議会連合会) | 畳 ↔ ㎡ conversion |
+| Minimum DK size: 4.5畳 (1 room) / 6畳 (2+ rooms); minimum LDK: 8畳 / 10畳 | 不動産公正取引協議会 advertising guideline | `min_size_guideline` in `/v1/room/layout` |
+| Regional tatami sizes (京間 955×1910, 中京間 910×1820, 江戸間 880×1760, 団地間 850×1700 mm) | Common industry values | `by_regional_tatami` |
+| Furniture sizes, 2.4m ceiling | Typical values, not a specific product | 3D preview scale only |
+
+Rules, not datasets: no licence applies, but the UI labels all room figures as approximate.
+
 ### Planned (not used yet)
 
 | Data | Provider | Planned use | Terms to follow |
@@ -36,6 +47,7 @@ whenever monetisation is considered.
 | Source | Why not |
 |---|---|
 | Listing portals (SUUMO, HOME'S, at home, …) | Scraping violates their terms and invites legal risk. Users type in what they see. See ADR-0004. |
+| Listing photos (for 3D models or anything else) | Can be copyrighted works; a 3D reconstruction is an adaptation. See ADR-0006. |
 | Undocumented GSI address-search endpoint | Not a published API, no availability guarantee. Not on the critical path (ADR-0005). |
 | User-generated reviews | Defamation and moderation risk; not in the MVP. |
 
