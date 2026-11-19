@@ -3,6 +3,10 @@
 .env.*
 !.env.example
 
+# Claude Code personal files (shared config is .claude/settings.json + CLAUDE.md)
+.claude/settings.local.json
+CLAUDE.local.md
+
 # build output
 /bin/
 coverage.out

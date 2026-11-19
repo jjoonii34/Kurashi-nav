@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---- build ----
-FROM golang:1.24-bookworm AS build
+FROM golang:1.27-bookworm AS build
 WORKDIR /src
 
 # Dependencies first so they are cached between code changes.

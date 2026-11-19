@@ -1,32 +1,10 @@
 package housing
 
-import "strings"
+import "github.com/jjoonii34/kurashi-nav/internal/i18n"
 
-// Lang is a response language.
-type Lang string
-
-const (
-	LangEN     Lang = "en"
-	LangKO     Lang = "ko"
-	LangJAEasy Lang = "ja-easy" // やさしい日本語: short sentences, common kanji (frontend adds furigana)
-)
-
-// ParseLang maps a user-supplied language tag to a supported Lang (default English).
-func ParseLang(s string) Lang {
-	switch strings.ToLower(strings.TrimSpace(s)) {
-	case "ko", "ko-kr":
-		return LangKO
-	case "ja", "ja-jp", "ja-easy":
-		return LangJAEasy
-	default:
-		return LangEN
-	}
-}
-
-// messages is the server-side catalogue. Most UI text lives in the frontend;
-// the server only translates what it must return in the API response.
-var messages = map[Lang]map[string]string{
-	LangEN: {
+// messages is this package's part of the server-side catalogue.
+var messages = i18n.Catalog{
+	i18n.EN: {
 		string(LayerFlood):            "Flood (river) inundation area",
 		string(LayerStormSurge):       "Storm surge inundation area",
 		string(LayerTsunami):          "Tsunami inundation area",
@@ -41,7 +19,7 @@ var messages = map[Lang]map[string]string{
 			"safety or danger. Cost figures are estimates. This is not legal or real-estate advice. " +
 			"Always confirm with the official municipal hazard map and the 重要事項説明 before signing.",
 	},
-	LangKO: {
+	i18n.KO: {
 		string(LayerFlood):            "홍수(하천) 침수 예상 구역",
 		string(LayerStormSurge):       "고조 침수 예상 구역",
 		string(LayerTsunami):          "쓰나미 침수 예상 구역",
@@ -56,7 +34,7 @@ var messages = map[Lang]map[string]string{
 			"비용은 추정치입니다. 법률·부동산 자문이 아닙니다. 계약 전 반드시 지자체 공식 해저드맵과 " +
 			"중요사항설명(重要事項説明)으로 확인하세요.",
 	},
-	LangJAEasy: {
+	i18n.JAEasy: {
 		string(LayerFlood):            "川の水があふれたときに水が来る場所",
 		string(LayerStormSurge):       "高潮で水が来る場所",
 		string(LayerTsunami):          "津波で水が来る場所",
@@ -72,13 +50,4 @@ var messages = map[Lang]map[string]string{
 	},
 }
 
-// t returns the message for key in lang, falling back to English, then to the key.
-func t(lang Lang, key string) string {
-	if m, ok := messages[lang][key]; ok {
-		return m
-	}
-	if m, ok := messages[LangEN][key]; ok {
-		return m
-	}
-	return key
-}
+func t(lang i18n.Lang, key string) string { return messages.T(lang, key) }

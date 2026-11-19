@@ -14,6 +14,7 @@ import (
 
 	"github.com/jjoonii34/kurashi-nav/internal/fakesource"
 	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kurashi-nav/internal/i18n"
 	"github.com/jjoonii34/kurashi-nav/internal/source"
 )
 
@@ -87,7 +88,7 @@ func TestHousingCheck_OK(t *testing.T) {
 	if err := json.NewDecoder(rec.Body).Decode(&rep); err != nil {
 		t.Fatal(err)
 	}
-	if len(rep.Sections) != len(housing.DefaultLayers("")) || rep.Lang != housing.LangJAEasy {
+	if len(rep.Sections) != len(housing.DefaultLayers("")) || rep.Lang != i18n.JAEasy {
 		t.Errorf("unexpected report: %d sections, lang %s", len(rep.Sections), rep.Lang)
 	}
 	if rep.Cost == nil || rep.Cost.TotalYen != 160_000 {
