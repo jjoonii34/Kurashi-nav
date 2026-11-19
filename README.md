@@ -27,7 +27,7 @@ integration is wired and tested against a mock server, pending API key.
 
 ## Quick start
 
-Requires Go 1.24+. No API key or external services needed.
+Requires Go 1.27+. No API key or external services needed.
 
 ```sh
 make run          # starts on :8080 with dummy data (DATA_MODE=fake)
