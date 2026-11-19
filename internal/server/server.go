@@ -52,6 +52,8 @@ func New(d Deps) http.Handler {
 	mux.HandleFunc("GET /healthz", h.healthz)
 	mux.HandleFunc("GET /v1/meta/sources", h.listSources)
 	mux.HandleFunc("POST /v1/housing/check", h.checkHousing)
+	mux.HandleFunc("GET /v1/room/size", h.roomSize)
+	mux.HandleFunc("GET /v1/room/layout", h.roomLayout)
 
 	var handler http.Handler = mux
 	handler = withTimeout(handler, d.RequestTimeout)
