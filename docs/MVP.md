@@ -145,7 +145,7 @@ flowchart LR
 
 ### M2 — 프론트엔드 `web/` (3~4주)
 - [x] M2-1 `web/`에 Next.js(App Router)+TypeScript 생성, `output: "export"` 설정, `web/wrangler.jsonc`(정적 자산 `./out`), CI에 lint·build 추가 · 규칙: `.claude/rules/web.md`
-- [ ] M2-2 i18n 라우팅 `/en` `/ko` `/ja`, 언어 전환
+- [x] M2-2 i18n 라우팅 `/en` `/ko` `/ja`, 언어 전환
 - [ ] M2-3 ① 위치 선택: MapLibre GL 또는 Leaflet + 地理院タイル + 핀 + 출처 표기
 - [ ] M2-4 ② 견적 입력 폼 (`cost.Input` 대응, 클라이언트 검증)
 - [ ] M2-5 ③ 결과 화면: 섹션 카드, `unavailable` 처리, 출처·면책 푸터

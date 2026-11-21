@@ -140,6 +140,13 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: `output: "export"`이면 `images.unoptimized`가 왜 필요한가? (이미지 최적화는 어디서 실행되나)
   - 질문: `.dockerignore`에 `web`이 없으면 Go 이미지 빌드에 무슨 일이 생기나? (`COPY . .`)
   - 질문: Makefile이 `./...` 대신 `./cmd/... ./internal/...`을 쓰는 이유는? (`web/node_modules` 안의 `.go` 파일)
+- [x] 언어 라우팅 `/en` `/ko` `/ja` + 언어 전환·기억 (M2-2)
+  - 읽는 순서: `web/i18n/langs.ts` → `web/i18n/dictionary.ts` → `web/app/[lang]/layout.tsx` → `web/components/LangSwitcher.tsx` → `web/i18n/remember.ts`
+  - 실험: `dictionary.ts`의 `ko`에서 `tagline` 줄을 지우고 `npm run build`의 에러 읽기 (Go의 `Missing()` 테스트와 같은 역할)
+  - 질문: 레이아웃이 `app/(picker)`와 `app/[lang]` 두 개인 이유는? (`<html lang>`)
+  - 질문: `/`에서 기억한 언어로 보내는 일을 왜 서버가 아니라 브라우저(`useEffect`)가 하나? (정적 export)
+  - 질문: 주소는 `ja`인데 API에는 왜 `ja-easy`를 보내나? (`toApiLang`)
+  - 질문: `localStorage`에 언어는 저장해도 되고 좌표·월세는 안 되는 이유는? (ADR-0002)
 - [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)
