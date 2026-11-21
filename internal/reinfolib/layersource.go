@@ -31,6 +31,7 @@ type LayerSource struct {
 	client    *Client
 	endpoints map[housing.LayerID]Endpoint
 	tiles     *cache.TTL[string, []geo.Feature]
+	fetching  flights
 	now       func() time.Time
 }
 
@@ -79,21 +80,21 @@ func (s *LayerSource) Lookup(ctx context.Context, layer housing.LayerID, p geo.P
 	return housing.LayerResult{Hit: len(props) > 0, Features: props}, nil
 }
 
-// tile returns cached features or fetches them.
-//
-// Exercise (docs/LEARNING.ko.md): two concurrent lookups for the same cold
-// tile both call the API. Collapse them into one call with singleflight.
+// tile returns cached features or fetches them. Concurrent lookups of the
+// same cold tile share one API call.
 func (s *LayerSource) tile(ctx context.Context, api string, t geo.Tile, params url.Values) ([]geo.Feature, error) {
 	key := api + "|" + t.String() + "|" + params.Encode()
 	if feats, ok := s.tiles.Get(key); ok {
 		return feats, nil
 	}
-	feats, err := s.client.Tile(ctx, api, t, params)
-	if err != nil {
-		return nil, err
-	}
-	s.tiles.Set(key, feats)
-	return feats, nil
+	return s.fetching.do(ctx, key, func(ctx context.Context) ([]geo.Feature, error) {
+		feats, err := s.client.Tile(ctx, api, t, params)
+		if err != nil {
+			return nil, err
+		}
+		s.tiles.Set(key, feats)
+		return feats, nil
+	})
 }
 
 // pick copies only the allowed keys. Cached features are shared between
