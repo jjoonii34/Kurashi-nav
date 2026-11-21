@@ -146,7 +146,11 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
 - [ ] **LRU 캐시** 교체 + `go test -bench`로 전/후 비교
 - [ ] **pprof** (별도 포트) + 부하 테스트(k6 등)로 병목 찾기
 - [ ] **OpenTelemetry**: 레이어별 span, Cloud Trace 연동
-- [ ] 거래 포인트 3×3 주변 타일 조회 (타일 경계 문제 해결)
+- [x] 거래 포인트 주변 2×2 타일 조회 (타일 경계 문제 해결)
+  - 읽는 순서: `geo/tile.go`의 `TilesAround` → `reinfolib/layersource.go`의 `tilesTogether`
+  - 질문: `math.Round(x)`가 왜 "가장 가까운 타일 경계"를 알려 주나? x = 14552.96이면 어느 두 열을 고르나?
+  - 질문: 3×3이 아니라 2×2를 고른 이유는? (호출 수 9 대 4, 레이트리밋 버스트 10)
+  - 질문: 이웃 타일 하나가 실패하면 왜 받은 것만으로 결과를 만들지 않나?
 - [ ] `golang.org/x/sync/errgroup`로 교체하고 ADR-0001 갱신
 
 ### Level 3 — 확장

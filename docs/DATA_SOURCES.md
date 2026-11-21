@@ -25,6 +25,10 @@ whenever monetisation is considered.
   It mixes property types. The parser for the price, area and period strings
   follows the dummy data and has not been checked against a live XPT001
   response yet.
+- Transaction lookups read a 2×2 block of tiles (4 requests on a cold cache)
+  so that records just across a tile edge are found. Whether the API repeats
+  a record in two neighbouring tiles has not been checked against a live
+  response yet.
 - Requests must be spaced out; the client enforces a token bucket
   (`REINFOLIB_RPS`, `REINFOLIB_BURST`).
 
