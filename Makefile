@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 BIN     := bin/api
+# Named explicitly: ./... would also walk web/node_modules, where npm packages ship Go files.
+PKGS    := ./cmd/... ./internal/...
+GODIRS  := cmd internal
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 
 .PHONY: help run run-live test race cover vet fmt fmt-check check build docker-build docker-run clean
@@ -14,22 +17,22 @@ run-live: ## Run against the real MLIT API (needs REINFOLIB_API_KEY in .env)
 	set -a && . ./.env && set +a && DATA_MODE=live go run ./cmd/api
 
 test: ## Unit tests
-	go test ./...
+	go test $(PKGS)
 
 race: ## Tests with the race detector
-	go test -race -count=1 ./...
+	go test -race -count=1 $(PKGS)
 
 cover: ## Coverage report (opens coverage.html)
-	go test -coverprofile=coverage.out ./... && go tool cover -html=coverage.out -o coverage.html
+	go test -coverprofile=coverage.out $(PKGS) && go tool cover -html=coverage.out -o coverage.html
 
 vet: ## go vet
-	go vet ./...
+	go vet $(PKGS)
 
 fmt: ## Format code
-	gofmt -w .
+	gofmt -w $(GODIRS)
 
 fmt-check: ## Fail if code is not formatted
-	@test -z "$$(gofmt -l .)" || (echo "not formatted:"; gofmt -l .; exit 1)
+	@test -z "$$(gofmt -l $(GODIRS))" || (echo "not formatted:"; gofmt -l $(GODIRS); exit 1)
 
 check: fmt-check vet race ## Everything CI runs
 

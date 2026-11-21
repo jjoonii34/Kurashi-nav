@@ -144,7 +144,7 @@ flowchart LR
 - [x] M1-8 거래 포인트 주변 2×2 타일 조회 (타일 경계 문제). 3×3(9회 호출)이 아닌 2×2(4회)인 이유: 호출 한도(순간 10회, 이후 초당 1회) 안에서 반경 약 1km를 보장하기 위해
 
 ### M2 — 프론트엔드 `web/` (3~4주)
-- [ ] M2-1 `web/`에 Next.js(App Router)+TypeScript 생성, `output: "export"` 설정, `web/wrangler.jsonc`(정적 자산 `./out`), CI에 lint·build 추가 · 규칙: `.claude/rules/web.md`
+- [x] M2-1 `web/`에 Next.js(App Router)+TypeScript 생성, `output: "export"` 설정, `web/wrangler.jsonc`(정적 자산 `./out`), CI에 lint·build 추가 · 규칙: `.claude/rules/web.md`
 - [ ] M2-2 i18n 라우팅 `/en` `/ko` `/ja`, 언어 전환
 - [ ] M2-3 ① 위치 선택: MapLibre GL 또는 Leaflet + 地理院タイル + 핀 + 출처 표기
 - [ ] M2-4 ② 견적 입력 폼 (`cost.Input` 대응, 클라이언트 검증)

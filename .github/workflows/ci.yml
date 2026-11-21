@@ -33,6 +33,31 @@ jobs:
       - name: govulncheck
         run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - run: npm ci
+
+      - name: lint
+        run: npm run lint
+
+      - name: build (static export)
+        run: npm run build
+
+      - name: export produced the pages Cloudflare serves
+        run: test -f out/index.html && test -f out/404.html
+
   docker:
     needs: test
     runs-on: ubuntu-latest
