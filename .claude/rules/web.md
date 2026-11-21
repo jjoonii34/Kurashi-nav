@@ -12,7 +12,7 @@ paths:
   returning `en`, `ko`, `ja`. `/` shows a language picker (no server redirect).
 - All data comes from the Go API through one typed client module.
   Base URL from `NEXT_PUBLIC_API_BASE_URL` (dev: `http://localhost:8080`).
-  Types come from `docs/openapi.yaml` once it exists (M1-6).
+  Types come from `docs/openapi.json`.
 - Never call the MLIT API from the browser. Never put any secret in a
   `NEXT_PUBLIC_*` variable: it ships to every visitor.
 - Do not persist user input (coordinates, rent) in localStorage, cookies or

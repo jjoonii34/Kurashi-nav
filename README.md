@@ -71,6 +71,9 @@ commands (`/next-task`, `/verify`, `/explain`, `/adr`). Scope and backlog:
 
 Errors share one shape: `{"error": {"code": "...", "message": "...", "request_id": "..."}}`.
 
+The full contract is [`docs/openapi.json`](docs/openapi.json) (OpenAPI 3.0). A test
+calls every endpoint and fails if a response no longer matches it.
+
 ## Architecture
 
 ```mermaid
