@@ -127,7 +127,11 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 읽는 순서: `housing/price_test.go` → `housing/price.go` → `reinfolib/normalize.go`
   - 질문: `percentile`은 4건(40, 50, 60, 70)의 중앙값으로 왜 55가 아니라 50을 돌려주나? (최근접 순위 방식)
   - 질문: `"3,200万円"`을 숫자로 바꾸는 코드가 `housing`이 아니라 `reinfolib`에 있는 이유는?
-- [ ] `docs/openapi.yaml` 작성 → 프론트엔드 타입 생성에 사용
+- [x] `docs/openapi.json` 작성 → 프론트엔드 타입 생성에 사용
+  - 읽는 순서: `docs/openapi.json`의 `paths` → `internal/server/openapi_test.go`
+  - 실험: 스펙에서 `price_summary` 줄을 지우고 `go test ./internal/server -run OpenAPI`를 돌려 실패 메시지 읽기
+  - 질문: `mismatches`가 자기 자신을 다시 호출하는(재귀) 이유는? 어떤 경우에 호출을 멈추나?
+  - 질문: 스펙이 YAML이 아니라 JSON인 이유는? (ADR-0001)
 - [ ] 방 크기: 사용자가 평면도의 가로·세로(m)를 직접 넣으면 그 모양으로 미리보기 (`/v1/room/size`에 `width_m`, `depth_m` 추가)
 - [ ] 가구 배치 판정: "세미더블 침대 + 책상이 6畳에 통로 60cm를 남기고 들어가나?" (직사각형 배치 알고리즘, 테이블 테스트)
 - [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치

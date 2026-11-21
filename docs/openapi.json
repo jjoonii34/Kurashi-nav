@@ -1,0 +1,372 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Kurashi Nav API",
+    "version": "0.1.0",
+    "description": "Housing check for foreign residents in Japan. Responses are for reference only. Request input is never stored or logged."
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "summary": "Liveness check",
+        "responses": {
+          "200": {
+            "description": "The server is running.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } }
+          }
+        }
+      }
+    },
+    "/v1/meta/sources": {
+      "get": {
+        "summary": "Data sources and the credit each one requires",
+        "responses": {
+          "200": {
+            "description": "Every data source this deployment uses.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SourceList" } } }
+          }
+        }
+      }
+    },
+    "/v1/housing/check": {
+      "post": {
+        "summary": "Report for one location, with an optional initial-cost breakdown",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CheckRequest" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "The report. A data layer that failed has status \"unavailable\" and sets partial to true.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Report" } } }
+          },
+          "400": { "$ref": "#/components/responses/Error" },
+          "413": { "$ref": "#/components/responses/Error" },
+          "415": { "$ref": "#/components/responses/Error" },
+          "422": { "$ref": "#/components/responses/Error" },
+          "500": { "$ref": "#/components/responses/Error" },
+          "504": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/v1/room/size": {
+      "get": {
+        "summary": "Convert a room size and suggest a shape for the 3D preview",
+        "parameters": [
+          {
+            "name": "jo",
+            "in": "query",
+            "description": "Size in 畳 as printed on the listing. Send exactly one of jo or area_sqm.",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "area_sqm",
+            "in": "query",
+            "description": "Size in square metres. Send exactly one of jo or area_sqm.",
+            "schema": { "type": "number" }
+          },
+          { "$ref": "#/components/parameters/Lang" }
+        ],
+        "responses": {
+          "200": {
+            "description": "The size in every unit, a suggested rectangle and reference furniture.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RoomSize" } } }
+          },
+          "400": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/v1/room/layout": {
+      "get": {
+        "summary": "Explain a layout code such as 1K or 2LDK",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": true,
+            "description": "Layout code, for example 1R, 1K, 2LDK, 3SLDK or 2LDK+S.",
+            "schema": { "type": "string" }
+          },
+          { "$ref": "#/components/parameters/Lang" }
+        ],
+        "responses": {
+          "200": {
+            "description": "What each part of the code means.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RoomLayout" } } }
+          },
+          "400": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Lang": {
+        "name": "lang",
+        "in": "query",
+        "description": "Response language: en (default), ko, or ja / ja-easy for easy Japanese.",
+        "schema": { "type": "string" }
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "The request failed. error.code is stable; error.message is for developers.",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      }
+    },
+    "schemas": {
+      "Health": {
+        "type": "object",
+        "required": ["status", "version"],
+        "properties": {
+          "status": { "type": "string" },
+          "version": { "type": "string" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": ["code", "message"],
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "request_id": { "type": "string" }
+            }
+          }
+        }
+      },
+      "SourceList": {
+        "type": "object",
+        "required": ["sources"],
+        "properties": {
+          "sources": { "type": "array", "items": { "$ref": "#/components/schemas/Attribution" } }
+        }
+      },
+      "Attribution": {
+        "type": "object",
+        "required": ["id", "name", "provider", "credit", "edited"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "provider": { "type": "string" },
+          "credit": { "type": "string", "description": "Text the UI must display." },
+          "url": { "type": "string" },
+          "edited": { "type": "boolean", "description": "True if this service processed the data." },
+          "notice": { "type": "string" }
+        }
+      },
+      "CheckRequest": {
+        "type": "object",
+        "properties": {
+          "lat": { "type": "number", "description": "Send lat and lon together." },
+          "lon": { "type": "number" },
+          "address": { "type": "string", "description": "Used only when lat and lon are absent." },
+          "lang": { "type": "string", "description": "en (default), ko, or ja / ja-easy." },
+          "cost": { "$ref": "#/components/schemas/CostInput" }
+        }
+      },
+      "CostInput": {
+        "type": "object",
+        "description": "Figures copied from the agent's estimate. Fixed amounts include tax.",
+        "properties": {
+          "rent_yen": { "type": "integer" },
+          "management_fee_yen": { "type": "integer" },
+          "deposit_months": { "type": "number" },
+          "key_money_months": { "type": "number" },
+          "brokerage_months": { "type": "number", "description": "Before tax, in months of rent." },
+          "guarantee_rate": { "type": "number", "description": "Share of rent plus management fee; 0.5 means 50%." },
+          "fire_insurance_yen": { "type": "integer" },
+          "key_exchange_yen": { "type": "integer" },
+          "cleaning_fee_yen": { "type": "integer" },
+          "other_fees": { "type": "array", "items": { "$ref": "#/components/schemas/Fee" } },
+          "move_in_date": { "type": "string", "description": "YYYY-MM-DD. Enables day-based proration of the first month." },
+          "prepay_next_month": { "type": "boolean" }
+        }
+      },
+      "Fee": {
+        "type": "object",
+        "required": ["name", "amount_yen"],
+        "properties": {
+          "name": { "type": "string" },
+          "amount_yen": { "type": "integer" }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "required": ["location", "lang", "sections", "partial", "sources", "disclaimer", "generated_at"],
+        "properties": {
+          "location": { "$ref": "#/components/schemas/Point" },
+          "lang": { "type": "string", "enum": ["en", "ko", "ja-easy"] },
+          "sections": { "type": "array", "items": { "$ref": "#/components/schemas/Section" } },
+          "cost": { "$ref": "#/components/schemas/CostResult" },
+          "partial": { "type": "boolean", "description": "True if any section is unavailable." },
+          "sources": { "type": "array", "items": { "$ref": "#/components/schemas/Attribution" } },
+          "disclaimer": { "type": "string" },
+          "generated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Point": {
+        "type": "object",
+        "required": ["lat", "lon"],
+        "properties": {
+          "lat": { "type": "number" },
+          "lon": { "type": "number" }
+        }
+      },
+      "Section": {
+        "type": "object",
+        "required": ["layer", "kind", "title", "status", "hit", "source_id", "elapsed_ms"],
+        "properties": {
+          "layer": { "type": "string" },
+          "kind": { "type": "string", "enum": ["hazard", "zoning", "school", "price"] },
+          "title": { "type": "string" },
+          "status": { "type": "string", "enum": ["ok", "unavailable"] },
+          "hit": { "type": "boolean" },
+          "features": {
+            "type": "array",
+            "description": "Attributes passed through from the data source; keys differ per layer.",
+            "items": { "type": "object", "additionalProperties": true }
+          },
+          "message": { "type": "string" },
+          "source_id": { "type": "string" },
+          "elapsed_ms": { "type": "integer" },
+          "price_summary": { "$ref": "#/components/schemas/PriceSummary" }
+        }
+      },
+      "PriceSummary": {
+        "type": "object",
+        "description": "Only on price sections, and only when at least one record has a price and an area.",
+        "required": ["count", "unit_price_yen_per_sqm"],
+        "properties": {
+          "count": { "type": "integer" },
+          "unit_price_yen_per_sqm": {
+            "type": "object",
+            "required": ["q1", "median", "q3"],
+            "properties": {
+              "q1": { "type": "integer" },
+              "median": { "type": "integer" },
+              "q3": { "type": "integer" }
+            }
+          },
+          "period_from": { "type": "string", "description": "Earliest quarter, for example 2023Q1." },
+          "period_to": { "type": "string" }
+        }
+      },
+      "CostResult": {
+        "type": "object",
+        "required": ["lines", "total_yen", "monthly_yen", "total_in_rent_months", "warnings"],
+        "properties": {
+          "lines": { "type": "array", "items": { "$ref": "#/components/schemas/CostLine" } },
+          "total_yen": { "type": "integer" },
+          "monthly_yen": { "type": "integer" },
+          "total_in_rent_months": { "type": "number" },
+          "warnings": { "type": "array", "items": { "$ref": "#/components/schemas/CostWarning" } }
+        }
+      },
+      "CostLine": {
+        "type": "object",
+        "required": ["code", "amount_yen", "refundable"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "deposit", "key_money", "brokerage", "guarantee", "fire_insurance", "key_exchange",
+              "cleaning", "first_month_rent", "prorated_rent", "next_month_rent", "other"
+            ]
+          },
+          "label": { "type": "string", "description": "User-entered name; only for code \"other\"." },
+          "amount_yen": { "type": "integer" },
+          "refundable": { "type": "boolean" }
+        }
+      },
+      "CostWarning": {
+        "type": "object",
+        "required": ["code", "severity", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "severity": { "type": "string", "enum": ["info", "warning"] },
+          "message": { "type": "string", "description": "English; the frontend localises by code." }
+        }
+      },
+      "RoomSize": {
+        "type": "object",
+        "required": ["area_sqm", "jo", "pyeong", "sq_ft", "by_regional_tatami", "shape", "reference_furniture", "note"],
+        "properties": {
+          "area_sqm": { "type": "number" },
+          "jo": { "type": "number" },
+          "pyeong": { "type": "number" },
+          "sq_ft": { "type": "number" },
+          "by_regional_tatami": { "type": "array", "items": { "$ref": "#/components/schemas/TatamiCount" } },
+          "shape": { "$ref": "#/components/schemas/RoomShape" },
+          "reference_furniture": { "type": "array", "items": { "$ref": "#/components/schemas/Furniture" } },
+          "note": { "type": "string" }
+        }
+      },
+      "TatamiCount": {
+        "type": "object",
+        "required": ["id", "name", "mat_mm", "count"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "mat_mm": { "type": "string" },
+          "count": { "type": "number" }
+        }
+      },
+      "RoomShape": {
+        "type": "object",
+        "required": ["width_m", "depth_m", "ceiling_m", "approximate"],
+        "properties": {
+          "width_m": { "type": "number" },
+          "depth_m": { "type": "number" },
+          "ceiling_m": { "type": "number" },
+          "approximate": { "type": "boolean" }
+        }
+      },
+      "Furniture": {
+        "type": "object",
+        "required": ["id", "name", "width_cm", "depth_cm", "height_cm"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "width_cm": { "type": "integer" },
+          "depth_cm": { "type": "integer" },
+          "height_cm": { "type": "integer" }
+        }
+      },
+      "RoomLayout": {
+        "type": "object",
+        "required": ["code", "rooms", "kitchen", "service_room", "summary", "parts"],
+        "properties": {
+          "code": { "type": "string" },
+          "rooms": { "type": "integer" },
+          "kitchen": { "type": "string", "enum": ["R", "K", "DK", "LDK"] },
+          "service_room": { "type": "boolean" },
+          "summary": { "type": "string" },
+          "parts": { "type": "array", "items": { "$ref": "#/components/schemas/LayoutPart" } },
+          "min_size_guideline": { "$ref": "#/components/schemas/LayoutGuideline" }
+        }
+      },
+      "LayoutPart": {
+        "type": "object",
+        "required": ["code", "explanation"],
+        "properties": {
+          "code": { "type": "string" },
+          "explanation": { "type": "string" }
+        }
+      },
+      "LayoutGuideline": {
+        "type": "object",
+        "required": ["code", "min_jo", "min_sqm", "note"],
+        "properties": {
+          "code": { "type": "string" },
+          "min_jo": { "type": "number" },
+          "min_sqm": { "type": "number" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

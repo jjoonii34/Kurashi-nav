@@ -104,7 +104,9 @@ flowchart LR
 
 - 에러는 모두 `{"error":{"code","message","request_id"}}`.
 - 하우징 응답은 `Cache-Control: no-store`, 방 크기 응답은 `public, max-age=86400`.
-- 정식 스펙은 M1-6에서 `docs/openapi.yaml`로 작성 → 프론트 타입 생성에 사용.
+- 정식 스펙은 `docs/openapi.json` (OpenAPI 3.0) → 프론트 타입 생성에 사용.
+  YAML이 아닌 JSON인 이유: Go 표준 라이브러리로 읽어 테스트에서 실제 응답과 비교하기 위해서 (ADR-0001).
+  `internal/server/openapi_test.go`가 응답과 스펙이 어긋나면 실패한다.
 
 ## 7. 비기능 요구
 
@@ -137,7 +139,7 @@ flowchart LR
 - [ ] M1-3 `make run-live`로 9개 레이어 실호출, `Keep: nil`로 속성 확인 → `internal/reinfolib/endpoints.go`의 `(unverified)` 해소
 - [ ] M1-4 레이어 해석기: 원시 속성 → 섹션 `summary`(등급 + 3개 국어 문장). 홍수 깊이 랭크, 토사 경계/특별경계부터 · 학습: 인터페이스 설계 (직접 작성 권장)
 - [x] M1-5 거래가격 요약: ㎡단가 중앙값·사분위수, 건수, 기간 · 학습: 정렬·백분위, 테이블 테스트
-- [ ] M1-6 `docs/openapi.yaml` 작성 + 핸들러 응답과 일치하는지 검사하는 테스트
+- [x] M1-6 `docs/openapi.json` 작성 + 핸들러 응답과 일치하는지 검사하는 테스트
 - [ ] M1-7 singleflight: 같은 타일 동시 요청을 1회로 · 학습: 동시성 (직접 작성 권장)
 - [ ] M1-8 거래 포인트 주변 3×3 타일 조회 (타일 경계 문제)
 
