@@ -62,6 +62,26 @@ docs/               MVP.md (scope + backlog), adr/, DATA_SOURCES.md, LEARNING.ko
 - Every user-facing string goes through an `i18n.Catalog` with `en`, `ko` and
   `ja-easy`; each package's catalogue test (`Missing()`) must pass.
 - `gofmt` runs automatically after each edit (hook in `.claude/settings.json`).
+- Comments are rare and say why, never what the code already says. Keep doc
+  comments on exported names to a line or two. No excuse comments ("temporary",
+  "works somehow"). The only TODOs allowed are `TODO(human)` and ones that name
+  a backlog ID.
+
+## Quality bar
+
+- Pick the simplest solution the owner can explain in an interview.
+- Stay inside the requested scope: no unrelated edits, no unrequested
+  refactoring, no bonus features.
+- Never invent an API, option or field name. Check it or ask.
+- Never make a check pass by deleting or skipping a test, changing the expected
+  value to match the output, hard-coding an input, or adding `//nolint`.
+- Never discard an error silently. A deliberate `_ =` needs a comment saying
+  why it is safe.
+- Leave no unused code, commented-out code or debug prints.
+- No interface, generic or helper with a single use; abstract when the second
+  real use appears. No copy-pasted logic.
+- Docs describe only what exists: no unimplemented features, unmeasured
+  numbers or tests that were not run.
 
 ## Hard rules
 
@@ -85,6 +105,13 @@ docs/               MVP.md (scope + backlog), adr/, DATA_SOURCES.md, LEARNING.ko
 - Done means: `make check` green; relevant docs updated (DATA_SOURCES, ADR,
   README, LEARNING.ko.md); the task's checkbox ticked; a Conventional Commits
   message suggested (`feat(reinfolib): ...`).
+- Bug fixes: write the failing test, watch it fail, fix, watch it pass.
+- The final report covers: what changed per file, why this approach over at
+  least one alternative, the commands run and their result (say so if a check
+  was not run), remaining limits, and what the owner should study.
+- When the same mistake comes up twice, propose a test, type or `go vet` check
+  that prevents it before adding a rule to this file, and list every other
+  place in the repo with the same pattern.
 - A decision with real trade-offs gets an ADR: `/adr <title>`.
 - Other commands: `/verify` (full check, explained), `/explain <path>` (top-down walkthrough).
 
