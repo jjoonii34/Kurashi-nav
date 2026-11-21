@@ -5,7 +5,7 @@ export type Lang = (typeof LANGS)[number];
 export const LANG_NAMES: Record<Lang, string> = {
   en: "English",
   ko: "한국어",
-  ja: "やさしい にほんご",
+  ja: "にほんご",
 };
 
 export function isLang(value: string): value is Lang {

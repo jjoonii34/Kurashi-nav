@@ -16,7 +16,7 @@ const dictionaries: Record<Lang, Dictionary> = {
     languageLabel: "언어",
   },
   ja: {
-    tagline: "この へや、けいやく しても いい？",
+    tagline: "この へやを けいやく しても いいですか？",
     languageLabel: "ことば",
   },
 };
