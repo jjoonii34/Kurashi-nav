@@ -141,7 +141,7 @@ flowchart LR
 - [x] M1-5 거래가격 요약: ㎡단가 중앙값·사분위수, 건수, 기간 · 학습: 정렬·백분위, 테이블 테스트
 - [x] M1-6 `docs/openapi.json` 작성 + 핸들러 응답과 일치하는지 검사하는 테스트
 - [x] M1-7 singleflight: 같은 타일 동시 요청을 1회로 · 학습: 동시성 (직접 작성 권장)
-- [ ] M1-8 거래 포인트 주변 3×3 타일 조회 (타일 경계 문제)
+- [x] M1-8 거래 포인트 주변 2×2 타일 조회 (타일 경계 문제). 3×3(9회 호출)이 아닌 2×2(4회)인 이유: 호출 한도(순간 10회, 이후 초당 1회) 안에서 반경 약 1km를 보장하기 위해
 
 ### M2 — 프론트엔드 `web/` (3~4주)
 - [ ] M2-1 `web/`에 Next.js(App Router)+TypeScript 생성, `output: "export"` 설정, `web/wrangler.jsonc`(정적 자산 `./out`), CI에 lint·build 추가 · 규칙: `.claude/rules/web.md`

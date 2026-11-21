@@ -6,12 +6,14 @@ import (
 	"fmt"
 	"math"
 	"net/url"
+	"slices"
 	"sort"
 	"time"
 
 	"github.com/jjoonii34/kurashi-nav/internal/cache"
 	"github.com/jjoonii34/kurashi-nav/internal/geo"
 	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kurashi-nav/internal/parallel"
 )
 
 // ErrUnsupportedLayer is returned for a layer with no configured endpoint.
@@ -23,6 +25,9 @@ var ErrUnsupportedLayer = errors.New("reinfolib: unsupported layer")
 //
 //	point ─▶ XYZ tile ─▶ tile cache ─(miss)─▶ Client.Tile ─▶ GeoJSON features
 //	      ─▶ point-in-polygon (areas) or nearest-N (points) ─▶ allow-listed properties
+//
+// Area layers read the one tile containing the point. Point layers read the
+// 2×2 block around it (geo.TilesAround).
 //
 // The cache key is the tile address plus query parameters — public data,
 // never the user's coordinate (docs/adr/0002). Neighbouring homes share
@@ -56,20 +61,25 @@ func (s *LayerSource) Lookup(ctx context.Context, layer housing.LayerID, p geo.P
 	if ep.Params != nil {
 		params = ep.Params(s.now())
 	}
-	feats, err := s.tile(ctx, ep.API, geo.TileAt(p, ep.Zoom), params)
-	if err != nil {
-		return housing.LayerResult{}, err
-	}
 
 	var props []housing.Properties
 	switch ep.Geometry {
 	case Areas:
+		feats, err := s.tile(ctx, ep.API, geo.TileAt(p, ep.Zoom), params)
+		if err != nil {
+			return housing.LayerResult{}, err
+		}
 		for _, f := range feats {
 			if f.Contains(p) {
 				props = append(props, pick(f.Properties, ep.Keep))
 			}
 		}
 	case Points:
+		// The nearest point may lie just across a tile edge.
+		feats, err := s.tilesTogether(ctx, ep.API, geo.TilesAround(p, ep.Zoom), params)
+		if err != nil {
+			return housing.LayerResult{}, err
+		}
 		props = nearest(feats, p, ep.Keep, ep.MaxFeatures)
 	}
 	if ep.Normalize != nil {
@@ -97,6 +107,26 @@ func (s *LayerSource) tile(ctx context.Context, api string, t geo.Tile, params u
 	})
 }
 
+// tilesTogether fetches several tiles at once and joins their features.
+// One failed tile fails the lookup: a result built from part of the area
+// would look complete while missing the nearest points on one side.
+func (s *LayerSource) tilesTogether(ctx context.Context, api string, tiles []geo.Tile, params url.Values) ([]geo.Feature, error) {
+	perTile := make([][]geo.Feature, len(tiles))
+
+	g, ctx := parallel.WithContext(ctx)
+	for i, t := range tiles {
+		g.Go(func() error {
+			feats, err := s.tile(ctx, api, t, params)
+			perTile[i] = feats
+			return err
+		})
+	}
+	if err := g.Wait(); err != nil {
+		return nil, err
+	}
+	return slices.Concat(perTile...), nil
+}
+
 // pick copies only the allowed keys. Cached features are shared between
 // requests, so they must never be mutated — always copy.
 func pick(props map[string]any, keep []string) housing.Properties {
@@ -116,10 +146,6 @@ func pick(props map[string]any, keep []string) housing.Properties {
 }
 
 // nearest returns point features sorted by distance from p, capped at limit.
-//
-// Known limitation: only the tile containing p is searched, so a home near a
-// tile edge misses points just across it. Fetching the 3×3 neighbourhood is
-// a follow-up exercise.
 func nearest(feats []geo.Feature, p geo.Point, keep []string, limit int) []housing.Properties {
 	type hit struct {
 		props    housing.Properties

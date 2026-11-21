@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strconv"
 	"strings"
 	"sync/atomic"
 	"testing"
@@ -88,10 +89,55 @@ func TestLookup_AreaLayer(t *testing.T) {
 	}
 }
 
+const emptyTile = `{"type":"FeatureCollection","features":[]}`
+
+// Tokyo Station sits near the east edge of its zoom-14 tile, about 90 m from
+// the border, so the tile to the east is part of every transaction lookup.
+var (
+	stationTile = geo.Tile{Z: 14, X: 14552, Y: 6451}
+	eastTile    = geo.Tile{Z: 14, X: 14553, Y: 6451}
+)
+
+// fakeMLITByTile is like fakeMLIT but lets each tile answer differently.
+func fakeMLITByTile(t *testing.T, calls *atomic.Int64, lastQuery *atomic.Value, respond func(geo.Tile) (status int, body string)) *httptest.Server {
+	t.Helper()
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		calls.Add(1)
+		q := r.URL.Query()
+		lastQuery.Store(q)
+
+		var tile geo.Tile
+		for key, dst := range map[string]*int{"z": &tile.Z, "x": &tile.X, "y": &tile.Y} {
+			n, err := strconv.Atoi(q.Get(key))
+			if err != nil {
+				t.Errorf("query parameter %s = %q, want a number", key, q.Get(key))
+			}
+			*dst = n
+		}
+		status, body := respond(tile)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(status)
+		fmt.Fprint(w, body)
+	}))
+	t.Cleanup(srv.Close)
+	return srv
+}
+
+// onlyIn serves body for one tile and an empty collection for every other,
+// which is what the real API returns for a tile without data.
+func onlyIn(tile geo.Tile, body string) func(geo.Tile) (int, string) {
+	return func(asked geo.Tile) (int, string) {
+		if asked == tile {
+			return http.StatusOK, body
+		}
+		return http.StatusOK, emptyTile
+	}
+}
+
 func TestLookup_PointLayer(t *testing.T) {
 	var calls atomic.Int64
 	var q atomic.Value
-	srv := fakeMLIT(t, transactionTile, &calls, &q)
+	srv := fakeMLITByTile(t, &calls, &q, onlyIn(stationTile, transactionTile))
 	src := newSource(srv.URL, "test-key")
 	src.now = func() time.Time { return time.Date(2026, 11, 19, 0, 0, 0, 0, time.UTC) }
 
@@ -110,6 +156,72 @@ func TestLookup_PointLayer(t *testing.T) {
 	if query.Get("from") != "20231" || query.Get("to") != "20254" {
 		t.Errorf("from/to = %s/%s, want 20231/20254", query.Get("from"), query.Get("to"))
 	}
+
+	if calls.Load() != 4 {
+		t.Errorf("upstream called %d times, want 4 (the 2×2 block of tiles)", calls.Load())
+	}
+	if _, err := src.Lookup(context.Background(), housing.LayerTransactions, tokyoStation); err != nil {
+		t.Fatal(err)
+	}
+	if calls.Load() != 4 {
+		t.Errorf("upstream called %d times after a second lookup, want 4 (all cached)", calls.Load())
+	}
+}
+
+// A record 170 m away in the next tile must come before one 1.5 km away in
+// the station's own tile.
+func TestLookup_PointLayerSeesAcrossTheTileEdge(t *testing.T) {
+	if got := geo.TileAt(tokyoStation, 14); got != stationTile {
+		t.Fatalf("test setup: Tokyo Station is in tile %v, not %v", got, stationTile)
+	}
+	const farInStationTile = `{"type":"FeatureCollection","features":[
+ {"type":"Feature","properties":{"u_transaction_price_total_ja":"far, same tile"},"geometry":{"type":"Point","coordinates":[139.7500,35.6812]}}
+]}`
+	const nearInEastTile = `{"type":"FeatureCollection","features":[
+ {"type":"Feature","properties":{"u_transaction_price_total_ja":"near, next tile"},"geometry":{"type":"Point","coordinates":[139.7690,35.6812]}}
+]}`
+	var calls atomic.Int64
+	var q atomic.Value
+	srv := fakeMLITByTile(t, &calls, &q, func(asked geo.Tile) (int, string) {
+		switch asked {
+		case stationTile:
+			return http.StatusOK, farInStationTile
+		case eastTile:
+			return http.StatusOK, nearInEastTile
+		default:
+			return http.StatusOK, emptyTile
+		}
+	})
+	src := newSource(srv.URL, "test-key")
+
+	res, err := src.Lookup(context.Background(), housing.LayerTransactions, tokyoStation)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(res.Features) != 2 {
+		t.Fatalf("got %d features, want 2 (one from each tile)", len(res.Features))
+	}
+	if first := res.Features[0]["u_transaction_price_total_ja"]; first != "near, next tile" {
+		t.Errorf("nearest = %v, want the record across the tile edge", first)
+	}
+}
+
+func TestLookup_PointLayerFailsIfANeighbourTileFails(t *testing.T) {
+	var calls atomic.Int64
+	var q atomic.Value
+	srv := fakeMLITByTile(t, &calls, &q, func(asked geo.Tile) (int, string) {
+		if asked == eastTile {
+			return http.StatusServiceUnavailable, ""
+		}
+		return http.StatusOK, transactionTile
+	})
+	src := newSource(srv.URL, "test-key")
+
+	_, err := src.Lookup(context.Background(), housing.LayerTransactions, tokyoStation)
+	var se *StatusError
+	if !errors.As(err, &se) || se.Code != http.StatusServiceUnavailable {
+		t.Fatalf("err = %v, want StatusError 503", err)
+	}
 }
 
 func TestLookup_TransactionsGetNumericKeys(t *testing.T) {
@@ -119,7 +231,7 @@ func TestLookup_TransactionsGetNumericKeys(t *testing.T) {
 ]}`
 	var calls atomic.Int64
 	var q atomic.Value
-	srv := fakeMLIT(t, tile, &calls, &q)
+	srv := fakeMLITByTile(t, &calls, &q, onlyIn(stationTile, tile))
 	src := newSource(srv.URL, "test-key")
 
 	res, err := src.Lookup(context.Background(), housing.LayerTransactions, tokyoStation)

@@ -3,6 +3,7 @@ package geo
 import (
 	"errors"
 	"math"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -46,6 +47,36 @@ func TestTileAt(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := TileAt(tt.p, tt.z); got != tt.want {
 				t.Fatalf("TileAt() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTilesAround(t *testing.T) {
+	// At zoom 2 the map is a 4×4 grid, so the expected tiles can be checked
+	// by hand: one tile spans 90° of longitude, and latitude 10° sits just
+	// above the equator border between rows 1 and 2.
+	tests := []struct {
+		name string
+		p    Point
+		z    int
+		want []Tile
+	}{
+		{"near the left and bottom borders", Point{Lat: 10, Lon: 10}, 2, []Tile{{2, 1, 1}, {2, 2, 1}, {2, 1, 2}, {2, 2, 2}}},
+		{"near the right and bottom borders", Point{Lat: 10, Lon: 80}, 2, []Tile{{2, 2, 1}, {2, 3, 1}, {2, 2, 2}, {2, 3, 2}}},
+		{"near the left and top borders", Point{Lat: -10, Lon: 10}, 2, []Tile{{2, 1, 1}, {2, 2, 1}, {2, 1, 2}, {2, 2, 2}}},
+		{"near the top border of row 1", Point{Lat: 60, Lon: 10}, 2, []Tile{{2, 1, 0}, {2, 2, 0}, {2, 1, 1}, {2, 2, 1}}},
+		{"at the edge of the map, tiles off the map are left out", Point{Lat: 10, Lon: -179}, 2, []Tile{{2, 0, 1}, {2, 0, 2}}},
+		{"zoom 0 has a single tile", Point{Lat: 10, Lon: 10}, 0, []Tile{{0, 0, 0}}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := TilesAround(tt.p, tt.z)
+			if !slices.Equal(got, tt.want) {
+				t.Fatalf("TilesAround() = %v, want %v", got, tt.want)
+			}
+			if !slices.Contains(got, TileAt(tt.p, tt.z)) {
+				t.Errorf("TilesAround() = %v does not contain the point's own tile %v", got, TileAt(tt.p, tt.z))
 			}
 		})
 	}
