@@ -60,6 +60,13 @@ func NewDemo() *Source {
 	hit := func(props ...housing.Properties) housing.LayerResult {
 		return housing.LayerResult{Hit: true, Features: props}
 	}
+	sale := func(periodJA, period, priceJA string, priceYen int64, areaJA string, areaSqm float64) housing.Properties {
+		return dummy(
+			"point_in_time_name_ja", periodJA, "land_type_name_ja", "中古マンション等",
+			"u_transaction_price_total_ja", priceJA, "u_area_ja", areaJA, "distance_m", 420,
+			housing.PropPeriod, period, housing.PropPriceYen, priceYen, housing.PropAreaSqm, areaSqm,
+		)
+	}
 
 	return &Source{
 		Results: map[housing.LayerID]housing.LayerResult{
@@ -72,8 +79,12 @@ func NewDemo() *Source {
 			housing.LayerElementarySchool: hit(dummy("name", "DUMMY小学校")),
 			housing.LayerJuniorHighSchool: hit(dummy("name", "DUMMY中学校")),
 			housing.LayerTransactions: hit(
-				dummy("point_in_time_name_ja", "2025年第2四半期", "land_type_name_ja", "中古マンション等", "u_transaction_price_total_ja", "3,200万円", "distance_m", 420),
-				dummy("point_in_time_name_ja", "2025年第1四半期", "land_type_name_ja", "中古マンション等", "u_transaction_price_total_ja", "2,800万円", "distance_m", 420),
+				sale("2025年第2四半期", "2025Q2", "3,200万円", 32_000_000, "60㎡", 60),
+				sale("2025年第1四半期", "2025Q1", "2,800万円", 28_000_000, "55㎡", 55),
+				sale("2024年第3四半期", "2024Q3", "4,500万円", 45_000_000, "70㎡", 70),
+				sale("2024年第1四半期", "2024Q1", "1,980万円", 19_800_000, "25㎡", 25),
+				sale("2023年第4四半期", "2023Q4", "5,200万円", 52_000_000, "80㎡", 80),
+				sale("2023年第1四半期", "2023Q1", "3,600万円", 36_000_000, "65㎡", 65),
 			),
 		},
 	}

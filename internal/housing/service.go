@@ -207,5 +207,8 @@ func (s *Service) lookupOne(ctx context.Context, spec LayerSpec, p geo.Point, la
 	sec.Status = StatusOK
 	sec.Hit = res.Hit
 	sec.Features = res.Features
+	if spec.Kind == KindPrice {
+		sec.PriceSummary = summarizePrices(res.Features)
+	}
 	return sec
 }
