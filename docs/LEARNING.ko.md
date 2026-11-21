@@ -137,7 +137,12 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
 - [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)
-- [ ] **singleflight**: 같은 타일 동시 요청을 1회로 합치기 (직접 구현 → `x/sync/singleflight`와 비교)
+- [x] **singleflight**: 같은 타일 동시 요청을 1회로 합치기 (직접 구현 → `x/sync/singleflight`와 비교)
+  - 읽는 순서: `reinfolib/flight_test.go` → `reinfolib/flight.go` → `layersource.go`의 `tile`
+  - 질문: `do`에서 `mu.Unlock()`을 `select`보다 먼저 하는 이유는? (잠근 채로 기다리면 어떻게 되나)
+  - 질문: 처음 요청한 사람이 연결을 끊어도 받아오기가 계속되는 이유는? (`context.WithoutCancel`)
+  - 질문: `run`의 `recover`가 없으면 패닉이 났을 때 무슨 일이 생기나? (HTTP 미들웨어 밖의 고루틴)
+  - 복습: 빈 파일에 `flight.go`를 보지 않고 다시 써 보고 `go test ./internal/reinfolib -run Flights`로 확인
 - [ ] **LRU 캐시** 교체 + `go test -bench`로 전/후 비교
 - [ ] **pprof** (별도 포트) + 부하 테스트(k6 등)로 병목 찾기
 - [ ] **OpenTelemetry**: 레이어별 span, Cloud Trace 연동
