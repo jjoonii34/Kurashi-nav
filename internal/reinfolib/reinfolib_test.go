@@ -112,6 +112,29 @@ func TestLookup_PointLayer(t *testing.T) {
 	}
 }
 
+func TestLookup_TransactionsGetNumericKeys(t *testing.T) {
+	const tile = `{"type":"FeatureCollection","features":[
+ {"type":"Feature","properties":{"u_transaction_price_total_ja":"3,200万円","u_area_ja":"65㎡","point_in_time_name_ja":"2025年第2四半期"},
+  "geometry":{"type":"Point","coordinates":[139.7672,35.6813]}}
+]}`
+	var calls atomic.Int64
+	var q atomic.Value
+	srv := fakeMLIT(t, tile, &calls, &q)
+	src := newSource(srv.URL, "test-key")
+
+	res, err := src.Lookup(context.Background(), housing.LayerTransactions, tokyoStation)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(res.Features) != 1 {
+		t.Fatalf("got %d features, want 1", len(res.Features))
+	}
+	f := res.Features[0]
+	if f[housing.PropPriceYen] != int64(32_000_000) || f[housing.PropAreaSqm] != 65.0 || f[housing.PropPeriod] != "2025Q2" {
+		t.Errorf("numeric keys = %v / %v / %v", f[housing.PropPriceYen], f[housing.PropAreaSqm], f[housing.PropPeriod])
+	}
+}
+
 func TestLookup_UpstreamError(t *testing.T) {
 	var calls atomic.Int64
 	var q atomic.Value

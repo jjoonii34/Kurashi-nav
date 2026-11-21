@@ -30,6 +30,8 @@ type Endpoint struct {
 	MaxFeatures int
 	// Params adds API-specific query parameters.
 	Params func(now time.Time) url.Values
+	// Normalize adds source-independent keys to a copied feature.
+	Normalize func(housing.Properties)
 }
 
 // DefaultEndpoints maps every default housing layer to its MLIT API.
@@ -67,7 +69,8 @@ func DefaultEndpoints() map[housing.LayerID]Endpoint {
 				"u_transaction_price_total_ja", "u_transaction_price_unit_price_square_meter_ja",
 				"floor_plan_name_ja", "u_area_ja", "u_construction_year_ja", "building_structure_name_ja",
 			},
-			Params: lastYears(3),
+			Params:    lastYears(3),
+			Normalize: normalizeTransaction,
 		},
 	}
 }

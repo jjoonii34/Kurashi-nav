@@ -39,6 +39,8 @@ type Section struct {
 	Message   string       `json:"message,omitempty"`
 	SourceID  string       `json:"source_id"`
 	ElapsedMS int64        `json:"elapsed_ms"`
+
+	PriceSummary *PriceSummary `json:"price_summary,omitempty"` // price layers only
 }
 
 // Report is the response of a housing check.

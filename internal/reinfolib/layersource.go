@@ -71,6 +71,11 @@ func (s *LayerSource) Lookup(ctx context.Context, layer housing.LayerID, p geo.P
 	case Points:
 		props = nearest(feats, p, ep.Keep, ep.MaxFeatures)
 	}
+	if ep.Normalize != nil {
+		for _, f := range props {
+			ep.Normalize(f)
+		}
+	}
 	return housing.LayerResult{Hit: len(props) > 0, Features: props}, nil
 }
 

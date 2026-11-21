@@ -20,6 +20,11 @@ whenever monetisation is considered.
   before any paid feature, check each underlying dataset's own terms.
 - Transaction prices are aggregated (points sit at the nearest station).
   Do not build features that try to re-identify individual transactions.
+- The transaction section carries a derived `price_summary`: quartiles of
+  price ÷ area over the nearest records (at most 20) that have both values.
+  It mixes property types. The parser for the price, area and period strings
+  follows the dummy data and has not been checked against a live XPT001
+  response yet.
 - Requests must be spaced out; the client enforces a token bucket
   (`REINFOLIB_RPS`, `REINFOLIB_BURST`).
 

@@ -75,6 +75,32 @@ func TestCheck_AllLayersOK(t *testing.T) {
 	}
 }
 
+func TestCheck_PriceSummaryOnlyOnPriceSections(t *testing.T) {
+	svc := newService(t, fakesource.NewDemo())
+
+	rep, err := svc.Check(context.Background(), tokyo())
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, sec := range rep.Sections {
+		if sec.Kind != housing.KindPrice {
+			if sec.PriceSummary != nil {
+				t.Errorf("%s: unexpected price summary", sec.Layer)
+			}
+			continue
+		}
+		want := housing.PriceSummary{
+			Count:              6,
+			UnitPriceYenPerSqm: housing.Quartiles{Q1: 533_333, Median: 553_846, Q3: 650_000},
+			PeriodFrom:         "2023Q1",
+			PeriodTo:           "2025Q2",
+		}
+		if sec.PriceSummary == nil || *sec.PriceSummary != want {
+			t.Errorf("%s: price summary = %+v, want %+v", sec.Layer, sec.PriceSummary, want)
+		}
+	}
+}
+
 // One broken layer must not break the whole report.
 func TestCheck_PartialFailure(t *testing.T) {
 	src := fakesource.NewDemo()
