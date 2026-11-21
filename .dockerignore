@@ -7,4 +7,5 @@ bin
 coverage.*
 docs
 infra
+web
 *.md

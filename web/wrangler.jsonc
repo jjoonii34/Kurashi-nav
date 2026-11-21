@@ -1,0 +1,9 @@
+{
+  "name": "kurashi-nav-web",
+  "compatibility_date": "2026-11-22",
+  // Assets-only Worker: no script, just the static export (ADR-0007).
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}

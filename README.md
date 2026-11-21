@@ -22,6 +22,7 @@ All location data comes from official open data via the MLIT
 
 **Status:** backend skeleton — runs end-to-end on dummy data; live MLIT
 integration is wired and tested against a mock server, pending API key.
+The frontend (`web/`) is an empty Next.js scaffold that builds as a static export.
 
 ---
 
@@ -47,6 +48,16 @@ curl -s -X POST localhost:8080/v1/housing/check \
           "guarantee_rate": 0.5, "fire_insurance_yen": 20000, "key_exchange_yen": 16500
         }
       }'
+```
+
+Frontend (requires Node.js 24):
+
+```sh
+cd web
+npm ci
+npm run dev       # http://localhost:3000
+npm run lint
+npm run build     # static export to web/out/
 ```
 
 To use real data, apply for an API key at the 不動産情報ライブラリ site, copy
@@ -105,6 +116,7 @@ internal/
   cache/            generic TTL cache
   config/ logging/  env config with secret redaction; Cloud Logging-ready JSON
 docs/               ADRs, data sources, learning guide
+web/                Next.js frontend (static export, Tailwind CSS)
 infra/              deployment plan (phase 2)
 ```
 
@@ -117,6 +129,7 @@ Key decisions, each with an ADR in [`docs/adr`](docs/adr):
 5. **Map pin instead of geocoding** — address search is pluggable, not on the critical path.
 6. **3D room preview from numbers, not photos** — listing photos are copyrighted; sizes typed by the user are not.
 7. **Frontend on Cloudflare, API on Cloud Run** — Next.js static export served from the edge for free; Go stays on Cloud Run in Tokyo.
+8. **Tailwind CSS for styling** — utility classes for a mobile-first UI; a build-time dependency only.
 
 ## Data and compliance
 

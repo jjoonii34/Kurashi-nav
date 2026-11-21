@@ -134,6 +134,12 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: 스펙이 YAML이 아니라 JSON인 이유는? (ADR-0001)
 - [ ] 방 크기: 사용자가 평면도의 가로·세로(m)를 직접 넣으면 그 모양으로 미리보기 (`/v1/room/size`에 `width_m`, `depth_m` 추가)
 - [ ] 가구 배치 판정: "세미더블 침대 + 책상이 6畳에 통로 60cm를 남기고 들어가나?" (직사각형 배치 알고리즘, 테이블 테스트)
+- [x] 프론트엔드 뼈대: `web/`에 Next.js 정적 export + Tailwind (M2-1)
+  - 읽는 순서: `web/next.config.ts` → `web/wrangler.jsonc` → `.github/workflows/ci.yml`의 `web` job
+  - 실험: `next.config.ts`에 `cacheComponents: true`를 넣고 `npm run build`의 에러 메시지 읽기 (생성기 기본값인데 지운 이유)
+  - 질문: `output: "export"`이면 `images.unoptimized`가 왜 필요한가? (이미지 최적화는 어디서 실행되나)
+  - 질문: `.dockerignore`에 `web`이 없으면 Go 이미지 빌드에 무슨 일이 생기나? (`COPY . .`)
+  - 질문: Makefile이 `./...` 대신 `./cmd/... ./internal/...`을 쓰는 이유는? (`web/node_modules` 안의 `.go` 파일)
 - [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)
