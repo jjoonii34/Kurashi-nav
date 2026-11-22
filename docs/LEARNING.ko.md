@@ -189,6 +189,10 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: `locate.ts`의 `insideRing`을 종이에 그려 보기. 점에서 동쪽으로 그은 선이 변과 홀수 번 만나면 왜 안쪽인가?
   - 질문: 검색어와 고른 지역은 어디에 저장되나? 새로고침하면 왜 사라지나? (`web/state/check.tsx`)
   - 질문: `scripts/build-places.ts`는 가나를 로마자로 바꾼 결과가 일본우편 표기와 다르면 왜 멈추게 만들었나?
+- [x] 間取り 설명 위젯 (M2-7)
+  - 읽는 순서: `internal/room/layout.go` → `web/api/client.ts`의 `getRoomLayout` → `web/components/LayoutView.tsx`
+  - 질문: 잘못된 표기(`9X`)를 넣으면 서버는 무엇을 돌려주고, 화면은 어떤 문구를 보여 주나?
+  - 질문: 표기 해석을 프런트가 아니라 서버(`room.ParseLayout`)가 하는 이유는?
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)
 - [x] **singleflight**: 같은 타일 동시 요청을 1회로 합치기 (직접 구현 → `x/sync/singleflight`와 비교)

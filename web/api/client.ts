@@ -8,6 +8,7 @@ export type Section = Schemas["Section"];
 export type CostResult = Schemas["CostResult"];
 export type RoomSize = Schemas["RoomSize"];
 export type Furniture = Schemas["Furniture"];
+export type RoomLayout = Schemas["RoomLayout"];
 
 // Why a call produced no data, in terms the screen can explain:
 // network — the API could not be reached; invalid — the API rejected the
@@ -69,4 +70,13 @@ export function getRoomSize(
     lang,
   });
   return call<RoomSize>(`/v1/room/size?${params}`, { signal });
+}
+
+export function getRoomLayout(
+  code: string,
+  lang: string,
+  signal: AbortSignal,
+): Promise<ApiResult<RoomLayout>> {
+  const params = new URLSearchParams({ code, lang });
+  return call<RoomLayout>(`/v1/room/layout?${params}`, { signal });
 }
