@@ -161,6 +161,13 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: 서버(`internal/cost/cost.go`의 `validate`)가 이미 검증하는데 브라우저에서도 검증하는 이유는? 한쪽만 있으면 각각 무엇이 문제인가?
   - 질문: 폼은 保証料를 %로 받고 API에는 비율(0.5)로 보낸다. 변환은 어디서 하나?
   - 질문: `text.normalize("NFKC")`가 없으면 일본어 키보드로 `８００００`을 입력했을 때 어떻게 되나?
+- [x] 결과 화면 + API 클라이언트 (M2-5)
+  - 읽는 순서: `docs/openapi.json` → `web/api/schema.d.ts`(자동 생성) → `web/api/client.ts` → `web/components/ResultView.tsx`
+  - 실험: `docs/openapi.json`에서 `Report`의 `partial`을 지우고 `cd web && npm run gen:api && npm run build`의 에러 읽기
+  - 질문: `checkHousing`이 에러를 던지지 않고 `CheckResult`로 돌려주는 이유는? 화면 쪽 코드가 어떻게 달라지나?
+  - 질문: 실패를 `network` / `invalid` / `server` 셋으로 나눈 기준은? 사용자가 각각 무엇을 할 수 있나?
+  - 질문: `useEffect`의 `AbortController`는 어떤 상황에서 요청을 취소하나? 없으면 무슨 일이 생길 수 있나?
+  - 질문: 비용 경고 문구를 서버가 아니라 프론트가 `code`로 번역하는 이유는? (`docs/openapi.json`의 `CostWarning`)
 - [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)

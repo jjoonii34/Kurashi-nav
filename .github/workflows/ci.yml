@@ -49,6 +49,9 @@ jobs:
 
       - run: npm ci
 
+      - name: API types match docs/openapi.json
+        run: npm run gen:api && git diff --exit-code -- api/schema.d.ts
+
       - name: lint
         run: npm run lint
 

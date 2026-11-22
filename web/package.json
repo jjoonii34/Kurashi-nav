@@ -7,7 +7,8 @@
     "build": "next build",
     "test": "node --test estimate/input.test.ts",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gen:api": "openapi-typescript ../docs/openapi.json -o api/schema.d.ts"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
@@ -23,6 +24,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "openapi-typescript": "^7.13.0",
     "tailwindcss": "4.3.3",
     "typescript": "^5"
   }
