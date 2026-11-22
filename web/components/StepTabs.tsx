@@ -12,12 +12,11 @@ type Props = {
 
 export function StepTabs({ lang, dict }: Props) {
   const pathname = usePathname();
-  // A tab without a path is a screen that is not built yet.
-  const tabs: { label: string; path?: string }[] = [
+  const tabs = [
     { label: dict.tabMap, path: `/${lang}` },
     { label: dict.tabEstimate, path: `/${lang}/estimate` },
     { label: dict.tabResult, path: `/${lang}/result` },
-    { label: dict.tabRoom },
+    { label: dict.tabRoom, path: `/${lang}/room` },
   ];
 
   return (
@@ -26,17 +25,6 @@ export function StepTabs({ lang, dict }: Props) {
       className="flex h-11 px-2 text-sm lg:order-2 lg:ml-10 lg:h-14 lg:px-0 lg:text-base"
     >
       {tabs.map(({ label, path }) => {
-        if (path === undefined) {
-          return (
-            <span
-              key={label}
-              aria-disabled="true"
-              className="flex flex-1 items-center justify-center text-ink-muted/50 lg:flex-none lg:px-5"
-            >
-              {label}
-            </span>
-          );
-        }
         const current = pathname === path;
         return (
           <Link
