@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useId } from "react";
 import { PlaceSearch } from "@/components/PlaceSearch";
+import { PLACE_SOURCES } from "@/geo/atlas";
 import type { Dictionary } from "@/i18n/dictionary";
 import type { Lang } from "@/i18n/langs";
 import { useCheck } from "@/state/check";
@@ -13,19 +14,14 @@ type Props = {
 };
 
 const STAY_MONTHS = [3, 6, 12, 24, 36];
-const LONGEST = 36;
 
-// The first questions on the home page: where, and for how long. Both are
-// optional; the map opens either way.
+// Both answers are optional; the map opens either way.
 export function HomeStart({ lang, dict }: Props) {
   const router = useRouter();
   const { stayMonths, setStayMonths } = useCheck();
   const stayId = useId();
 
   function stayLabel(months: number): string {
-    if (months === LONGEST) {
-      return dict.stayLong;
-    }
     return months < 24
       ? dict.stayMonths.replace("{n}", String(months))
       : dict.stayYears.replace("{n}", String(months / 12));
@@ -71,6 +67,19 @@ export function HomeStart({ lang, dict }: Props) {
       >
         {dict.homeStart}
       </button>
+      <p lang="ja" className="mt-3 text-xs text-white/60">
+        {PLACE_SOURCES.map(({ label, url }) => (
+          <a
+            key={url}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mr-3 underline decoration-white/30 underline-offset-2"
+          >
+            {label}
+          </a>
+        ))}
+      </p>
     </div>
   );
 }

@@ -11,9 +11,8 @@ import type { Town } from "@/geo/towns";
 // API receives.
 export type Estimate = { fields: EstimateFields; input: CostInput };
 
-// Where the search box points the map: a region, and optionally a town in
-// it. `script` is the writing system of the search, used to show the names.
-// `tapped` marks a region chosen by tapping the map, which must not move it.
+// `script` is the writing system the names are shown in. `tapped` marks a
+// region chosen by tapping the map, which must not move the map.
 export type Place = {
   region: Region;
   town: Town | null;

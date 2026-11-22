@@ -1,8 +1,8 @@
-# Kurashi Nav — instructions for Claude Code
+# kuramiru — instructions for Claude Code
 
 Housing check for foreign residents in Japan ("Should I sign this lease?").
-Go backend now; Next.js frontend in `web/` later. This is the owner's Japan IT
-job portfolio, and the owner is learning Go top-down.
+Go backend at the repository root, Next.js frontend in `web/`. This is the
+owner's Japan IT job portfolio, and the owner is learning Go top-down.
 
 Hosting: Go API on Google Cloud Run (Tokyo); frontend as a Next.js static
 export on Cloudflare Workers static assets (ADR-0007). Frontend rules live in
@@ -12,6 +12,8 @@ export on Cloudflare Workers static assets (ADR-0007). Frontend rules live in
 
 - Reply in Korean. Write code, comments, commit messages and public docs
   (README, ADRs, DATA_SOURCES) in English. `docs/MVP.md` and `docs/*.ko.md` are Korean.
+- Keep replies and docs short: result first, no repetition. Put a new note
+  in an existing file before creating another.
 - Explain top-down: what changed at the API / entry point → which package →
   which function → details.
 - The user must be able to explain every line in an interview. For core logic
@@ -25,6 +27,9 @@ export on Cloudflare Workers static assets (ADR-0007). Frontend rules live in
 - `make run` — server on :8080 with dummy data, no API key. It never exits:
   don't run it in the foreground; prefer `httptest`-based tests.
 - `make run-live` — real MLIT API, loads `.env`. Ask the user first.
+- Frontend, from `web/`: `npm run lint`, `npm test`, `npm run build`. All three
+  must pass before a frontend task is done. `npm run gen:api` regenerates
+  `web/api/schema.d.ts` after `docs/openapi.json` changes.
 
 ## Layout
 
@@ -37,7 +42,16 @@ internal/room       畳 / layout codes / 3D preview data (pure)
 internal/reinfolib  MLIT API client + housing.LayerSource adapter
 internal/fakesource dummy LayerSource for dev and tests
 internal/geo, geocode, i18n, parallel, ratelimit, cache, config, logging, source
-docs/               MVP.md (scope + backlog), adr/, DATA_SOURCES.md, LEARNING.ko.md
+docs/               MVP.md (scope + backlog), adr/, requirements/, design/,
+                    DATA_SOURCES.md, LEARNING.ko.md, openapi.json (API contract)
+web/app             routes: (picker) language picker, [lang] home/map/estimate/result/room
+web/components      screens and widgets (client components)
+web/api             typed API client; schema.d.ts is generated
+web/state           in-memory user input shared between screens
+web/geo             place search: boundaries, names, kana/hanzi conversion (pure)
+web/estimate, room  form parsing and furniture placement (pure)
+web/i18n            UI dictionary (en, ko, ja, zh) and language helpers
+web/scripts         generators for the bundled data in web/public/data
 ```
 
 ## Architecture rules
@@ -59,8 +73,9 @@ docs/               MVP.md (scope + backlog), adr/, DATA_SOURCES.md, LEARNING.ko
 - Wrap errors with `%w`; check them with `errors.Is` / `errors.As`.
 - Money is `int64` yen; month multipliers become hundredths before arithmetic.
 - GeoJSON positions are `[lon, lat]`; `geo.Point` is `{Lat, Lon}`.
-- Every user-facing string goes through an `i18n.Catalog` with `en`, `ko` and
-  `ja-easy`; each package's catalogue test (`Missing()`) must pass.
+- Every user-facing string goes through an `i18n.Catalog` with `en`, `ko`,
+  `ja-easy` and `zh`; each package's catalogue test (`Missing()`) must pass.
+  The frontend dictionary (`web/i18n/dictionary.ts`) has the same four.
 - `gofmt` runs automatically after each edit (hook in `.claude/settings.json`).
 - Comments are rare and say why, never what the code already says. Keep doc
   comments on exported names to a line or two. No excuse comments ("temporary",

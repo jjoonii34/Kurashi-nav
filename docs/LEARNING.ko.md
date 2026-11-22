@@ -180,6 +180,15 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: 벽 밖으로 못 나가게 막는 일을 3D 화면(`RoomScene`)이 아니라 `RoomView`가 하는 이유는?
   - 질문: `RoomScene`을 `dynamic(..., { ssr: false })`로 불러오는 이유는? (정적 export, WebGL)
   - 질문: `api/client.ts`의 `call<T>`는 M2-5에는 없었다. 두 번째 API 호출이 생기고 나서야 만든 이유는?
+- [x] 지역 검색·지도 탭·4개 언어 (M2-12, M2-15~17)
+  - 읽는 순서: `web/geo/regions.test.ts` → `web/geo/match.ts` → `web/geo/regions.ts` → `web/geo/atlas.ts` → `web/components/PlaceSearch.tsx` → `web/components/LocationPicker.tsx`
+  - 실험: `cd web && npm test`. `match.ts`의 `SAME_INITIAL`에서 `15: 0`을 지우고 어떤 검색어가 실패하는지 보기
+  - 질문: 지오코딩 서비스를 쓰지 않고 경계 데이터를 저장소에 넣은 이유는? 무엇을 얻고 무엇을 잃었나? (ADR-0013, ADR-0002)
+  - 질문: `score`가 돌려주는 0·1·2·3은 각각 어떤 경우인가? "신주쿠구"를 치면 왜 2가 되나?
+  - 질문: `kana.ts`의 `lengthening`에서 `!marks[index - 1]`이 없으면 ブンゴオオノ가 어떻게 잘못 읽히나?
+  - 질문: `locate.ts`의 `insideRing`을 종이에 그려 보기. 점에서 동쪽으로 그은 선이 변과 홀수 번 만나면 왜 안쪽인가?
+  - 질문: 검색어와 고른 지역은 어디에 저장되나? 새로고침하면 왜 사라지나? (`web/state/check.tsx`)
+  - 질문: `scripts/build-places.ts`는 가나를 로마자로 바꾼 결과가 일본우편 표기와 다르면 왜 멈추게 만들었나?
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)
 - [x] **singleflight**: 같은 타일 동시 요청을 1회로 합치기 (직접 구현 → `x/sync/singleflight`와 비교)

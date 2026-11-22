@@ -5,7 +5,7 @@
 //   node scripts/build-hanzi.ts <JPShinjitaiCharacters.txt> <TSCharacters.txt>
 //
 // Both files: https://github.com/BYVoid/OpenCC/tree/master/data/dictionary
-// Run it after build-towns.ts: it only keeps characters that appear in the
+// Run it after build-places.ts: it only keeps characters that appear in the
 // bundled boundary and town files.
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 

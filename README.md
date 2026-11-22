@@ -1,8 +1,8 @@
-# Kurashi Nav — "Should I sign this lease?"
+# kuramiru — "Should I sign this lease?"
 
 A housing check for foreign residents in Japan. Drop a pin on the home you are
-about to rent and enter the agent's estimate; get back, in English, Korean or
-やさしい日本語:
+about to rent and enter the agent's estimate; get back, in English, Korean,
+やさしい日本語 or Simplified Chinese:
 
 - **Hazards** — flood, storm surge, tsunami, landslide and liquefaction areas
 - **Area context** — zoning (用途地域) and public school districts
@@ -20,9 +20,9 @@ All location data comes from official open data via the MLIT
 >
 > **한국어:** 일본에서 집을 구하는 외국인을 위한 "이 집, 계약해도 될까?" 판단 서비스의 Go 백엔드입니다.
 
-**Status:** backend skeleton — runs end-to-end on dummy data; live MLIT
-integration is wired and tested against a mock server, pending API key.
-The frontend (`web/`) is an empty Next.js scaffold that builds as a static export.
+**Status:** backend and frontend run end-to-end on dummy data. Live MLIT
+integration is tested against a mock server and waits for an API key.
+Nothing is deployed yet.
 
 ---
 
@@ -91,7 +91,9 @@ calls every endpoint and fails if a response no longer matches it.
 
 ```mermaid
 flowchart LR
-  FE[Next.js static export<br/>on Cloudflare · planned] -->|POST /v1/housing/check| S[server on Cloud Run<br/>routing · middleware · JSON]
+  FE[Next.js static export<br/>Cloudflare, not deployed yet] -->|POST /v1/housing/check| S[server on Cloud Run<br/>routing · middleware · JSON]
+  FE -->|same origin| D[(bundled place data<br/>boundaries · names · towns)]
+  FE -->|map tiles| GSI[(地理院タイル)]
   S --> H[housing.Service<br/>validate → fan-out → assemble]
   H --> C[cost<br/>pure calculation]
   S --> RM[room<br/>畳 · layout codes · 3D preview data]
@@ -117,8 +119,17 @@ internal/
   ratelimit/        token bucket for outgoing requests
   cache/            generic TTL cache
   config/ logging/  env config with secret redaction; Cloud Logging-ready JSON
-docs/               ADRs, data sources, learning guide
+docs/               ADRs, requirements, data sources, API contract, learning guide
 web/                Next.js frontend (static export, Tailwind CSS)
+  app/              routes: language picker, then [lang]/ home, map, estimate, result, room
+  components/       screens and widgets
+  api/              typed client for the Go API (types generated from docs/openapi.json)
+  state/            user input kept in memory between screens
+  geo/              place search: boundaries, names, kana and hanzi conversion (pure functions)
+  estimate/ room/   form parsing, furniture placement (pure functions)
+  i18n/             UI dictionary in en / ko / ja / zh
+  scripts/          generators for public/data (boundary names, towns, hanzi table)
+  public/data/      bundled open data for the place search
 infra/              deployment plan (phase 2)
 ```
 
@@ -133,7 +144,8 @@ Key decisions, each with an ADR in [`docs/adr`](docs/adr):
 7. **Frontend on Cloudflare, API on Cloud Run** — Next.js static export served from the edge for free; Go stays on Cloud Run in Tokyo.
 8. **Tailwind CSS for styling** — utility classes for a mobile-first UI; a build-time dependency only.
 9. **Leaflet for the map** — one raster map with one pin; used directly, without a React wrapper.
-10. **Pretendard JP as the only typeface** — one self-hosted family for Latin, Hangul, kana and kanji.
+10. **Pretendard JP as the base typeface** — self-hosted, for Latin, kana and kanji; Korean pages use Noto Sans KR and Chinese pages the reader's system font.
+11. **Place search from bundled open data** — municipal boundaries, names and towns ship with the frontend, so nothing the user types or taps goes to a geocoder.
 
 ## Data and compliance
 

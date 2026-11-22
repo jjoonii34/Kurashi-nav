@@ -131,7 +131,6 @@ export type Dictionary = {
   stayUnknown: string;
   stayMonths: string;
   stayYears: string;
-  stayLong: string;
   costPerStayMonth: string;
   stayShortNote: string;
 };
@@ -279,7 +278,6 @@ const dictionaries: Record<Lang, Dictionary> = {
     stayUnknown: "Not sure yet",
     stayMonths: "{n} months",
     stayYears: "{n} years",
-    stayLong: "3 years or more",
     costPerStayMonth: "Spread over {n} months, the upfront cost is about {yen} a month on top of rent.",
     stayShortNote: "Leases usually run for two years. Before you sign, ask whether leaving early costs a fee (短期解約違約金).",
   },
@@ -424,7 +422,6 @@ const dictionaries: Record<Lang, Dictionary> = {
     stayUnknown: "아직 모르겠어요",
     stayMonths: "{n}개월",
     stayYears: "{n}년",
-    stayLong: "3년 이상",
     costPerStayMonth: "{n}개월 동안 나눠 보면, 초기 비용은 월세 외에 한 달 약 {yen}입니다.",
     stayShortNote: "임대 계약은 보통 2년입니다. 일찍 나가면 위약금(短期解約違約金)이 있는지 계약 전에 물어보세요.",
   },
@@ -571,7 +568,6 @@ const dictionaries: Record<Lang, Dictionary> = {
     stayUnknown: "まだ わかりません",
     stayMonths: "{n}かげつ",
     stayYears: "{n}ねん",
-    stayLong: "3ねん いじょう",
     costPerStayMonth: "{n}かげつで わけると、さいしょの おかねは やちんの ほかに 1かげつ やく {yen}です。",
     stayShortNote: "けいやくは ふつう 2ねんです。はやく でるとき おかね（短期解約違約金）が いるか、サインの まえに きいて ください。",
   },
@@ -706,7 +702,6 @@ const dictionaries: Record<Lang, Dictionary> = {
     stayUnknown: "还不确定",
     stayMonths: "{n} 个月",
     stayYears: "{n} 年",
-    stayLong: "3 年以上",
     costPerStayMonth: "按 {n} 个月平摊，初期费用相当于在房租之外每月约 {yen}。",
     stayShortNote: "租约通常为两年。签约前请问清提前退租是否要付违约金（短期解約違約金）。",
   },

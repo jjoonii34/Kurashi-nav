@@ -5,8 +5,10 @@ import {
   TRADITIONAL_ONLY,
 } from "./hanzi.ts";
 
-// The writing system a search was typed in. Results are shown in the same one.
 export type Script = "ja" | "en" | "ko" | "zh-hans" | "zh-hant";
+
+// English and Korean names of a place; Chinese ones are made from the kanji.
+export type Alias = { en: string; ko: string };
 
 function pairs(text: string): Map<string, string> {
   const out = new Map<string, string>();
@@ -42,8 +44,7 @@ export function scriptOf(query: string): Script {
   return /[a-z]/i.test(query) ? "en" : "ja";
 }
 
-// A Japanese place name written with Chinese characters. Kana has no
-// Chinese form and stays as it is.
+// Kana has no Chinese form and stays as it is.
 export function toChinese(japanese: string, script: "zh-hans" | "zh-hant"): string {
   const table = script === "zh-hans" ? SIMPLIFIED : TRADITIONAL;
   return [...japanese].map((char) => table.get(char) ?? char).join("");
@@ -65,7 +66,7 @@ export function sameHanzi(text: string): string {
 export function nameIn(
   script: Script,
   japanese: string,
-  alias: { en: string; ko: string } | undefined,
+  alias: Alias | undefined,
 ): string | undefined {
   if (script === "ja") {
     return undefined;

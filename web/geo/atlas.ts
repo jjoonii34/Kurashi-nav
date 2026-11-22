@@ -20,13 +20,25 @@ const BOUNDARIES_URL = "/data/municipalities-2021.topo.json";
 const BOUNDARIES_OBJECT = "N03-21_210101";
 const NAMES_URL = "/data/municipality-names.json";
 
+// Both datasets ask for this credit wherever their names or shapes are shown.
+export const PLACE_SOURCES = [
+  {
+    label: "国土数値情報（行政区域データ）を加工",
+    url: "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2021.html",
+  },
+  {
+    label: "Geolonia 住所データ",
+    url: "https://geolonia.github.io/japanese-addresses/",
+  },
+];
+
 export type Boundary = (Polygon | MultiPolygon) & {
   properties: BoundaryProperties;
 };
 export type Atlas = {
   topology: Topology;
   boundaries: Boundary[];
-  // Same order as `boundaries`: plain coordinates for finding a tapped place.
+  // Same order as `boundaries`.
   outlines: Outline[];
   regions: Region[];
 };
@@ -42,7 +54,8 @@ async function load<T>(url: string): Promise<T> {
 let atlas: Promise<Atlas> | null = null;
 
 // The boundary file is 1.5 MB, so it is fetched once, the first time a
-// search box is used. A failed download is forgotten so the next try can work.
+// search box is focused or the map is tapped. A failed download is forgotten
+// so the next try can work.
 export function loadAtlas(): Promise<Atlas> {
   atlas ??= Promise.all([
     load<Topology>(BOUNDARIES_URL),

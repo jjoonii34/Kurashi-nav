@@ -1,7 +1,6 @@
-// Name matching shared by the region and town search.
+import { HANGUL_BASE } from "./kana.ts";
 import { sameHanzi } from "./script.ts";
 
-const HANGUL_FIRST = 0xac00;
 const HANGUL_LAST = 0xd7a3;
 const PER_INITIAL = 588;
 // Initial consonants people swap when writing Japanese in Hangul:
@@ -23,14 +22,14 @@ export function normalise(text: string): string {
   let out = "";
   for (const char of plain) {
     const code = char.charCodeAt(0);
-    if (code < HANGUL_FIRST || code > HANGUL_LAST) {
+    if (code < HANGUL_BASE || code > HANGUL_LAST) {
       out += char;
       continue;
     }
-    const offset = code - HANGUL_FIRST;
+    const offset = code - HANGUL_BASE;
     const initial = Math.floor(offset / PER_INITIAL);
     out += String.fromCharCode(
-      HANGUL_FIRST +
+      HANGUL_BASE +
         (SAME_INITIAL[initial] ?? initial) * PER_INITIAL +
         (offset % PER_INITIAL),
     );
@@ -38,12 +37,13 @@ export function normalise(text: string): string {
   return out;
 }
 
+const MAX_RESULTS = 8;
+const NO_MATCH = 4;
+
 // Lower is better: the whole name, then a name that starts with the query,
 // then a query that is a name plus more ("신주쿠구"), then a name that
 // merely contains the query.
-export const NO_MATCH = 4;
-
-export function score(names: string[], q: string): number {
+function score(names: string[], q: string): number {
   let best = NO_MATCH;
   for (const name of names) {
     if (name === q) {
@@ -51,6 +51,7 @@ export function score(names: string[], q: string): number {
     }
     if (name.startsWith(q)) {
       best = Math.min(best, 1);
+      // A one-letter name (津, 구) would match every query that starts with it.
     } else if (name.length >= 2 && q.startsWith(name)) {
       best = Math.min(best, 2);
     } else if (name.includes(q)) {
@@ -58,4 +59,22 @@ export function score(names: string[], q: string): number {
     }
   }
   return best;
+}
+
+// `names` must already be normalised. `tieBreak` orders equally good matches.
+export function search<T extends { names: string[] }>(
+  items: T[],
+  query: string,
+  tieBreak: (a: T, b: T) => number,
+): T[] {
+  const q = normalise(query);
+  if (q === "") {
+    return [];
+  }
+  return items
+    .map((item) => ({ item, rank: score(item.names, q) }))
+    .filter(({ rank }) => rank < NO_MATCH)
+    .sort((a, b) => a.rank - b.rank || tieBreak(a.item, b.item))
+    .slice(0, MAX_RESULTS)
+    .map(({ item }) => item);
 }
