@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/housing"
 )
 
 func TestParseYen(t *testing.T) {

@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
-	"github.com/jjoonii34/kurashi-nav/internal/source"
+	"github.com/jjoonii34/kuramiru/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/source"
 )
 
 // HousingChecker is the only thing the HTTP layer needs from the domain.

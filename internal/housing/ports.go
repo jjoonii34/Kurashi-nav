@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/jjoonii34/kurashi-nav/internal/geo"
+	"github.com/jjoonii34/kuramiru/internal/geo"
 )
 
 // The housing package defines the interfaces it needs ("ports") and never

@@ -70,9 +70,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: build image (not pushed; publishing comes with the infra phase)
-        run: docker build --build-arg VERSION=${{ github.sha }} -t kurashi-nav:ci .
+        run: docker build --build-arg VERSION=${{ github.sha }} -t kuramiru:ci .
       - name: smoke test
         run: |
-          docker run -d --name api -p 8080:8080 kurashi-nav:ci
+          docker run -d --name api -p 8080:8080 kuramiru:ci
           for i in $(seq 1 20); do curl -fsS localhost:8080/healthz && exit 0; sleep 1; done
           docker logs api; exit 1

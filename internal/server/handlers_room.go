@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/jjoonii34/kurashi-nav/internal/i18n"
-	"github.com/jjoonii34/kurashi-nav/internal/room"
+	"github.com/jjoonii34/kuramiru/internal/i18n"
+	"github.com/jjoonii34/kuramiru/internal/room"
 )
 
 // roomSize handles GET /v1/room/size?jo=6 (or ?area_sqm=25) &lang=ko.

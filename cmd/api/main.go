@@ -1,4 +1,4 @@
-// Command api is the HTTP entry point of Kurashi Nav.
+// Command api is the HTTP entry point of kuramiru.
 //
 // Start reading the code base here. This file shows the whole application on
 // one screen: configuration → dependency wiring → HTTP server → graceful shutdown.
@@ -16,15 +16,15 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/config"
-	"github.com/jjoonii34/kurashi-nav/internal/fakesource"
-	"github.com/jjoonii34/kurashi-nav/internal/geocode"
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
-	"github.com/jjoonii34/kurashi-nav/internal/logging"
-	"github.com/jjoonii34/kurashi-nav/internal/ratelimit"
-	"github.com/jjoonii34/kurashi-nav/internal/reinfolib"
-	"github.com/jjoonii34/kurashi-nav/internal/server"
-	"github.com/jjoonii34/kurashi-nav/internal/source"
+	"github.com/jjoonii34/kuramiru/internal/config"
+	"github.com/jjoonii34/kuramiru/internal/fakesource"
+	"github.com/jjoonii34/kuramiru/internal/geocode"
+	"github.com/jjoonii34/kuramiru/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/logging"
+	"github.com/jjoonii34/kuramiru/internal/ratelimit"
+	"github.com/jjoonii34/kuramiru/internal/reinfolib"
+	"github.com/jjoonii34/kuramiru/internal/server"
+	"github.com/jjoonii34/kuramiru/internal/source"
 )
 
 // version is overwritten at build time: -ldflags "-X main.version=v0.1.0".
@@ -117,7 +117,7 @@ func buildHousing(cfg config.Config, logger *slog.Logger) (*housing.Service, []s
 			BaseURL:   cfg.ReinfolibBaseURL,
 			APIKey:    cfg.ReinfolibAPIKey.Reveal(),
 			Limiter:   ratelimit.New(cfg.ReinfolibRPS, cfg.ReinfolibBurst),
-			UserAgent: "kurashi-nav/" + version,
+			UserAgent: "kuramiru/" + version,
 		})
 		layers = reinfolib.NewLayerSource(client, reinfolib.DefaultEndpoints(), cfg.TileCacheTTL, cfg.TileCacheMaxEntries)
 		// MVP: the frontend sends lat/lon from a map pin (docs/adr/0005).

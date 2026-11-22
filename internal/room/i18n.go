@@ -1,6 +1,6 @@
 package room
 
-import "github.com/jjoonii34/kurashi-nav/internal/i18n"
+import "github.com/jjoonii34/kuramiru/internal/i18n"
 
 var messages = i18n.Catalog{
 	i18n.EN: {

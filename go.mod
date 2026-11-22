@@ -1,3 +1,3 @@
-module github.com/jjoonii34/kurashi-nav
+module github.com/jjoonii34/kuramiru
 
 go 1.27.4

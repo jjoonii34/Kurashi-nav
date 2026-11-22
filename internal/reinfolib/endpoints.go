@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/housing"
 )
 
 // Geometry tells the adapter how to match features against the user's point.

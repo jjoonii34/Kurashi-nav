@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/housing"
 )
 
 func TestNormalize(t *testing.T) {

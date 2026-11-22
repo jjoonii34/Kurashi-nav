@@ -8,12 +8,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/cost"
-	"github.com/jjoonii34/kurashi-nav/internal/fakesource"
-	"github.com/jjoonii34/kurashi-nav/internal/geocode"
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
-	"github.com/jjoonii34/kurashi-nav/internal/i18n"
-	"github.com/jjoonii34/kurashi-nav/internal/source"
+	"github.com/jjoonii34/kuramiru/internal/cost"
+	"github.com/jjoonii34/kuramiru/internal/fakesource"
+	"github.com/jjoonii34/kuramiru/internal/geocode"
+	"github.com/jjoonii34/kuramiru/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/i18n"
+	"github.com/jjoonii34/kuramiru/internal/source"
 )
 
 var quiet = slog.New(slog.NewTextHandler(io.Discard, nil))

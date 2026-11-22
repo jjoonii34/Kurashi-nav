@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/geo"
+	"github.com/jjoonii34/kuramiru/internal/geo"
 )
 
 // tileFetchTimeout bounds a shared fetch, which no longer stops when the

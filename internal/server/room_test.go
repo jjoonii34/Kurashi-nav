@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/jjoonii34/kurashi-nav/internal/room"
+	"github.com/jjoonii34/kuramiru/internal/room"
 )
 
 func TestRoomSize(t *testing.T) {

@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Kurashi Nav API",
+    "title": "kuramiru API",
     "version": "0.1.0",
     "description": "Housing check for foreign residents in Japan. Responses are for reference only. Request input is never stored or logged."
   },

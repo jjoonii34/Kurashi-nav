@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/geo"
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/geo"
+	"github.com/jjoonii34/kuramiru/internal/housing"
 )
 
 var tokyoStation = geo.Point{Lat: 35.681236, Lon: 139.767125}

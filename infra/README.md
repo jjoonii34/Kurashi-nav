@@ -32,7 +32,7 @@ Browser ──HTML/JS──▶│ Worker (assets-only): web/out/      │
 2. [ ] `web/wrangler.jsonc`:
    ```jsonc
    {
-     "name": "kurashi-nav-web",
+     "name": "kuramiru-web",
      "compatibility_date": "YYYY-MM-DD", // the day you create it
      "assets": { "directory": "./out", "not_found_handling": "404-page" }
    }
