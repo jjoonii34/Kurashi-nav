@@ -30,12 +30,35 @@ h2 {
   letter-spacing: -0.025em;
 }
 
+/* Korean pages read in Noto Sans KR. Japanese terms inside them (marked
+   lang="ja") stay in the Japanese face so kanji keep their Japanese shapes. */
+html[lang="ko"] {
+  font-family:
+    "Noto Sans KR Variable", "Pretendard JP Variable", -apple-system,
+    system-ui, sans-serif;
+}
+
+html[lang="ko"] [lang="ja"] {
+  font-family: var(--font-sans);
+}
+
 /* Korean breaks between words, not inside them. */
-html:lang(ko) body {
+html[lang="ko"] body {
   word-break: keep-all;
 }
 
 /* Lift the map credit above the sheet that overlaps the map's bottom edge. */
 .leaflet-container .leaflet-bottom {
   bottom: 1rem;
+}
+
+/* Chinese has no bundled face: the reader's own system font is used. */
+html[lang="zh"],
+[lang="zh"] {
+  font-family:
+    "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+}
+
+html[lang="zh"] [lang="ja"] {
+  font-family: var(--font-sans);
 }

@@ -9,6 +9,9 @@ whenever monetisation is considered.
 |---|---|---|---|---|---|---|
 | `reinfolib` | 不動産情報ライブラリ API: XKT002 用途地域, XKT004/005 小・中学校区, XKT025 液状化, XKT026 洪水, XKT027 高潮, XKT028 津波, XKT029 土砂災害, XPT001 取引価格 | 国土交通省 (MLIT) | Server-side only (the manual asks callers not to call from browsers). Fetched per XYZ tile (z11–15), cached 24h, point-in-polygon / nearest points, properties filtered to an allow-list. | API利用規約 — application and key required. **TODO: read the full terms on key issuance and record the required credit wording (Art. 7) here and in `internal/source`.** | `出典：国土交通省「不動産情報ライブラリ」（加工して作成）` *(placeholder until the terms are confirmed)* | API list & params: 2026-11-19 |
 | `gsi_tiles` | 地理院タイル (background map) | 国土地理院 (GSI) | Loaded directly by the frontend map (Leaflet, ADR-0009): the 淡色地図 `pale` layer, zoom 5–18. | Real-time tile loading needs no application; credit and a link are required. | `地理院タイル` linked to the tile list page | 2026-11 |
+| `n03_boundaries` | 国土数値情報 行政区域データ (N03, as of 2021-01-01) | 国土交通省 | Bundled with the frontend as `web/public/data/municipalities-2021.topo.json`, the 1% simplification published by スマートニュース メディア研究所 (smartnews-smri/japan-topography). Used only to search for a region and outline it on the map (ADR-0013). | The N03 page lists 2018 and later as open data; the current download-site terms ask for the source and a note that the data was edited. The derivative's README asks for no credit of its own. | `国土数値情報（行政区域データ）を加工` linked to the N03 page, shown on the map with an outline | 2026-11 |
+| `geolonia_addresses` | Geolonia 住所データ (latest.csv, fetched 2026-11-22) | 株式会社 Geolonia, from 国土交通省 位置参照情報 and 日本郵便 郵便番号データ | Municipality readings (katakana, romaji) become `web/public/data/municipality-names.json` (`web/scripts/build-names.ts`); town names, readings and centre points become `web/public/data/towns/NN.json` (`web/scripts/build-towns.ts`). Both are for the place search only (ADR-0013). The CSV itself is not in the repository. | CC BY 4.0 | `Geolonia 住所データ` linked to the project page, shown on the map with an outline | 2026-11 |
+| `opencc_characters` | OpenCC character tables (JPShinjitaiCharacters.txt, TSCharacters.txt, fetched 2026-11-22) | BYVoid/OpenCC contributors | Reduced by `web/scripts/build-hanzi.ts` to the kanji used in the bundled place names (`web/geo/hanzi.ts`), so the place search accepts and shows simplified and traditional Chinese forms (ADR-0013). | Apache-2.0 | Named in the header of `web/geo/hanzi.ts`; no credit is required on screen | 2026-11 |
 | `dummy` | Dummy data | this project | `DATA_MODE=fake` only. Every feature carries `"_dummy": true`. | — | `DUMMY DATA — not real` | — |
 
 ## Notes per source
@@ -53,7 +56,7 @@ Rules, not datasets: no licence applies, but the UI labels all room figures as a
 
 ## Planned for v1.1 — not used yet, everything below is unverified
 
-Requirements: `docs/requirements/v1.1-data-gaps.md`. Nothing in this section
+Requirements: `docs/requirements/v1.1-v1.2.md`. Nothing in this section
 is implemented. Each item is confirmed by a real call or by reading the
 official terms before any code relies on it.
 

@@ -24,7 +24,7 @@ type State =
   | { status: "done"; report: Report };
 
 export function ResultView({ lang, dict }: Props) {
-  const { point, estimate } = useCheck();
+  const { point, estimate, stayMonths } = useCheck();
   const [state, setState] = useState<State>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
 
@@ -129,7 +129,13 @@ export function ResultView({ lang, dict }: Props) {
 
       <Card title={dict.cardCost}>
         {report.cost ? (
-          <CostBody cost={report.cost} dict={dict} yen={yen} format={number} />
+          <CostBody
+            cost={report.cost}
+            stayMonths={stayMonths}
+            dict={dict}
+            yen={yen}
+            format={number}
+          />
         ) : (
           <p className="py-3 text-sm text-ink-muted">{dict.noEstimate}</p>
         )}
@@ -286,13 +292,18 @@ const LINE_TERM: Record<LineCode, string> = {
   other: "その他",
 };
 
+// An ordinary lease (普通借家契約) is usually signed for two years.
+const TYPICAL_LEASE_MONTHS = 24;
+
 function CostBody({
   cost,
+  stayMonths,
   dict,
   yen,
   format,
 }: {
   cost: CostResult;
+  stayMonths: number | null;
   dict: Dictionary;
   yen: (amount: number) => string;
   format: Intl.NumberFormat;
@@ -348,6 +359,16 @@ function CostBody({
           )}
         </span>
       </Row>
+      {stayMonths !== null && (
+        <p className="py-3 text-sm">
+          {dict.costPerStayMonth
+            .replace("{n}", String(stayMonths))
+            .replace("{yen}", yen(Math.round(cost.total_yen / stayMonths)))}
+          {stayMonths < TYPICAL_LEASE_MONTHS && (
+            <span className="mt-1 block text-ink-muted">{dict.stayShortNote}</span>
+          )}
+        </p>
+      )}
       {cost.warnings.length > 0 && (
         <ul className="flex flex-col gap-2 py-3">
           {cost.warnings.map((warning) => (

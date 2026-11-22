@@ -1,18 +1,19 @@
-export const LANGS = ["en", "ko", "ja"] as const;
+export const LANGS = ["en", "ko", "ja", "zh"] as const;
 
 export type Lang = (typeof LANGS)[number];
 
 export const LANG_NAMES: Record<Lang, string> = {
   en: "English",
   ko: "한국어",
-  ja: "にほんご",
+  ja: "日本語",
+  zh: "中文",
 };
 
 export function isLang(value: string): value is Lang {
   return (LANGS as readonly string[]).includes(value);
 }
 
-export type ApiLang = "en" | "ko" | "ja-easy";
+export type ApiLang = "en" | "ko" | "ja-easy" | "zh";
 
 // The URL says "ja" (a real language tag, valid for <html lang>); the API
 // names the same catalogue "ja-easy" because it serves simplified Japanese.

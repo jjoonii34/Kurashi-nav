@@ -5,7 +5,7 @@
 
 ## Context
 
-Requirement R1 (`docs/requirements/v1.1-data-gaps.md`) compares the user's
+Requirement R1 (`docs/requirements/v1.1-v1.2.md`) compares the user's
 rent with the average private rent of the municipality. The source is the
 住宅・土地統計調査, published through the e-Stat API and updated every five
 years (latest: as of 2023-10-01).

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FloorPlan } from "@/components/FloorPlan";
+import { HomeStart } from "@/components/HomeStart";
 import { dictionaryFor } from "@/i18n/dictionary";
 import { isLang } from "@/i18n/langs";
 
@@ -41,20 +42,15 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <p className="mt-5 max-w-[34rem] text-[17px] leading-relaxed text-white/75 lg:mt-7 lg:text-xl lg:leading-relaxed">
               {dict.homeLead}
             </p>
-            <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6 lg:mt-10">
-              <Link
-                href={`/${lang}/map`}
-                className="inline-flex h-14 items-center justify-center rounded-2xl bg-white px-8 text-[17px] font-bold text-brand-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:bg-surface lg:h-16 lg:px-10 lg:text-lg"
-              >
-                {dict.homeStart}
-              </Link>
-              <Link
-                href={`/${lang}/room`}
-                className="inline-flex h-12 items-center justify-center font-semibold text-white underline decoration-white/40 underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                {dict.homeRoomOnly}
-              </Link>
+            <div className="mt-8 max-w-[40rem] lg:mt-10">
+              <HomeStart lang={lang} dict={dict} />
             </div>
+            <Link
+              href={`/${lang}/room`}
+              className="mt-3 inline-flex h-12 items-center font-semibold text-white underline decoration-white/40 underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              {dict.homeRoomOnly}
+            </Link>
           </div>
           <FloorPlan className="w-full max-w-[560px] justify-self-center text-white lg:justify-self-end" />
         </div>
@@ -118,7 +114,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <div className="rounded-3xl bg-brand-deep px-6 py-9 text-white lg:flex lg:items-center lg:justify-between lg:gap-12 lg:px-14 lg:py-14">
           <div>
             <h2 className="text-2xl font-extrabold lg:text-3xl">
-              {dict.homeClosingTitle}
+              {dict.tagline}
             </h2>
             <p className="mt-3 max-w-[40rem] text-sm leading-relaxed text-white/70 lg:text-base lg:leading-relaxed">
               {dict.homeDisclaimer}
