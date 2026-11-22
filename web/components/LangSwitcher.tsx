@@ -10,14 +10,13 @@ type Props = {
   label: string;
 };
 
-// A globe button that opens the list of languages.
 export function LangSwitcher({ current, label }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const listId = useId();
   const menu = useRef<HTMLElement>(null);
+  const toggle = useRef<HTMLButtonElement>(null);
 
-  // A press anywhere outside the menu closes it.
   useEffect(() => {
     if (!open) {
       return;
@@ -41,10 +40,12 @@ export function LangSwitcher({ current, label }: Props) {
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           setOpen(false);
+          toggle.current?.focus();
         }
       }}
     >
       <button
+        ref={toggle}
         type="button"
         aria-expanded={open}
         aria-controls={listId}

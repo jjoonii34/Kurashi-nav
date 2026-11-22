@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
-	"github.com/jjoonii34/kurashi-nav/internal/source"
+	"github.com/jjoonii34/kuramiru/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/source"
 )
 
 type handlers struct {

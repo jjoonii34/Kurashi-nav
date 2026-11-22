@@ -1,5 +1,5 @@
 // Katakana readings → Hepburn romaji and Hangul, for the names of
-// municipalities (scripts/build-names.ts) and towns (geo/towns.ts).
+// municipalities (scripts/build-places.ts) and towns (geo/towns.ts).
 //
 // Hangul follows the National Institute of Korean Language table for
 // Japanese kana: k, t and ch are written differently at the start of a word
@@ -49,7 +49,7 @@ for (const [kana, romaji, start, inside] of ROWS) {
 }
 
 const VOWELS = "アイウエオ";
-const HANGUL_BASE = 0xac00;
+export const HANGUL_BASE = 0xac00; // 가
 const FINAL_N = 4; // ㄴ
 const FINAL_S = 19; // ㅅ
 

@@ -9,7 +9,7 @@ const tokyo: Record<string, TownRecord[]> = JSON.parse(
 );
 const komae = buildTowns(tokyo["13219"]);
 
-test("buildTowns folds 丁目 into one town inside Japan", () => {
+test("the bundled towns have 丁目 folded in, and buildTowns names them", () => {
   assert.equal(komae.filter((t) => t.name.includes("丁目")).length, 0);
   const town = komae.find((t) => t.name === "和泉本町");
   assert.deepEqual(town?.alias, { en: "Izumihoncho", ko: "이즈미혼초" });

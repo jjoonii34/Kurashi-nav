@@ -40,10 +40,10 @@ build: ## Build a static binary
 	CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -X main.version=$(VERSION)" -o $(BIN) ./cmd/api
 
 docker-build: ## Build the container image
-	docker build --build-arg VERSION=$(VERSION) -t kurashi-nav:$(VERSION) .
+	docker build --build-arg VERSION=$(VERSION) -t kuramiru:$(VERSION) .
 
 docker-run: ## Run the container with dummy data
-	docker run --rm -p 8080:8080 kurashi-nav:$(VERSION)
+	docker run --rm -p 8080:8080 kuramiru:$(VERSION)
 
 clean:
 	rm -rf bin coverage.out coverage.html

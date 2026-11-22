@@ -3,10 +3,10 @@ package housing
 import (
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/cost"
-	"github.com/jjoonii34/kurashi-nav/internal/geo"
-	"github.com/jjoonii34/kurashi-nav/internal/i18n"
-	"github.com/jjoonii34/kurashi-nav/internal/source"
+	"github.com/jjoonii34/kuramiru/internal/cost"
+	"github.com/jjoonii34/kuramiru/internal/geo"
+	"github.com/jjoonii34/kuramiru/internal/i18n"
+	"github.com/jjoonii34/kuramiru/internal/source"
 )
 
 // CheckRequest is the body of POST /v1/housing/check.

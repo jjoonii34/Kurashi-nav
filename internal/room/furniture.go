@@ -1,6 +1,6 @@
 package room
 
-import "github.com/jjoonii34/kurashi-nav/internal/i18n"
+import "github.com/jjoonii34/kuramiru/internal/i18n"
 
 // Furniture is a reference item the 3D preview can place in the room to give
 // a sense of scale. Sizes are typical for Japan, not exact products.

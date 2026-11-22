@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import {
   buildRegions,
+  municipalityAt,
   searchRegions,
   type BoundaryProperties,
   type RegionNames,
@@ -103,4 +104,18 @@ test("almost every municipality has an English and a Korean name", () => {
   // Six villages in the Northern Territories and two others have no
   // addresses in the source data.
   assert.equal(unnamed.length, 8, unnamed.map((r) => r.label).join(","));
+});
+
+test("municipalityAt maps a boundary record to its municipality", () => {
+  const index = records.findIndex((r) => r.N03_007 === "13104");
+  assert.equal(municipalityAt(regions, index)?.label, "東京都新宿区");
+  assert.equal(municipalityAt(regions, -1), undefined);
+  // Land that belongs to no municipality has a record but no region.
+  const unassigned = records.findIndex((r) => r.N03_007 === null);
+  assert.equal(municipalityAt(regions, unassigned), undefined);
+});
+
+test("every municipality has exactly one boundary record", () => {
+  const codes = records.flatMap((r) => (r.N03_007 === null ? [] : [r.N03_007]));
+  assert.equal(new Set(codes).size, codes.length);
 });

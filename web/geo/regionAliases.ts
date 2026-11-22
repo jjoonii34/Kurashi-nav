@@ -49,5 +49,3 @@ export const PREFECTURE_ALIASES: Record<string, [string, string]> = {
   鹿児島県: ["Kagoshima", "가고시마"],
   沖縄県: ["Okinawa", "오키나와"],
 };
-
-// Cities whose name is unique in Japan, so the name alone identifies them.

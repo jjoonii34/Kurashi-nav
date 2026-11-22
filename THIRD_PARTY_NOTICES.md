@@ -1,8 +1,7 @@
 # Third-party notices
 
-Open-source code and reference material used by kuramiru. Data sources and
-their credits are listed separately in `docs/DATA_SOURCES.md`; npm packages
-keep their own licence files under `web/node_modules`.
+Open-source code and tables used by kuramiru. Datasets and their credits are
+in `docs/DATA_SOURCES.md`.
 
 ## In use
 

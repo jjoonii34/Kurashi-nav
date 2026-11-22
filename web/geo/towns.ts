@@ -1,22 +1,21 @@
 import { toHangul, toRomaji } from "./kana.ts";
-import { NO_MATCH, normalise, score } from "./match.ts";
+import { normalise, search } from "./match.ts";
+import type { Alias } from "./script.ts";
 
-// One town in public/data/towns/<prefecture>.json (scripts/build-towns.ts).
+// One town in public/data/towns/<prefecture code>.json.
 export type TownRecord = [name: string, kana: string, lat: number, lon: number];
 
 export type Town = {
   name: string;
-  alias?: { en: string; ko: string };
+  alias?: Alias;
   lat: number;
   lon: number;
   names: string[];
 };
 
-const MAX_RESULTS = 8;
-
 // A reading with something other than katakana (a lot number, a list of two
 // towns) cannot be converted; that town is found by its Japanese name only.
-function aliasFor(kana: string): { en: string; ko: string } | undefined {
+function aliasFor(kana: string): Alias | undefined {
   if (kana === "") {
     return undefined;
   }
@@ -37,14 +36,5 @@ export function buildTowns(records: TownRecord[]): Town[] {
 }
 
 export function searchTowns(towns: Town[], query: string): Town[] {
-  const q = normalise(query);
-  if (q === "") {
-    return [];
-  }
-  return towns
-    .map((town) => ({ town, rank: score(town.names, q) }))
-    .filter(({ rank }) => rank < NO_MATCH)
-    .sort((a, b) => a.rank - b.rank || a.town.name.length - b.town.name.length)
-    .slice(0, MAX_RESULTS)
-    .map(({ town }) => town);
+  return search(towns, query, (a, b) => a.name.length - b.name.length);
 }

@@ -18,8 +18,6 @@ const SHADOW = "shadow-[0_1px_8px_rgba(0,0,0,0.22)]";
 const ITEM =
   "flex w-full items-baseline gap-2 px-5 py-3.5 text-left focus-visible:bg-surface focus-visible:outline-none active:bg-surface";
 
-// A name in the script of the search followed by the Japanese one, or the
-// Japanese name alone when there is no other.
 function Name({ alias, japanese }: { alias?: string; japanese: string }) {
   return (
     <>
@@ -31,8 +29,7 @@ function Name({ alias, japanese }: { alias?: string; japanese: string }) {
   );
 }
 
-// Search for a prefecture, city or municipality, then for a town inside the
-// chosen municipality. The choice goes to the shared state; the map reads it.
+// The choice goes to the shared state; the map reads it from there.
 export function PlaceSearch({ dict }: Props) {
   const { place, setPlace } = useCheck();
   const [query, setQuery] = useState("");
@@ -49,6 +46,7 @@ export function PlaceSearch({ dict }: Props) {
     loadTowns(code)
       .then((towns) => {
         if (!cancelled) {
+          setFailed(false);
           setLoaded({ code, towns });
         }
       })
@@ -82,7 +80,7 @@ export function PlaceSearch({ dict }: Props) {
       ? []
       : searchRegions(regions, query);
   const searching = query.trim() !== "" && regions !== null;
-  // Korean in, Korean out: results are named in the script that was typed.
+  // Results are named in the script that was typed, not the page language.
   const script = scriptOf(query);
 
   function chooseRegion(region: Region) {
@@ -96,7 +94,6 @@ export function PlaceSearch({ dict }: Props) {
       setQuery("");
     }
   }
-
 
   return (
     <form

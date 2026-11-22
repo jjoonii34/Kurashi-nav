@@ -5,8 +5,9 @@ import type { LeafletMouseEvent, Map as LeafletMap } from "leaflet";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { PlaceSearch } from "@/components/PlaceSearch";
-import { loadAtlas } from "@/geo/atlas";
+import { PLACE_SOURCES, loadAtlas } from "@/geo/atlas";
 import { outlineAt } from "@/geo/locate";
+import { municipalityAt } from "@/geo/regions";
 import type { Script } from "@/geo/script";
 import {
   JAPAN_BOUNDS,
@@ -21,8 +22,10 @@ import { useCheck } from "@/state/check";
 const GSI_PALE_TILES = "https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png";
 const GSI_CREDIT =
   '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener noreferrer">地理院タイル</a>';
-const PLACE_CREDIT =
-  '<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2021.html" target="_blank" rel="noopener noreferrer">国土数値情報（行政区域データ）</a>を加工 | <a href="https://geolonia.github.io/japanese-addresses/" target="_blank" rel="noopener noreferrer">Geolonia 住所データ</a>';
+const PLACE_CREDIT = PLACE_SOURCES.map(
+  ({ label, url }) =>
+    `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`,
+).join(" | ");
 // A tapped region is named in the language of the page.
 const PAGE_SCRIPT: Record<Lang, Script> = {
   en: "en",
@@ -50,7 +53,7 @@ export function LocationPicker({ lang, dict }: Props) {
   const start = useRef(point);
   // Coming back with a confirmed location: keep the map on it instead of
   // jumping to the searched place again.
-  const keepView = useRef(saved !== null);
+  const keepView = useRef(saved !== null && place !== null);
 
   useEffect(() => {
     let cancelled = false;
@@ -74,7 +77,9 @@ export function LocationPicker({ lang, dict }: Props) {
         zoomControl: false,
       });
       created.attributionControl.setPosition("bottomleft");
-      L.tileLayer(GSI_PALE_TILES, { attribution: GSI_CREDIT }).addTo(created);
+      L.tileLayer(GSI_PALE_TILES, {
+        attribution: `${GSI_CREDIT} | ${PLACE_CREDIT}`,
+      }).addTo(created);
 
       created.on("movestart", () => setMoving(true));
       created.on("moveend", () => {
@@ -93,7 +98,7 @@ export function LocationPicker({ lang, dict }: Props) {
     };
   }, []);
 
-  // A tap (not a drag) outlines the municipality under the finger.
+  // Leaflet fires `click` for a tap, not for a drag.
   useEffect(() => {
     const current = map.current;
     if (!ready || current === null) {
@@ -102,13 +107,9 @@ export function LocationPicker({ lang, dict }: Props) {
     function choose(event: LeafletMouseEvent) {
       loadAtlas()
         .then((atlas) => {
-          const index = outlineAt(
-            atlas.outlines,
-            event.latlng.lng,
-            event.latlng.lat,
-          );
-          const region = atlas.regions.find(
-            (r) => r.kind === "municipality" && r.members[0] === index,
+          const region = municipalityAt(
+            atlas.regions,
+            outlineAt(atlas.outlines, event.latlng.lng, event.latlng.lat),
           );
           if (region !== undefined) {
             setPlace({
@@ -127,8 +128,6 @@ export function LocationPicker({ lang, dict }: Props) {
     };
   }, [ready, lang, setPlace, dict.searchLoadFailed]);
 
-  // Outline the searched region and move the map to it, or to the town
-  // chosen inside it.
   useEffect(() => {
     if (!ready || place === null) {
       return;
@@ -155,7 +154,6 @@ export function LocationPicker({ lang, dict }: Props) {
             fillColor: "#1f5e57",
             fillOpacity: 0.16,
           },
-          attribution: PLACE_CREDIT,
         }).addTo(map.current);
         remove = () => outline.remove();
 

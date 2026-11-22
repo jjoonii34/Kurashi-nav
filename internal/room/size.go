@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/jjoonii34/kurashi-nav/internal/i18n"
+	"github.com/jjoonii34/kuramiru/internal/i18n"
 )
 
 const (

@@ -45,7 +45,7 @@ var (
 	Dummy = Attribution{
 		ID:       "dummy",
 		Name:     "Dummy data (development only)",
-		Provider: "kurashi-nav",
+		Provider: "kuramiru",
 		Credit:   "DUMMY DATA — not real. Do not use for any decision.",
 	}
 )

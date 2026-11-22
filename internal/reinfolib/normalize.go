@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/housing"
 )
 
 // normalizeTransaction adds numeric keys next to the MLIT display strings.

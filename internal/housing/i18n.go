@@ -1,6 +1,6 @@
 package housing
 
-import "github.com/jjoonii34/kurashi-nav/internal/i18n"
+import "github.com/jjoonii34/kuramiru/internal/i18n"
 
 // messages is this package's part of the server-side catalogue.
 var messages = i18n.Catalog{

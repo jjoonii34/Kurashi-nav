@@ -11,8 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/geo"
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/geo"
+	"github.com/jjoonii34/kuramiru/internal/housing"
 )
 
 // Source returns canned results. Configure the maps before first use;

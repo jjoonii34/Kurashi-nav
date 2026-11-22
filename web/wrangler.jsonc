@@ -1,5 +1,5 @@
 {
-  "name": "kurashi-nav-web",
+  "name": "kuramiru-web",
   "compatibility_date": "2026-11-22",
   // Assets-only Worker: no script, just the static export (ADR-0007).
   "assets": {

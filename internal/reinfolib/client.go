@@ -20,8 +20,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/geo"
-	"github.com/jjoonii34/kurashi-nav/internal/ratelimit"
+	"github.com/jjoonii34/kuramiru/internal/geo"
+	"github.com/jjoonii34/kuramiru/internal/ratelimit"
 )
 
 const (
@@ -56,7 +56,7 @@ func NewClient(cfg ClientConfig) *Client {
 	}
 	ua := cfg.UserAgent
 	if ua == "" {
-		ua = "kurashi-nav"
+		ua = "kuramiru"
 	}
 	return &Client{
 		baseURL:   cfg.BaseURL,

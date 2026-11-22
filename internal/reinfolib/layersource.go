@@ -10,10 +10,10 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jjoonii34/kurashi-nav/internal/cache"
-	"github.com/jjoonii34/kurashi-nav/internal/geo"
-	"github.com/jjoonii34/kurashi-nav/internal/housing"
-	"github.com/jjoonii34/kurashi-nav/internal/parallel"
+	"github.com/jjoonii34/kuramiru/internal/cache"
+	"github.com/jjoonii34/kuramiru/internal/geo"
+	"github.com/jjoonii34/kuramiru/internal/housing"
+	"github.com/jjoonii34/kuramiru/internal/parallel"
 )
 
 // ErrUnsupportedLayer is returned for a layer with no configured endpoint.

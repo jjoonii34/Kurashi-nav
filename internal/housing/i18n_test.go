@@ -3,7 +3,7 @@ package housing
 import (
 	"testing"
 
-	"github.com/jjoonii34/kurashi-nav/internal/i18n"
+	"github.com/jjoonii34/kuramiru/internal/i18n"
 )
 
 // Every message must exist in every language, so a new layer can't ship
