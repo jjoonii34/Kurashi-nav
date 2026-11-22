@@ -51,10 +51,25 @@ Rules, not datasets: no licence applies, but the UI labels all room figures as a
 | 外国人の民間賃貸住宅入居円滑化ガイドライン | 国土交通省 | Contract glossary, unofficial translation | as above |
 | アドレス・ベース・レジストリ | デジタル庁 | Own geocoder (address → coordinate) | per dataset terms |
 
+## Planned for v1.1 — not used yet, everything below is unverified
+
+Requirements: `docs/requirements/v1.1-data-gaps.md`. Nothing in this section
+is implemented. Each item is confirmed by a real call or by reading the
+official terms before any code relies on it.
+
+| Source | Provider | Planned use | To verify |
+|---|---|---|---|
+| 住宅・土地統計調査 (令和5年) via e-Stat API | 総務省統計局 | Average private rent per municipality, embedded as a static table (ADR-0010) | `statsDataId` of the table with rent per month and per ㎡ for 民営借家 (専用住宅) by municipality; which municipalities are published; how suppressed cells are marked; terms and credit |
+| J-SHIS 地震ハザードステーション API | 防災科学技術研究所 | Probability of strong shaking, looked up by mesh code (ADR-0011) | Endpoint URL and version, `case` and `eqcode` parameters, name of the "震度6弱以上 in 30 years" field, mesh level, rate limit, terms and credit |
+| 不動産情報ライブラリ (existing layers) | 国土交通省 | Municipality code for the rent comparison | Whether any of the nine layers already returns a municipality code |
+| 不動産情報ライブラリ (facility layers) | 国土交通省 | Medical facilities and similar (P2) | API IDs; whether the calls fit the rate budget |
+| 昭和45年建設省告示第1552号 | 国土交通省 | Legal basis of the brokerage-fee warnings already in `internal/cost` | Wording of the cap and of the tenant-consent rule against the current text |
+
 ## Deliberately not used
 
 | Source | Why not |
 |---|---|
+| REINS | For licensed brokers only; not open to individuals or outside services. |
 | Listing portals (SUUMO, HOME'S, at home, …) | Scraping violates their terms and invites legal risk. Users type in what they see. See ADR-0004. |
 | Listing photos (for 3D models or anything else) | Can be copyrighted works; a 3D reconstruction is an adaptation. See ADR-0006. |
 | Undocumented GSI address-search endpoint | Not a published API, no availability guarantee. Not on the critical path (ADR-0005). |
