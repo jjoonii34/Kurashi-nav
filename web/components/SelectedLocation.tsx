@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionary";
 import type { Lang } from "@/i18n/langs";
-import { useLocation } from "@/state/location";
+import { useCheck } from "@/state/check";
 
 type Props = {
   lang: Lang;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function SelectedLocation({ lang, dict }: Props) {
-  const { point } = useLocation();
+  const { point } = useCheck();
 
   if (point === null) {
     return (

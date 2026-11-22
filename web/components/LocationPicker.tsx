@@ -12,7 +12,7 @@ import {
 } from "@/geo/japan";
 import type { Dictionary } from "@/i18n/dictionary";
 import type { Lang } from "@/i18n/langs";
-import { useLocation } from "@/state/location";
+import { useCheck } from "@/state/check";
 
 const GSI_PALE_TILES = "https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png";
 const GSI_CREDIT =
@@ -25,7 +25,7 @@ type Props = {
 
 export function LocationPicker({ lang, dict }: Props) {
   const router = useRouter();
-  const { point: saved, setPoint: save } = useLocation();
+  const { point: saved, setPoint: save } = useCheck();
   const [point, setPoint] = useState<Point>(saved ?? TOKYO_STATION);
   const [moving, setMoving] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -101,8 +101,8 @@ export function LocationPicker({ lang, dict }: Props) {
   }
 
   return (
-    <main className="flex flex-1 flex-col">
-      <div className="relative h-[50dvh] shrink-0">
+    <main className="flex flex-1 flex-col lg:flex-row-reverse">
+      <div className="relative h-[50dvh] shrink-0 lg:h-auto lg:flex-1">
         <div
           ref={container}
           role="application"
@@ -159,8 +159,8 @@ export function LocationPicker({ lang, dict }: Props) {
         </button>
       </div>
 
-      <section className="relative z-10 -mt-4 flex-1 rounded-t-2xl bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-2px_12px_rgba(0,0,0,0.08)]">
-        <h1 className="text-balance break-keep text-lg font-bold leading-snug">{dict.pickerTitle}</h1>
+      <section className="relative z-10 -mt-4 flex-1 rounded-t-2xl bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-2px_12px_rgba(0,0,0,0.08)] lg:mt-0 lg:w-[400px] lg:flex-none lg:rounded-none lg:border-r lg:border-line lg:px-8 lg:pt-10 lg:shadow-none">
+        <h1 className="text-balance break-keep text-lg font-bold leading-snug lg:text-2xl">{dict.pickerTitle}</h1>
         <p className="mt-1 text-sm tabular-nums text-ink-muted">
           {point.lat.toFixed(5)}, {point.lon.toFixed(5)}
         </p>

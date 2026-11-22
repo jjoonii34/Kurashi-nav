@@ -154,6 +154,13 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: `useEffect`의 정리 함수에서 `cancelled`와 `map.remove()`가 각각 막는 문제는?
   - 질문: 고른 좌표를 주소창이나 `localStorage`가 아니라 메모리에만 두는 이유와 그 대가는? (ADR-0002, 새로고침)
   - 질문: `japan.ts`의 범위 값이 `internal/geo/point.go`와 같아야 하는 이유는? 한쪽만 바꾸면 어떤 화면이 나오나?
+- [x] 견적 입력 폼 + 클라이언트 검증 (M2-4)
+  - 읽는 순서: `web/estimate/input.test.ts` → `web/estimate/input.ts` → `web/components/EstimateForm.tsx` → `web/state/check.tsx`
+  - 실험: `cd web && npm test`. `input.ts`의 `MAX_MONTHS`를 6으로 바꾸고 어떤 테스트가 실패하는지 보기
+  - 질문: 입력값을 숫자가 아니라 문자열(`EstimateFields`)로 들고 있다가 제출할 때 숫자로 바꾸는 이유는?
+  - 질문: 서버(`internal/cost/cost.go`의 `validate`)가 이미 검증하는데 브라우저에서도 검증하는 이유는? 한쪽만 있으면 각각 무엇이 문제인가?
+  - 질문: 폼은 保証料를 %로 받고 API에는 비율(0.5)로 보낸다. 변환은 어디서 하나?
+  - 질문: `text.normalize("NFKC")`가 없으면 일본어 키보드로 `８００００`을 입력했을 때 어떻게 되나?
 - [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)

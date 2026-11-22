@@ -57,6 +57,7 @@ cd web
 npm ci
 npm run dev       # http://localhost:3000
 npm run lint
+npm test          # form validation rules
 npm run build     # static export to web/out/
 ```
 
