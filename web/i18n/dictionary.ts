@@ -87,6 +87,12 @@ export type Dictionary = {
   unitPyeong: string;
   roomShape: string;
   roomSceneLabel: string;
+  layoutTitle: string;
+  layoutIntro: string;
+  layoutCodeLabel: string;
+  layoutInvalid: string;
+  layoutLoading: string;
+  layoutGuideline: string;
   furnitureTitle: string;
   furnitureHint: string;
   furnitureTurn: string;
@@ -234,6 +240,12 @@ const dictionaries: Record<Lang, Dictionary> = {
     unitPyeong: "pyeong / tsubo",
     roomShape: "Drawn as {w} m × {d} m. The real shape may differ.",
     roomSceneLabel: "3D view of the room with the furniture you placed",
+    layoutTitle: "What the layout code means",
+    layoutIntro: "Listings describe a home with a code such as 1K or 2LDK. Enter the code to see what each letter stands for.",
+    layoutCodeLabel: "Layout code",
+    layoutInvalid: "That is not a layout code. Try one like 1K, 1LDK or 2LDK.",
+    layoutLoading: "Looking up the code…",
+    layoutGuideline: "A {code} must be at least {jo}畳 ({sqm}㎡) to be advertised as one.",
     furnitureTitle: "Try furniture",
     furnitureHint: "Tap a piece of furniture below to place it, then drag it around the room.",
     furnitureTurn: "Turn 90°",
@@ -378,6 +390,12 @@ const dictionaries: Record<Lang, Dictionary> = {
     unitPyeong: "평",
     roomShape: "가로 {w} m × 세로 {d} m로 그렸습니다. 실제 모양은 다를 수 있습니다.",
     roomSceneLabel: "놓은 가구가 보이는 방의 3D 화면",
+    layoutTitle: "방 구조 표기 읽는 법",
+    layoutIntro: "매물은 1K, 2LDK 같은 표기로 방 구조를 적습니다. 표기를 넣으면 글자마다 무슨 뜻인지 보여 드립니다.",
+    layoutCodeLabel: "방 구조 표기",
+    layoutInvalid: "방 구조 표기가 아닙니다. 1K, 1LDK, 2LDK처럼 넣어 주세요.",
+    layoutLoading: "표기를 찾는 중…",
+    layoutGuideline: "{code}로 광고하려면 최소 {jo}畳({sqm}㎡)이어야 합니다.",
     furnitureTitle: "가구 놓아 보기",
     furnitureHint: "아래에서 가구를 눌러 놓고, 방 안에서 끌어 옮겨 보세요.",
     furnitureTurn: "90° 돌리기",
@@ -524,6 +542,12 @@ const dictionaries: Record<Lang, Dictionary> = {
     unitPyeong: "つぼ（坪）",
     roomShape: "よこ {w} m × たて {d} m で かきました。ほんとうの かたちは ちがう ことが あります。",
     roomSceneLabel: "おいた かぐが みえる へやの 3Dの がめん",
+    layoutTitle: "まどりの よみかた",
+    layoutIntro: "へやの こうこくには 1K、2LDK などと かいて あります。いれると、もじの いみを みせます。",
+    layoutCodeLabel: "まどり",
+    layoutInvalid: "まどりでは ありません。1K、1LDK、2LDK のように いれて ください。",
+    layoutLoading: "しらべて います…",
+    layoutGuideline: "{code}と かくには {jo}畳（{sqm}㎡）いじょう ひつようです。",
     furnitureTitle: "かぐを おいて みます",
     furnitureHint: "したの かぐを おすと へやに おけます。へやの なかで うごかして ください。",
     furnitureTurn: "90° まわします",
@@ -658,6 +682,12 @@ const dictionaries: Record<Lang, Dictionary> = {
     unitPyeong: "坪",
     roomShape: "按 {w} m × {d} m 绘制。实际形状可能不同。",
     roomSceneLabel: "房间和您摆放的家具的 3D 视图",
+    layoutTitle: "户型代码的含义",
+    layoutIntro: "房源用 1K、2LDK 这样的代码表示户型。输入代码，可以看到每个字母的意思。",
+    layoutCodeLabel: "户型代码",
+    layoutInvalid: "这不是户型代码。请输入 1K、1LDK、2LDK 这样的代码。",
+    layoutLoading: "正在查询…",
+    layoutGuideline: "要标为 {code}，至少需要 {jo}畳（{sqm}㎡）。",
     furnitureTitle: "试放家具",
     furnitureHint: "点下面的家具把它放进房间，然后拖动它。",
     furnitureTurn: "旋转 90°",

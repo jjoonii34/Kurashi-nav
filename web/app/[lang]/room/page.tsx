@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { LayoutView } from "@/components/LayoutView";
 import { RoomView } from "@/components/RoomView";
 import { dictionaryFor } from "@/i18n/dictionary";
 import { isLang } from "@/i18n/langs";
@@ -14,6 +15,7 @@ export default async function Room({ params }: PageProps<"/[lang]/room">) {
     <main className="mx-auto w-full max-w-md px-5 pb-10 pt-5 lg:max-w-2xl lg:pt-10">
       <h1 className="text-2xl font-extrabold lg:text-3xl">{dict.roomTitle}</h1>
       <RoomView lang={lang} dict={dict} />
+      <LayoutView lang={lang} dict={dict} />
     </main>
   );
 }
