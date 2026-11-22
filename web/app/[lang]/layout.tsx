@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LangSwitcher } from "@/components/LangSwitcher";
+import { StepTabs } from "@/components/StepTabs";
 import { dictionaryFor } from "@/i18n/dictionary";
 import { LANGS, isLang } from "@/i18n/langs";
 import { LocationProvider } from "@/state/location";
@@ -38,6 +39,7 @@ export default async function LangLayout({
           </Link>
           <LangSwitcher current={lang} label={dict.languageLabel} />
         </header>
+        <StepTabs lang={lang} dict={dict} />
         <LocationProvider>{children}</LocationProvider>
       </body>
     </html>
