@@ -1,3 +1,5 @@
+import type { components } from "../api/schema";
+
 // What the user types, kept as text so a half-typed value is never lost.
 export type EstimateFields = {
   rent: string;
@@ -18,20 +20,8 @@ export type NumericField = Exclude<
   "moveInDate" | "prepayNextMonth"
 >;
 
-// The `cost` object of POST /v1/housing/check (CostInput in docs/openapi.json).
-export type CostInput = {
-  rent_yen: number;
-  management_fee_yen: number;
-  deposit_months: number;
-  key_money_months: number;
-  brokerage_months: number;
-  guarantee_rate: number;
-  fire_insurance_yen: number;
-  key_exchange_yen: number;
-  cleaning_fee_yen: number;
-  move_in_date?: string;
-  prepay_next_month?: boolean;
-};
+// The `cost` object of POST /v1/housing/check, generated from docs/openapi.json.
+export type CostInput = components["schemas"]["CostInput"];
 
 export type FieldError = "rent" | "yen" | "months" | "guarantee";
 

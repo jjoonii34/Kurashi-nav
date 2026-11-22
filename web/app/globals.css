@@ -9,6 +9,8 @@
   --color-ink-muted: #5c6370;
   /* The pin only. Red, yellow and orange are kept for hazard levels. */
   --color-pin: #e0452b;
+  --color-alert: #9a4a00;
+  --color-alert-surface: #fff3e2;
   --font-sans: -apple-system, system-ui, "Segoe UI", sans-serif;
 }
 

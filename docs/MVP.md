@@ -148,7 +148,7 @@ flowchart LR
 - [x] M2-2 i18n 라우팅 `/en` `/ko` `/ja`, 언어 전환
 - [x] M2-3 ① 위치 선택: Leaflet(ADR-0009) + 地理院タイル + 핀 + 출처 표기
 - [x] M2-4 ② 견적 입력 폼 (`cost.Input` 대응, 클라이언트 검증)
-- [ ] M2-5 ③ 결과 화면: 섹션 카드, `unavailable` 처리, 출처·면책 푸터
+- [x] M2-5 ③ 결과 화면: 섹션 카드, `unavailable` 처리, 출처·면책 푸터
 - [ ] M2-6 ④ 방 크기 3D: react-three-fiber로 `/v1/room/size` 렌더, 가구 드래그 배치
 - [ ] M2-7 間取り 설명 위젯 (`/v1/room/layout`)
 - [ ] M2-8 모바일 375px·접근성 점검, Lighthouse

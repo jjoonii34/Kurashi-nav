@@ -55,7 +55,8 @@ Frontend (requires Node.js 24):
 ```sh
 cd web
 npm ci
-npm run dev       # http://localhost:3000
+npm run dev       # http://localhost:3000 (calls the API at NEXT_PUBLIC_API_BASE_URL, default http://localhost:8080)
+npm run gen:api   # regenerate api/schema.d.ts after editing docs/openapi.json
 npm run lint
 npm test          # form validation rules
 npm run build     # static export to web/out/
