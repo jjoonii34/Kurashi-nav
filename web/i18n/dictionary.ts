@@ -110,8 +110,16 @@ export type Dictionary = {
   homeStep1: string;
   homeStep2: string;
   homeStep3: string;
-  homePrivacy: string;
   homeDisclaimer: string;
+  homeOfficialTitle: string;
+  homeOfficialBody: string;
+  homeNoStoreTitle: string;
+  homeNoStoreBody: string;
+  homeLangsTitle: string;
+  homeLangsBody: string;
+  homeFreeTitle: string;
+  homeFreeBody: string;
+  homeClosingTitle: string;
 };
 
 // Record<Lang, Dictionary> makes a missing language or key a compile error.
@@ -236,8 +244,16 @@ const dictionaries: Record<Lang, Dictionary> = {
     homeStep1: "Pick the home's location on the map",
     homeStep2: "Enter the numbers from the estimate, or skip this step",
     homeStep3: "Read the result",
-    homePrivacy: "What you enter is not stored. It is used for the calculation and then discarded.",
     homeDisclaimer: "For reference only. This is not legal or real-estate advice. Always confirm with the official hazard map and the 重要事項説明 before you sign.",
+    homeOfficialTitle: "Official data only",
+    homeOfficialBody: "Open data published by Japan’s land ministry",
+    homeNoStoreTitle: "Nothing is stored",
+    homeNoStoreBody: "Your location and figures are discarded after the calculation",
+    homeLangsTitle: "Three languages",
+    homeLangsBody: "English · 한국어 · にほんご",
+    homeFreeTitle: "Free, no sign-up",
+    homeFreeBody: "No account and no payment",
+    homeClosingTitle: "Check before you sign",
   },
   ko: {
     languageLabel: "언어",
@@ -359,8 +375,16 @@ const dictionaries: Record<Lang, Dictionary> = {
     homeStep1: "지도에서 집 위치를 고릅니다",
     homeStep2: "견적서의 숫자를 넣습니다. 건너뛰어도 됩니다",
     homeStep3: "결과를 확인합니다",
-    homePrivacy: "입력한 위치와 금액은 저장하지 않습니다. 계산에만 쓰고 버립니다.",
     homeDisclaimer: "참고용 정보이며 법률·부동산 자문이 아닙니다. 계약 전에 반드시 지자체 공식 해저드맵과 重要事項説明으로 확인하세요.",
+    homeOfficialTitle: "공공 데이터만",
+    homeOfficialBody: "일본 국토교통성이 공개한 데이터",
+    homeNoStoreTitle: "저장하지 않음",
+    homeNoStoreBody: "위치와 금액은 계산 후 버립니다",
+    homeLangsTitle: "3개 언어",
+    homeLangsBody: "English · 한국어 · にほんご",
+    homeFreeTitle: "가입 없이 무료",
+    homeFreeBody: "계정도 결제도 필요 없습니다",
+    homeClosingTitle: "계약서에 서명하기 전에",
   },
   ja: {
     languageLabel: "ことば",
@@ -484,8 +508,16 @@ const dictionaries: Record<Lang, Dictionary> = {
     homeStep1: "ちずで へやの ばしょを えらびます",
     homeStep2: "みつもりしょの すうじを いれます。いれなくても いいです",
     homeStep3: "けっかを みます",
-    homePrivacy: "いれた ばしょや おかねは ほぞんしません。けいさんに つかった あと、すてます。",
     homeDisclaimer: "さんこうの じょうほうです。ほうりつや ふどうさんの そうだんでは ありません。けいやくの まえに、しやくしょの ハザードマップと 重要事項説明（じゅうようじこうせつめい）で かならず たしかめて ください。",
+    homeOfficialTitle: "くにの データだけ",
+    homeOfficialBody: "こくどこうつうしょうが だして いる データです",
+    homeNoStoreTitle: "ほぞんしません",
+    homeNoStoreBody: "ばしょと おかねは けいさんの あと すてます",
+    homeLangsTitle: "3つの ことば",
+    homeLangsBody: "English · 한국어 · にほんご",
+    homeFreeTitle: "むりょうです",
+    homeFreeBody: "とうろくも しはらいも いりません",
+    homeClosingTitle: "けいやくの まえに たしかめましょう",
   },
 };
 

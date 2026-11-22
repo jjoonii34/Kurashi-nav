@@ -82,7 +82,7 @@ export function ResultView({ lang, dict }: Props) {
             setState({ status: "loading" });
             setAttempt(attempt + 1);
           }}
-          className="mt-3 h-11 rounded-lg bg-brand px-5 font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
+          className="mt-3 h-12 rounded-xl bg-brand px-5 font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
         >
           {dict.retry}
         </button>
@@ -163,8 +163,8 @@ export function ResultView({ lang, dict }: Props) {
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-line px-4 pb-2 pt-4">
-      <h2 className="font-bold">{title}</h2>
+    <section className="rounded-3xl bg-surface px-5 pb-3 pt-5">
+      <h2 className="text-lg font-bold">{title}</h2>
       <div className="mt-1 divide-y divide-line">{children}</div>
     </section>
   );
@@ -196,7 +196,7 @@ function HazardChip({ section, dict }: { section: Section; dict: Dictionary }) {
       {dict.chipInArea}
     </span>
   ) : (
-    <span className="rounded-full bg-surface px-2.5 py-1 text-sm text-ink-muted">
+    <span className="rounded-full bg-white px-2.5 py-1 text-sm text-ink-muted">
       {dict.chipNotInArea}
     </span>
   );
@@ -356,7 +356,7 @@ function CostBody({
               className={`rounded-xl p-3 text-sm ${
                 warning.severity === "warning"
                   ? "bg-alert-surface text-alert"
-                  : "bg-surface"
+                  : "bg-white"
               }`}
             >
               {warningText[warning.code] ?? warning.message}

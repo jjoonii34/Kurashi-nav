@@ -6,6 +6,7 @@ import { StepTabs } from "@/components/StepTabs";
 import { dictionaryFor } from "@/i18n/dictionary";
 import { LANGS, isLang } from "@/i18n/langs";
 import { CheckProvider } from "@/state/check";
+import "pretendard-jp/dist/web/variable/pretendardvariable-jp-dynamic-subset.css";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default async function LangLayout({
           <div className="flex h-14 items-center justify-between border-b border-line px-4 lg:contents">
             <Link
               href={`/${lang}`}
-              className="text-base font-bold text-brand lg:order-1 lg:text-lg"
+              className="text-lg font-extrabold text-brand lg:order-1 lg:text-xl"
             >
               Kurashi Nav
             </Link>

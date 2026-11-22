@@ -133,6 +133,7 @@ Key decisions, each with an ADR in [`docs/adr`](docs/adr):
 7. **Frontend on Cloudflare, API on Cloud Run** — Next.js static export served from the edge for free; Go stays on Cloud Run in Tokyo.
 8. **Tailwind CSS for styling** — utility classes for a mobile-first UI; a build-time dependency only.
 9. **Leaflet for the map** — one raster map with one pin; used directly, without a React wrapper.
+10. **Pretendard JP as the only typeface** — one self-hosted family for Latin, Hangul, kana and kanji.
 
 ## Data and compliance
 

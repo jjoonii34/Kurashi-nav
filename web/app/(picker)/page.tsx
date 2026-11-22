@@ -6,14 +6,14 @@ export default function LanguagePicker() {
   return (
     <main className="mx-auto max-w-md p-4">
       <RememberedLangRedirect />
-      <h1 className="text-2xl font-bold">Kurashi Nav</h1>
+      <h1 className="text-3xl font-extrabold text-brand">Kurashi Nav</h1>
       <ul className="mt-6 flex flex-col gap-3">
         {LANGS.map((lang) => (
           <li key={lang}>
             <LangLink
               lang={lang}
               href={`/${lang}`}
-              className="block rounded border p-4 text-lg"
+              className="block rounded-2xl bg-surface p-5 text-lg font-semibold active:bg-line"
             >
               {LANG_NAMES[lang]}
             </LangLink>

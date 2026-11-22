@@ -160,7 +160,7 @@ export function LocationPicker({ lang, dict }: Props) {
       </div>
 
       <section className="relative z-10 -mt-4 flex-1 rounded-t-2xl bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-2px_12px_rgba(0,0,0,0.08)] lg:mt-0 lg:w-[400px] lg:flex-none lg:rounded-none lg:border-r lg:border-line lg:px-8 lg:pt-10 lg:shadow-none">
-        <h1 className="text-balance break-keep text-lg font-bold leading-snug lg:text-2xl">{dict.pickerTitle}</h1>
+        <h1 className="text-balance break-keep text-xl font-extrabold leading-snug lg:text-3xl">{dict.pickerTitle}</h1>
         <p className="mt-1 text-sm tabular-nums text-ink-muted">
           {point.lat.toFixed(5)}, {point.lon.toFixed(5)}
         </p>
@@ -170,7 +170,7 @@ export function LocationPicker({ lang, dict }: Props) {
         <button
           type="button"
           onClick={confirm}
-          className="mt-4 h-13 w-full rounded-xl bg-brand text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
+          className="mt-5 h-14 w-full rounded-2xl bg-brand text-[17px] font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
         >
           {dict.confirmLocation}
         </button>

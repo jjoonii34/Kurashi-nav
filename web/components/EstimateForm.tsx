@@ -140,8 +140,8 @@ export function EstimateForm({ lang, dict }: Props) {
       <p className="text-sm text-ink-muted">{dict.estimateIntro}</p>
 
       {groups.map((group) => (
-        <fieldset key={group.legend} className="mt-7">
-          <legend className="text-sm font-semibold text-brand">
+        <fieldset key={group.legend} className="mt-10">
+          <legend className="text-lg font-bold">
             {group.legend}
           </legend>
           {group.fields.map((field) => {
@@ -157,8 +157,8 @@ export function EstimateForm({ lang, dict }: Props) {
                   </span>
                 </label>
                 <div
-                  className={`mt-1.5 flex h-12 items-center rounded-lg border px-3 focus-within:border-brand focus-within:ring-1 focus-within:ring-brand ${
-                    error ? "border-pin" : "border-line"
+                  className={`mt-2 flex h-14 items-center rounded-2xl bg-surface px-4 ring-2 focus-within:ring-brand ${
+                    error ? "ring-pin" : "ring-transparent"
                   }`}
                 >
                   <input
@@ -189,8 +189,8 @@ export function EstimateForm({ lang, dict }: Props) {
         </fieldset>
       ))}
 
-      <fieldset className="mt-7">
-        <legend className="text-sm font-semibold text-brand">
+      <fieldset className="mt-10">
+        <legend className="text-lg font-bold">
           {dict.groupMoveIn}
         </legend>
         <label htmlFor="moveInDate" className="mt-4 block">
@@ -206,7 +206,7 @@ export function EstimateForm({ lang, dict }: Props) {
           onChange={(event) =>
             setFields({ ...fields, moveInDate: event.target.value })
           }
-          className="mt-1.5 h-12 w-full rounded-lg border border-line bg-transparent px-3 text-base outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+          className="mt-2 h-14 w-full rounded-2xl bg-surface px-4 text-base outline-none ring-2 ring-transparent focus:ring-brand"
         />
         <label className="mt-4 flex items-center gap-3">
           <input
@@ -223,14 +223,14 @@ export function EstimateForm({ lang, dict }: Props) {
 
       <button
         type="submit"
-        className="mt-8 h-13 w-full rounded-xl bg-brand text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
+        className="mt-9 h-14 w-full rounded-2xl bg-brand text-[17px] font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
       >
         {dict.seeResult}
       </button>
       <button
         type="button"
         onClick={skip}
-        className="mt-2 h-12 w-full rounded-xl text-base font-semibold text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-surface"
+        className="mt-2 h-14 w-full rounded-2xl text-[17px] font-bold text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-surface"
       >
         {dict.skipEstimate}
       </button>
