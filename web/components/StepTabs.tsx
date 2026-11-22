@@ -13,7 +13,7 @@ type Props = {
 export function StepTabs({ lang, dict }: Props) {
   const pathname = usePathname();
   const tabs = [
-    { label: dict.tabMap, path: `/${lang}` },
+    { label: dict.tabMap, path: `/${lang}/map` },
     { label: dict.tabEstimate, path: `/${lang}/estimate` },
     { label: dict.tabResult, path: `/${lang}/result` },
     { label: dict.tabRoom, path: `/${lang}/room` },

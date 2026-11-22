@@ -168,6 +168,10 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: 실패를 `network` / `invalid` / `server` 셋으로 나눈 기준은? 사용자가 각각 무엇을 할 수 있나?
   - 질문: `useEffect`의 `AbortController`는 어떤 상황에서 요청을 취소하나? 없으면 무슨 일이 생길 수 있나?
   - 질문: 비용 경고 문구를 서버가 아니라 프론트가 `code`로 번역하는 이유는? (`docs/openapi.json`의 `CostWarning`)
+- [x] 홈 화면 (M2-10)
+  - 읽는 순서: `web/app/[lang]/page.tsx` → `web/components/FloorPlan.tsx` → `web/app/[lang]/map/page.tsx`
+  - 질문: 홈은 `"use client"`가 없는 서버 컴포넌트다. 정적 export에서 이 페이지의 HTML은 언제 만들어지나?
+  - 질문: 間取り図 그림을 이미지 파일이 아니라 SVG 코드로 넣은 이유는? (색을 `stroke-brand`로 맞추기, 파일 요청 없음, 저작권)
 - [x] 방 크기 3D: react-three-fiber로 `/v1/room/size` 응답을 그려 가구를 드래그 배치 (M2-6)
   - 읽는 순서: `web/room/placement.test.ts` → `web/room/placement.ts` → `web/components/RoomView.tsx` → `web/components/RoomScene.tsx`
   - 실험: `cd web && npm test`. `clampToRoom`의 `Math.max(0, ...)`을 지우고 어떤 테스트가 실패하는지 보기

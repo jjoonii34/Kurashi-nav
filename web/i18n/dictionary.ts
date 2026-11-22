@@ -93,6 +93,25 @@ export type Dictionary = {
   furnitureRemove: string;
   furnitureTooBig: string;
   furnitureCannotTurn: string;
+  homeTitle: string;
+  homeLead: string;
+  homeStart: string;
+  homeRoomOnly: string;
+  homeChecksTitle: string;
+  homeHazardTitle: string;
+  homeHazardBody: string;
+  homeAreaTitle: string;
+  homeAreaBody: string;
+  homeCostTitle: string;
+  homeCostBody: string;
+  homeRoomTitle: string;
+  homeRoomBody: string;
+  homeStepsTitle: string;
+  homeStep1: string;
+  homeStep2: string;
+  homeStep3: string;
+  homePrivacy: string;
+  homeDisclaimer: string;
 };
 
 // Record<Lang, Dictionary> makes a missing language or key a compile error.
@@ -200,6 +219,25 @@ const dictionaries: Record<Lang, Dictionary> = {
     furnitureRemove: "Remove",
     furnitureTooBig: "{name} is larger than this room.",
     furnitureCannotTurn: "There is no space to turn it in this room.",
+    homeTitle: "Should I sign this lease?",
+    homeLead: "Pick the home on the map and copy the numbers from the agent's estimate. You get the hazard areas, the neighbourhood rules and the initial cost, explained from Japan's official open data.",
+    homeStart: "Pick the home on the map",
+    homeRoomOnly: "Just check a room size",
+    homeChecksTitle: "What you can check",
+    homeHazardTitle: "Hazard areas",
+    homeHazardBody: "Whether the home is inside a flood, storm surge, tsunami, landslide or liquefaction area.",
+    homeAreaTitle: "Around the home",
+    homeAreaBody: "The zoning of the land and the public elementary and junior high school districts.",
+    homeCostTitle: "Initial cost",
+    homeCostBody: "Adds up deposit, key money, agent's fee and the rest, and points out what to ask the agent.",
+    homeRoomTitle: "Room size",
+    homeRoomBody: "Turns 畳 into ㎡ and sq ft, draws the room in 3D and lets you try furniture in it.",
+    homeStepsTitle: "How it goes",
+    homeStep1: "Pick the home's location on the map",
+    homeStep2: "Enter the numbers from the estimate, or skip this step",
+    homeStep3: "Read the result",
+    homePrivacy: "What you enter is not stored. It is used for the calculation and then discarded.",
+    homeDisclaimer: "For reference only. This is not legal or real-estate advice. Always confirm with the official hazard map and the 重要事項説明 before you sign.",
   },
   ko: {
     languageLabel: "언어",
@@ -304,6 +342,25 @@ const dictionaries: Record<Lang, Dictionary> = {
     furnitureRemove: "빼기",
     furnitureTooBig: "{name}은(는) 이 방보다 큽니다.",
     furnitureCannotTurn: "이 방에서는 돌릴 공간이 없습니다.",
+    homeTitle: "이 집, 계약해도 될까요?",
+    homeLead: "지도에서 집 위치를 고르고 부동산이 준 견적서의 숫자를 넣어 보세요. 일본 공공 데이터로 재해 위험 구역과 주변 정보, 초기비용을 풀어서 보여 드립니다.",
+    homeStart: "지도에서 집 위치 고르기",
+    homeRoomOnly: "방 크기만 보기",
+    homeChecksTitle: "확인할 수 있는 것",
+    homeHazardTitle: "재해 위험 구역",
+    homeHazardBody: "홍수·고조·쓰나미·토사재해·액상화 구역 안에 있는지 알려 드립니다.",
+    homeAreaTitle: "이 집 주변",
+    homeAreaBody: "땅의 용도지역과 공립 초등학교·중학교 학구를 보여 드립니다.",
+    homeCostTitle: "초기비용",
+    homeCostBody: "敷金·礼金·중개수수료 등을 합산하고, 부동산에 물어볼 점을 짚어 드립니다.",
+    homeRoomTitle: "방 크기",
+    homeRoomBody: "畳를 ㎡와 평으로 바꾸고, 방을 3D로 그려 가구를 놓아 볼 수 있습니다.",
+    homeStepsTitle: "이렇게 진행됩니다",
+    homeStep1: "지도에서 집 위치를 고릅니다",
+    homeStep2: "견적서의 숫자를 넣습니다. 건너뛰어도 됩니다",
+    homeStep3: "결과를 확인합니다",
+    homePrivacy: "입력한 위치와 금액은 저장하지 않습니다. 계산에만 쓰고 버립니다.",
+    homeDisclaimer: "참고용 정보이며 법률·부동산 자문이 아닙니다. 계약 전에 반드시 지자체 공식 해저드맵과 重要事項説明으로 확인하세요.",
   },
   ja: {
     languageLabel: "ことば",
@@ -410,6 +467,25 @@ const dictionaries: Record<Lang, Dictionary> = {
     furnitureRemove: "とります",
     furnitureTooBig: "{name}は この へやより おおきいです。",
     furnitureCannotTurn: "この へやでは まわす ばしょが ありません。",
+    homeTitle: "この へやを けいやく しても いいですか？",
+    homeLead: "ちずで へやの ばしょを えらんで、ふどうさんやに もらった みつもりしょの すうじを いれて ください。くにの データを つかって、さいがいの きけん、まわりの ようす、はじめに はらう おかねを せつめいします。",
+    homeStart: "ちずで へやの ばしょを えらびます",
+    homeRoomOnly: "へやの ひろさだけ みます",
+    homeChecksTitle: "しらべられる こと",
+    homeHazardTitle: "さいがいの きけんが ある ばしょ",
+    homeHazardBody: "こうずい、たかしお、つなみ、どしゃさいがい、えきじょうかの ばしょに はいって いるか どうかが わかります。",
+    homeAreaTitle: "この へやの まわり",
+    homeAreaBody: "とちの つかいかた（用途地域）と、しょうがっこう・ちゅうがっこうの がっく（学区）が わかります。",
+    homeCostTitle: "はじめに はらう おかね",
+    homeCostBody: "しききん、れいきん、ちゅうかい てすうりょうなどを たして、ふどうさんやに きく ことを おしえます。",
+    homeRoomTitle: "へやの ひろさ",
+    homeRoomBody: "じょう（畳）を ㎡に かえて、へやを 3Dで かきます。かぐを おいて みる ことが できます。",
+    homeStepsTitle: "つかいかた",
+    homeStep1: "ちずで へやの ばしょを えらびます",
+    homeStep2: "みつもりしょの すうじを いれます。いれなくても いいです",
+    homeStep3: "けっかを みます",
+    homePrivacy: "いれた ばしょや おかねは ほぞんしません。けいさんに つかった あと、すてます。",
+    homeDisclaimer: "さんこうの じょうほうです。ほうりつや ふどうさんの そうだんでは ありません。けいやくの まえに、しやくしょの ハザードマップと 重要事項説明（じゅうようじこうせつめい）で かならず たしかめて ください。",
   },
 };
 

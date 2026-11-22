@@ -18,7 +18,7 @@ export function SelectedLocation({ lang, dict }: Props) {
       <div className="mt-4">
         <p className="text-sm text-ink-muted">{dict.noLocation}</p>
         <Link
-          href={`/${lang}`}
+          href={`/${lang}/map`}
           className="mt-3 inline-block font-semibold text-brand underline"
         >
           {dict.chooseLocation}
