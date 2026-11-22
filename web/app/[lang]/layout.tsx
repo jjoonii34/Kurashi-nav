@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LangSwitcher } from "@/components/LangSwitcher";
 import { dictionaryFor } from "@/i18n/dictionary";
 import { LANGS, isLang } from "@/i18n/langs";
+import { LocationProvider } from "@/state/location";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -29,11 +31,14 @@ export default async function LangLayout({
 
   return (
     <html lang={lang}>
-      <body>
-        <header className="mx-auto flex max-w-md justify-end p-4">
+      <body className="flex min-h-dvh flex-col">
+        <header className="flex h-14 shrink-0 items-center justify-between border-b border-line px-4">
+          <Link href={`/${lang}`} className="text-base font-bold text-brand">
+            Kurashi Nav
+          </Link>
           <LangSwitcher current={lang} label={dict.languageLabel} />
         </header>
-        {children}
+        <LocationProvider>{children}</LocationProvider>
       </body>
     </html>
   );

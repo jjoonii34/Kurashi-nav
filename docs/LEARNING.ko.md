@@ -142,11 +142,18 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: Makefile이 `./...` 대신 `./cmd/... ./internal/...`을 쓰는 이유는? (`web/node_modules` 안의 `.go` 파일)
 - [x] 언어 라우팅 `/en` `/ko` `/ja` + 언어 전환·기억 (M2-2)
   - 읽는 순서: `web/i18n/langs.ts` → `web/i18n/dictionary.ts` → `web/app/[lang]/layout.tsx` → `web/components/LangSwitcher.tsx` → `web/i18n/remember.ts`
-  - 실험: `dictionary.ts`의 `ko`에서 `tagline` 줄을 지우고 `npm run build`의 에러 읽기 (Go의 `Missing()` 테스트와 같은 역할)
+  - 실험: `dictionary.ts`의 `ko`에서 `pickerTitle` 줄을 지우고 `npm run build`의 에러 읽기 (Go의 `Missing()` 테스트와 같은 역할)
   - 질문: 레이아웃이 `app/(picker)`와 `app/[lang]` 두 개인 이유는? (`<html lang>`)
   - 질문: `/`에서 기억한 언어로 보내는 일을 왜 서버가 아니라 브라우저(`useEffect`)가 하나? (정적 export)
   - 질문: 주소는 `ja`인데 API에는 왜 `ja-easy`를 보내나? (`toApiLang`)
   - 질문: `localStorage`에 언어는 저장해도 되고 좌표·월세는 안 되는 이유는? (ADR-0002)
+- [x] 위치 선택 지도: Leaflet + 地理院タイル, 중앙 고정 핀 (M2-3)
+  - 읽는 순서: `web/geo/japan.ts` → `web/state/location.tsx` → `web/components/LocationPicker.tsx` → `web/app/[lang]/estimate/page.tsx`
+  - 실험: `LocationPicker.tsx` 맨 위에 `import L from "leaflet"`을 넣고 `npm run build`의 에러 읽기 (`useEffect` 안에서 불러오는 이유)
+  - 질문: 핀은 지도 위의 마커가 아니라 화면 중앙에 고정된 그림이다. 좌표는 어느 순간에 어디서 읽나? (`moveend`, `getCenter`)
+  - 질문: `useEffect`의 정리 함수에서 `cancelled`와 `map.remove()`가 각각 막는 문제는?
+  - 질문: 고른 좌표를 주소창이나 `localStorage`가 아니라 메모리에만 두는 이유와 그 대가는? (ADR-0002, 새로고침)
+  - 질문: `japan.ts`의 범위 값이 `internal/geo/point.go`와 같아야 하는 이유는? 한쪽만 바꾸면 어떤 화면이 나오나?
 - [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)

@@ -146,7 +146,7 @@ flowchart LR
 ### M2 — 프론트엔드 `web/` (3~4주)
 - [x] M2-1 `web/`에 Next.js(App Router)+TypeScript 생성, `output: "export"` 설정, `web/wrangler.jsonc`(정적 자산 `./out`), CI에 lint·build 추가 · 규칙: `.claude/rules/web.md`
 - [x] M2-2 i18n 라우팅 `/en` `/ko` `/ja`, 언어 전환
-- [ ] M2-3 ① 위치 선택: MapLibre GL 또는 Leaflet + 地理院タイル + 핀 + 출처 표기
+- [x] M2-3 ① 위치 선택: Leaflet(ADR-0009) + 地理院タイル + 핀 + 출처 표기
 - [ ] M2-4 ② 견적 입력 폼 (`cost.Input` 대응, 클라이언트 검증)
 - [ ] M2-5 ③ 결과 화면: 섹션 카드, `unavailable` 처리, 출처·면책 푸터
 - [ ] M2-6 ④ 방 크기 3D: react-three-fiber로 `/v1/room/size` 렌더, 가구 드래그 배치
@@ -259,6 +259,7 @@ flowchart LR
 ### 아이디어 보관함 (MVP 이후 후보)
 
 - 매물 사진 3D 변환 — 보류 (ADR-0006)
+- AI 추천 매물 — 보류. 매물 데이터가 없고(ADR-0004), 위치·예산을 LLM에 보내야 해서 사용자 입력 비전송 원칙과 충돌
 - 제도 내비게이터: 국민연금 학생납부특례·탈퇴일시금, 국보 감면, 주민세, 체류 갱신
 - 原状回復 체크리스트 (국토교통성 가이드라인 비공식 번역)
 - 계약서 용어집 (外国人の民間賃貸住宅入居円滑化ガイドライン 기반)
