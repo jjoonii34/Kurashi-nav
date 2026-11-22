@@ -22,7 +22,9 @@ export function LangSwitcher({ current, label }: Props) {
           lang={lang}
           href={rest ? `/${lang}/${rest}` : `/${lang}`}
           current={lang === current}
-          className={lang === current ? "font-bold underline" : "underline"}
+          className={
+            lang === current ? "font-semibold text-ink" : "text-ink-muted"
+          }
         >
           {LANG_NAMES[lang]}
         </LangLink>

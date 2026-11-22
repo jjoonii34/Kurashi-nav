@@ -8,7 +8,7 @@ whenever monetisation is considered.
 | ID | Data | Provider | How it is used | Terms | Credit shown | Last checked |
 |---|---|---|---|---|---|---|
 | `reinfolib` | 不動産情報ライブラリ API: XKT002 用途地域, XKT004/005 小・中学校区, XKT025 液状化, XKT026 洪水, XKT027 高潮, XKT028 津波, XKT029 土砂災害, XPT001 取引価格 | 国土交通省 (MLIT) | Server-side only (the manual asks callers not to call from browsers). Fetched per XYZ tile (z11–15), cached 24h, point-in-polygon / nearest points, properties filtered to an allow-list. | API利用規約 — application and key required. **TODO: read the full terms on key issuance and record the required credit wording (Art. 7) here and in `internal/source`.** | `出典：国土交通省「不動産情報ライブラリ」（加工して作成）` *(placeholder until the terms are confirmed)* | API list & params: 2026-11-19 |
-| `gsi_tiles` | 地理院タイル (background map) | 国土地理院 (GSI) | Loaded directly by the frontend map (Leaflet / MapLibre). | Real-time tile loading needs no application; credit and a link are required. | `地理院タイル` linked to the tile list page | 2026-11 |
+| `gsi_tiles` | 地理院タイル (background map) | 国土地理院 (GSI) | Loaded directly by the frontend map (Leaflet, ADR-0009): the 淡色地図 `pale` layer, zoom 5–18. | Real-time tile loading needs no application; credit and a link are required. | `地理院タイル` linked to the tile list page | 2026-11 |
 | `dummy` | Dummy data | this project | `DATA_MODE=fake` only. Every feature carries `"_dummy": true`. | — | `DUMMY DATA — not real` | — |
 
 ## Notes per source

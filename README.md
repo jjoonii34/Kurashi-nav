@@ -130,6 +130,7 @@ Key decisions, each with an ADR in [`docs/adr`](docs/adr):
 6. **3D room preview from numbers, not photos** — listing photos are copyrighted; sizes typed by the user are not.
 7. **Frontend on Cloudflare, API on Cloud Run** — Next.js static export served from the edge for free; Go stays on Cloud Run in Tokyo.
 8. **Tailwind CSS for styling** — utility classes for a mobile-first UI; a build-time dependency only.
+9. **Leaflet for the map** — one raster map with one pin; used directly, without a React wrapper.
 
 ## Data and compliance
 
