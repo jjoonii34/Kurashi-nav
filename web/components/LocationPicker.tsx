@@ -102,7 +102,7 @@ export function LocationPicker({ lang, dict }: Props) {
 
   return (
     <main className="flex flex-1 flex-col">
-      <div className="relative min-h-[45dvh] flex-1">
+      <div className="relative h-[50dvh] shrink-0">
         <div
           ref={container}
           role="application"
@@ -159,7 +159,7 @@ export function LocationPicker({ lang, dict }: Props) {
         </button>
       </div>
 
-      <section className="relative z-10 -mt-4 rounded-t-2xl bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-2px_12px_rgba(0,0,0,0.08)]">
+      <section className="relative z-10 -mt-4 flex-1 rounded-t-2xl bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-2px_12px_rgba(0,0,0,0.08)]">
         <h1 className="text-balance break-keep text-lg font-bold leading-snug">{dict.pickerTitle}</h1>
         <p className="mt-1 text-sm tabular-nums text-ink-muted">
           {point.lat.toFixed(5)}, {point.lon.toFixed(5)}

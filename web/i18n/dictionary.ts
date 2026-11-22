@@ -2,6 +2,11 @@ import type { Lang } from "./langs";
 
 export type Dictionary = {
   languageLabel: string;
+  stepsLabel: string;
+  tabMap: string;
+  tabEstimate: string;
+  tabResult: string;
+  tabRoom: string;
   mapLabel: string;
   pickerTitle: string;
   confirmLocation: string;
@@ -18,6 +23,11 @@ export type Dictionary = {
 const dictionaries: Record<Lang, Dictionary> = {
   en: {
     languageLabel: "Language",
+    stepsLabel: "Steps",
+    tabMap: "Map",
+    tabEstimate: "Estimate",
+    tabResult: "Result",
+    tabRoom: "Room size",
     mapLabel: "Map for choosing the location",
     pickerTitle: "Move the map to the home you plan to rent",
     confirmLocation: "Check this location",
@@ -32,6 +42,11 @@ const dictionaries: Record<Lang, Dictionary> = {
   },
   ko: {
     languageLabel: "언어",
+    stepsLabel: "단계",
+    tabMap: "지도",
+    tabEstimate: "견적",
+    tabResult: "결과",
+    tabRoom: "방 크기",
     mapLabel: "위치를 고르는 지도",
     pickerTitle: "계약하려는 집 위치로 지도를 옮겨 주세요",
     confirmLocation: "이 위치 확인하기",
@@ -46,6 +61,11 @@ const dictionaries: Record<Lang, Dictionary> = {
   },
   ja: {
     languageLabel: "ことば",
+    stepsLabel: "すすめかた",
+    tabMap: "ちず",
+    tabEstimate: "みつもり",
+    tabResult: "けっか",
+    tabRoom: "へやの ひろさ",
     mapLabel: "ばしょを えらぶ ちず",
     pickerTitle: "かりたい へやの ばしょに ちずを うごかして ください",
     confirmLocation: "この ばしょを しらべます",
