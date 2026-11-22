@@ -108,7 +108,7 @@ internal/
   housing/          domain: the check itself, ports (interfaces), i18n
   cost/             initial-cost calculator (pure functions)
   room/             room sizes, layout codes, furniture presets (pure functions)
-  i18n/             languages (en / ko / ja-easy) and message catalogues
+  i18n/             languages (en / ko / ja-easy / zh) and message catalogues
   reinfolib/        MLIT API client + LayerSource adapter
   fakesource/       dummy LayerSource for local dev and tests
   geocode/          address → coordinate (static for now)
@@ -133,6 +133,7 @@ Key decisions, each with an ADR in [`docs/adr`](docs/adr):
 7. **Frontend on Cloudflare, API on Cloud Run** — Next.js static export served from the edge for free; Go stays on Cloud Run in Tokyo.
 8. **Tailwind CSS for styling** — utility classes for a mobile-first UI; a build-time dependency only.
 9. **Leaflet for the map** — one raster map with one pin; used directly, without a React wrapper.
+10. **Pretendard JP as the only typeface** — one self-hosted family for Latin, Hangul, kana and kanji.
 
 ## Data and compliance
 

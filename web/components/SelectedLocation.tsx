@@ -28,7 +28,7 @@ export function SelectedLocation({ lang, dict }: Props) {
   }
 
   return (
-    <dl className="mt-4 rounded-xl bg-surface p-4">
+    <dl className="mt-4 rounded-2xl bg-surface p-4">
       <dt className="text-sm text-ink-muted">{dict.selectedLocation}</dt>
       <dd className="mt-1 tabular-nums">
         {point.lat.toFixed(5)}, {point.lon.toFixed(5)}

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { APP_NAME } from "@/i18n/app";
+import "@fontsource-variable/noto-sans-kr";
+import "pretendard-jp/dist/web/variable/pretendardvariable-jp-dynamic-subset.css";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Kurashi Nav",
+  title: APP_NAME,
   description: "Housing check for foreign residents in Japan.",
 };
 

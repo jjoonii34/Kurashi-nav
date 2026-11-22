@@ -1,9 +1,13 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import type { Map as LeafletMap } from "leaflet";
+import type { LeafletMouseEvent, Map as LeafletMap } from "leaflet";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { PlaceSearch } from "@/components/PlaceSearch";
+import { loadAtlas } from "@/geo/atlas";
+import { outlineAt } from "@/geo/locate";
+import type { Script } from "@/geo/script";
 import {
   JAPAN_BOUNDS,
   TOKYO_STATION,
@@ -17,6 +21,17 @@ import { useCheck } from "@/state/check";
 const GSI_PALE_TILES = "https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png";
 const GSI_CREDIT =
   '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener noreferrer">地理院タイル</a>';
+const PLACE_CREDIT =
+  '<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2021.html" target="_blank" rel="noopener noreferrer">国土数値情報（行政区域データ）</a>を加工 | <a href="https://geolonia.github.io/japanese-addresses/" target="_blank" rel="noopener noreferrer">Geolonia 住所データ</a>';
+// A tapped region is named in the language of the page.
+const PAGE_SCRIPT: Record<Lang, Script> = {
+  en: "en",
+  ko: "ko",
+  ja: "ja",
+  zh: "zh-hans",
+};
+// Close enough to read the streets of one town.
+const TOWN_ZOOM = 16;
 
 type Props = {
   lang: Lang;
@@ -25,13 +40,17 @@ type Props = {
 
 export function LocationPicker({ lang, dict }: Props) {
   const router = useRouter();
-  const { point: saved, setPoint: save } = useCheck();
+  const { point: saved, setPoint: save, place, setPlace } = useCheck();
   const [point, setPoint] = useState<Point>(saved ?? TOKYO_STATION);
   const [moving, setMoving] = useState(false);
+  const [ready, setReady] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const start = useRef(point);
+  // Coming back with a confirmed location: keep the map on it instead of
+  // jumping to the searched place again.
+  const keepView = useRef(saved !== null);
 
   useEffect(() => {
     let cancelled = false;
@@ -64,6 +83,7 @@ export function LocationPicker({ lang, dict }: Props) {
         setMoving(false);
       });
       map.current = created;
+      setReady(true);
     });
 
     return () => {
@@ -72,6 +92,91 @@ export function LocationPicker({ lang, dict }: Props) {
       map.current = null;
     };
   }, []);
+
+  // A tap (not a drag) outlines the municipality under the finger.
+  useEffect(() => {
+    const current = map.current;
+    if (!ready || current === null) {
+      return;
+    }
+    function choose(event: LeafletMouseEvent) {
+      loadAtlas()
+        .then((atlas) => {
+          const index = outlineAt(
+            atlas.outlines,
+            event.latlng.lng,
+            event.latlng.lat,
+          );
+          const region = atlas.regions.find(
+            (r) => r.kind === "municipality" && r.members[0] === index,
+          );
+          if (region !== undefined) {
+            setPlace({
+              region,
+              town: null,
+              script: PAGE_SCRIPT[lang],
+              tapped: true,
+            });
+          }
+        })
+        .catch(() => setNotice(dict.searchLoadFailed));
+    }
+    current.on("click", choose);
+    return () => {
+      current.off("click", choose);
+    };
+  }, [ready, lang, setPlace, dict.searchLoadFailed]);
+
+  // Outline the searched region and move the map to it, or to the town
+  // chosen inside it.
+  useEffect(() => {
+    if (!ready || place === null) {
+      return;
+    }
+    let cancelled = false;
+    let remove = () => {};
+
+    Promise.all([import("leaflet"), import("topojson-client"), loadAtlas()])
+      .then(([{ default: L }, topojson, atlas]) => {
+        if (cancelled || map.current === null) {
+          return;
+        }
+        // A prefecture or a city with wards is drawn as one shape: its
+        // members are merged so the borders between them disappear.
+        const shape = topojson.merge(
+          atlas.topology,
+          place.region.members.map((index) => atlas.boundaries[index]),
+        );
+        const outline = L.geoJSON(shape, {
+          interactive: false,
+          style: {
+            color: "#1f5e57",
+            weight: 2.5,
+            fillColor: "#1f5e57",
+            fillOpacity: 0.16,
+          },
+          attribution: PLACE_CREDIT,
+        }).addTo(map.current);
+        remove = () => outline.remove();
+
+        if (keepView.current || place.tapped) {
+          keepView.current = false;
+        } else if (place.town !== null) {
+          map.current.setView([place.town.lat, place.town.lon], TOWN_ZOOM);
+        } else {
+          map.current.fitBounds(outline.getBounds(), {
+            padding: [24, 24],
+            maxZoom: 15,
+          });
+        }
+      })
+      .catch(() => setNotice(dict.searchLoadFailed));
+
+    return () => {
+      cancelled = true;
+      remove();
+    };
+  }, [ready, place, dict.searchLoadFailed]);
 
   function moveToCurrentLocation() {
     if (!("geolocation" in navigator)) {
@@ -109,6 +214,10 @@ export function LocationPicker({ lang, dict }: Props) {
           aria-label={dict.mapLabel}
           className="absolute inset-0 z-0 bg-surface"
         />
+
+        <div className="absolute inset-x-3 top-3 z-20 lg:left-4 lg:right-auto lg:w-[380px]">
+          <PlaceSearch dict={dict} />
+        </div>
 
         <div
           aria-hidden="true"
@@ -160,7 +269,7 @@ export function LocationPicker({ lang, dict }: Props) {
       </div>
 
       <section className="relative z-10 -mt-4 flex-1 rounded-t-2xl bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-2px_12px_rgba(0,0,0,0.08)] lg:mt-0 lg:w-[400px] lg:flex-none lg:rounded-none lg:border-r lg:border-line lg:px-8 lg:pt-10 lg:shadow-none">
-        <h1 className="text-balance break-keep text-lg font-bold leading-snug lg:text-2xl">{dict.pickerTitle}</h1>
+        <h1 className="text-balance break-keep text-xl font-extrabold leading-snug lg:text-3xl">{dict.pickerTitle}</h1>
         <p className="mt-1 text-sm tabular-nums text-ink-muted">
           {point.lat.toFixed(5)}, {point.lon.toFixed(5)}
         </p>
@@ -170,7 +279,7 @@ export function LocationPicker({ lang, dict }: Props) {
         <button
           type="button"
           onClick={confirm}
-          className="mt-4 h-13 w-full rounded-xl bg-brand text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
+          className="mt-5 h-14 w-full rounded-2xl bg-brand text-[17px] font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
         >
           {dict.confirmLocation}
         </button>

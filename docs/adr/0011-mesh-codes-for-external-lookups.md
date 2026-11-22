@@ -5,7 +5,7 @@
 
 ## Context
 
-Requirement R2 (`docs/requirements/v1.1-data-gaps.md`) adds an earthquake
+Requirement R2 (`docs/requirements/v1.1-v1.2.md`) adds an earthquake
 hazard lookup from the J-SHIS API, which accepts either a coordinate or a
 地域メッシュ code (JIS X 0410). ADR-0002 forbids sending user input to third
 parties, and the MLIT lookups already avoid it by requesting public map

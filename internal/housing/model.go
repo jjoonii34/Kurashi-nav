@@ -16,7 +16,7 @@ type CheckRequest struct {
 	Lat     *float64    `json:"lat,omitempty"`
 	Lon     *float64    `json:"lon,omitempty"`
 	Address string      `json:"address,omitempty"` // used only if lat/lon are absent
-	Lang    string      `json:"lang,omitempty"`    // "en" (default), "ko", "ja-easy"
+	Lang    string      `json:"lang,omitempty"`    // "en" (default), "ko", "ja-easy", "zh"
 	Cost    *cost.Input `json:"cost,omitempty"`    // optional initial-cost check
 }
 

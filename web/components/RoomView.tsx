@@ -154,8 +154,8 @@ export function RoomView({ lang, dict }: Props) {
 
       <form onSubmit={submit} noValidate className="mt-4 flex gap-2">
         <div
-          className={`flex h-12 min-w-0 flex-1 items-center rounded-lg border px-3 focus-within:border-brand focus-within:ring-1 focus-within:ring-brand ${
-            inputError ? "border-pin" : "border-line"
+          className={`flex h-14 min-w-0 flex-1 items-center rounded-2xl bg-surface px-4 ring-2 focus-within:ring-brand ${
+            inputError ? "ring-pin" : "ring-transparent"
           }`}
         >
           <input
@@ -182,7 +182,7 @@ export function RoomView({ lang, dict }: Props) {
         </div>
         <button
           type="submit"
-          className="h-12 shrink-0 rounded-lg bg-brand px-5 font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
+          className="h-14 shrink-0 rounded-2xl bg-brand px-6 text-[17px] font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
         >
           {dict.roomShow}
         </button>
@@ -205,7 +205,7 @@ export function RoomView({ lang, dict }: Props) {
 
       {size !== null && room !== null && (
         <>
-          <dl className="mt-5 grid grid-cols-4 divide-x divide-line rounded-xl bg-surface py-3 text-center">
+          <dl className="mt-5 grid grid-cols-4 divide-x divide-line rounded-2xl bg-surface py-4 text-center">
             {[
               { value: size.jo, unit: "畳" },
               { value: size.area_sqm, unit: "㎡" },
@@ -214,7 +214,7 @@ export function RoomView({ lang, dict }: Props) {
             ].map((cell) => (
               <div key={cell.unit} className="flex flex-col-reverse px-1">
                 <dt className="text-xs text-ink-muted">{cell.unit}</dt>
-                <dd className="font-bold tabular-nums">
+                <dd className="text-lg font-bold tabular-nums">
                   {number.format(cell.value)}
                 </dd>
               </div>
@@ -226,7 +226,7 @@ export function RoomView({ lang, dict }: Props) {
               .replace("{d}", number.format(size.shape.depth_m))}
           </p>
 
-          <div className="mt-3 h-[42dvh] overflow-hidden rounded-2xl bg-surface lg:h-[52dvh]">
+          <div className="mt-3 h-[42dvh] overflow-hidden rounded-3xl bg-surface lg:h-[52dvh]">
             <RoomScene
               room={{ ...room, ceiling: size.shape.ceiling_m }}
               items={items.map((item) => ({
@@ -252,14 +252,14 @@ export function RoomView({ lang, dict }: Props) {
                 <button
                   type="button"
                   onClick={rotateSelected}
-                  className="h-11 shrink-0 rounded-lg border border-line px-4 font-semibold text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-surface"
+                  className="h-11 shrink-0 rounded-xl bg-surface px-4 font-semibold text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-line"
                 >
                   {dict.furnitureTurn}
                 </button>
                 <button
                   type="button"
                   onClick={removeSelected}
-                  className="h-11 shrink-0 rounded-lg border border-line px-4 font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-surface"
+                  className="h-11 shrink-0 rounded-xl bg-surface px-4 font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-line"
                 >
                   {dict.furnitureRemove}
                 </button>
@@ -274,14 +274,14 @@ export function RoomView({ lang, dict }: Props) {
             {notice}
           </p>
 
-          <h2 className="mt-5 font-bold">{dict.furnitureTitle}</h2>
+          <h2 className="mt-8 text-lg font-bold">{dict.furnitureTitle}</h2>
           <ul className="mt-2 flex flex-wrap gap-2">
             {size.reference_furniture.map((furniture) => (
               <li key={furniture.id}>
                 <button
                   type="button"
                   onClick={() => add(furniture)}
-                  className="rounded-full border border-line px-3.5 py-2 text-left text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-surface"
+                  className="rounded-full bg-surface px-4 py-2.5 text-left text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-line"
                 >
                   <span className="font-semibold">{furniture.name}</span>
                   <span className="ml-1.5 tabular-nums text-ink-muted">

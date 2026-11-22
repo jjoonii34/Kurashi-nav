@@ -104,7 +104,7 @@
       "Lang": {
         "name": "lang",
         "in": "query",
-        "description": "Response language: en (default), ko, or ja / ja-easy for easy Japanese.",
+        "description": "Response language: en (default), ko, ja / ja-easy for easy Japanese, or zh for Simplified Chinese.",
         "schema": { "type": "string" }
       }
     },
@@ -164,7 +164,7 @@
           "lat": { "type": "number", "description": "Send lat and lon together." },
           "lon": { "type": "number" },
           "address": { "type": "string", "description": "Used only when lat and lon are absent." },
-          "lang": { "type": "string", "description": "en (default), ko, or ja / ja-easy." },
+          "lang": { "type": "string", "description": "en (default), ko, ja / ja-easy, or zh." },
           "cost": { "$ref": "#/components/schemas/CostInput" }
         }
       },
@@ -199,7 +199,7 @@
         "required": ["location", "lang", "sections", "partial", "sources", "disclaimer", "generated_at"],
         "properties": {
           "location": { "$ref": "#/components/schemas/Point" },
-          "lang": { "type": "string", "enum": ["en", "ko", "ja-easy"] },
+          "lang": { "type": "string", "enum": ["en", "ko", "ja-easy", "zh"] },
           "sections": { "type": "array", "items": { "$ref": "#/components/schemas/Section" } },
           "cost": { "$ref": "#/components/schemas/CostResult" },
           "partial": { "type": "boolean", "description": "True if any section is unavailable." },

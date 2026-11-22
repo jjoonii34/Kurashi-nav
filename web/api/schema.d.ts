@@ -137,7 +137,7 @@ export interface paths {
                     jo?: number;
                     /** @description Size in square metres. Send exactly one of jo or area_sqm. */
                     area_sqm?: number;
-                    /** @description Response language: en (default), ko, or ja / ja-easy for easy Japanese. */
+                    /** @description Response language: en (default), ko, ja / ja-easy for easy Japanese, or zh for Simplified Chinese. */
                     lang?: components["parameters"]["Lang"];
                 };
                 header?: never;
@@ -179,7 +179,7 @@ export interface paths {
                 query: {
                     /** @description Layout code, for example 1R, 1K, 2LDK, 3SLDK or 2LDK+S. */
                     code: string;
-                    /** @description Response language: en (default), ko, or ja / ja-easy for easy Japanese. */
+                    /** @description Response language: en (default), ko, ja / ja-easy for easy Japanese, or zh for Simplified Chinese. */
                     lang?: components["parameters"]["Lang"];
                 };
                 header?: never;
@@ -243,7 +243,7 @@ export interface components {
             lon?: number;
             /** @description Used only when lat and lon are absent. */
             address?: string;
-            /** @description en (default), ko, or ja / ja-easy. */
+            /** @description en (default), ko, ja / ja-easy, or zh. */
             lang?: string;
             cost?: components["schemas"]["CostInput"];
         };
@@ -272,7 +272,7 @@ export interface components {
         Report: {
             location: components["schemas"]["Point"];
             /** @enum {string} */
-            lang: "en" | "ko" | "ja-easy";
+            lang: "en" | "ko" | "ja-easy" | "zh";
             sections: components["schemas"]["Section"][];
             cost?: components["schemas"]["CostResult"];
             /** @description True if any section is unavailable. */
@@ -399,7 +399,7 @@ export interface components {
         };
     };
     parameters: {
-        /** @description Response language: en (default), ko, or ja / ja-easy for easy Japanese. */
+        /** @description Response language: en (default), ko, ja / ja-easy for easy Japanese, or zh for Simplified Chinese. */
         Lang: string;
     };
     requestBodies: never;

@@ -24,7 +24,7 @@ type State =
   | { status: "done"; report: Report };
 
 export function ResultView({ lang, dict }: Props) {
-  const { point, estimate } = useCheck();
+  const { point, estimate, stayMonths } = useCheck();
   const [state, setState] = useState<State>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
 
@@ -82,7 +82,7 @@ export function ResultView({ lang, dict }: Props) {
             setState({ status: "loading" });
             setAttempt(attempt + 1);
           }}
-          className="mt-3 h-11 rounded-lg bg-brand px-5 font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
+          className="mt-3 h-12 rounded-xl bg-brand px-5 font-bold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand active:bg-brand-pressed"
         >
           {dict.retry}
         </button>
@@ -129,7 +129,13 @@ export function ResultView({ lang, dict }: Props) {
 
       <Card title={dict.cardCost}>
         {report.cost ? (
-          <CostBody cost={report.cost} dict={dict} yen={yen} format={number} />
+          <CostBody
+            cost={report.cost}
+            stayMonths={stayMonths}
+            dict={dict}
+            yen={yen}
+            format={number}
+          />
         ) : (
           <p className="py-3 text-sm text-ink-muted">{dict.noEstimate}</p>
         )}
@@ -163,8 +169,8 @@ export function ResultView({ lang, dict }: Props) {
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-line px-4 pb-2 pt-4">
-      <h2 className="font-bold">{title}</h2>
+    <section className="rounded-3xl bg-surface px-5 pb-3 pt-5">
+      <h2 className="text-lg font-bold">{title}</h2>
       <div className="mt-1 divide-y divide-line">{children}</div>
     </section>
   );
@@ -196,7 +202,7 @@ function HazardChip({ section, dict }: { section: Section; dict: Dictionary }) {
       {dict.chipInArea}
     </span>
   ) : (
-    <span className="rounded-full bg-surface px-2.5 py-1 text-sm text-ink-muted">
+    <span className="rounded-full bg-white px-2.5 py-1 text-sm text-ink-muted">
       {dict.chipNotInArea}
     </span>
   );
@@ -286,13 +292,18 @@ const LINE_TERM: Record<LineCode, string> = {
   other: "その他",
 };
 
+// An ordinary lease (普通借家契約) is usually signed for two years.
+const TYPICAL_LEASE_MONTHS = 24;
+
 function CostBody({
   cost,
+  stayMonths,
   dict,
   yen,
   format,
 }: {
   cost: CostResult;
+  stayMonths: number | null;
   dict: Dictionary;
   yen: (amount: number) => string;
   format: Intl.NumberFormat;
@@ -348,6 +359,16 @@ function CostBody({
           )}
         </span>
       </Row>
+      {stayMonths !== null && (
+        <p className="py-3 text-sm">
+          {dict.costPerStayMonth
+            .replace("{n}", String(stayMonths))
+            .replace("{yen}", yen(Math.round(cost.total_yen / stayMonths)))}
+          {stayMonths < TYPICAL_LEASE_MONTHS && (
+            <span className="mt-1 block text-ink-muted">{dict.stayShortNote}</span>
+          )}
+        </p>
+      )}
       {cost.warnings.length > 0 && (
         <ul className="flex flex-col gap-2 py-3">
           {cost.warnings.map((warning) => (
@@ -356,7 +377,7 @@ function CostBody({
               className={`rounded-xl p-3 text-sm ${
                 warning.severity === "warning"
                   ? "bg-alert-surface text-alert"
-                  : "bg-surface"
+                  : "bg-white"
               }`}
             >
               {warningText[warning.code] ?? warning.message}

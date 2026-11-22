@@ -14,6 +14,9 @@ func TestParse(t *testing.T) {
 		"ko-KR":     KO,
 		"ja":        JAEasy,
 		" ja-easy ": JAEasy,
+		"zh":        ZH,
+		"zh-CN":     ZH,
+		"zh-Hans":   ZH,
 	}
 	for in, want := range tests {
 		if got := Parse(in); got != want {
@@ -27,6 +30,7 @@ func TestCatalog(t *testing.T) {
 		EN:     {"hello": "Hello", "bye": "Bye"},
 		KO:     {"hello": "안녕하세요"},
 		JAEasy: {"hello": "こんにちは", "bye": "さようなら"},
+		ZH:     {"hello": "你好", "bye": "再见"},
 	}
 	if got := c.T(KO, "hello"); got != "안녕하세요" {
 		t.Errorf("T(ko, hello) = %q", got)

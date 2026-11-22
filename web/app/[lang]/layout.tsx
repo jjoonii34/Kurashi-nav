@@ -3,13 +3,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LangSwitcher } from "@/components/LangSwitcher";
 import { StepTabs } from "@/components/StepTabs";
+import { APP_NAME } from "@/i18n/app";
 import { dictionaryFor } from "@/i18n/dictionary";
 import { LANGS, isLang } from "@/i18n/langs";
 import { CheckProvider } from "@/state/check";
+import "@fontsource-variable/noto-sans-kr";
+import "pretendard-jp/dist/web/variable/pretendardvariable-jp-dynamic-subset.css";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Kurashi Nav",
+  title: APP_NAME,
   description: "Housing check for foreign residents in Japan.",
 };
 
@@ -38,9 +41,9 @@ export default async function LangLayout({
           <div className="flex h-14 items-center justify-between border-b border-line px-4 lg:contents">
             <Link
               href={`/${lang}`}
-              className="text-base font-bold text-brand lg:order-1 lg:text-lg"
+              className="text-lg font-extrabold text-brand lg:order-1 lg:text-xl"
             >
-              Kurashi Nav
+              {APP_NAME}
             </Link>
             <div className="lg:order-3 lg:ml-auto">
               <LangSwitcher current={lang} label={dict.languageLabel} />
