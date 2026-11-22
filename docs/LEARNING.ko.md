@@ -168,7 +168,14 @@ README의 `curl` 예시를 그대로 실행하고, 응답 JSON을 훑어봅니�
   - 질문: 실패를 `network` / `invalid` / `server` 셋으로 나눈 기준은? 사용자가 각각 무엇을 할 수 있나?
   - 질문: `useEffect`의 `AbortController`는 어떤 상황에서 요청을 취소하나? 없으면 무슨 일이 생길 수 있나?
   - 질문: 비용 경고 문구를 서버가 아니라 프론트가 `code`로 번역하는 이유는? (`docs/openapi.json`의 `CostWarning`)
-- [ ] 프론트엔드: Three.js(react-three-fiber)로 `/v1/room/size` 응답을 그려 가구를 드래그 배치
+- [x] 방 크기 3D: react-three-fiber로 `/v1/room/size` 응답을 그려 가구를 드래그 배치 (M2-6)
+  - 읽는 순서: `web/room/placement.test.ts` → `web/room/placement.ts` → `web/components/RoomView.tsx` → `web/components/RoomScene.tsx`
+  - 실험: `cd web && npm test`. `clampToRoom`의 `Math.max(0, ...)`을 지우고 어떤 테스트가 실패하는지 보기
+  - 질문: 가구 중심이 움직일 수 있는 범위가 왜 `(방 폭 - 가구 폭) / 2`인가? 종이에 그려 보기
+  - 질문: 끌 때 `floorPoint`는 무엇과 무엇의 교점을 구하나? `drag.current.dx`가 없으면 가구가 어떻게 움직이나?
+  - 질문: 벽 밖으로 못 나가게 막는 일을 3D 화면(`RoomScene`)이 아니라 `RoomView`가 하는 이유는?
+  - 질문: `RoomScene`을 `dynamic(..., { ssr: false })`로 불러오는 이유는? (정적 export, WebGL)
+  - 질문: `api/client.ts`의 `call<T>`는 M2-5에는 없었다. 두 번째 API 호출이 생기고 나서야 만든 이유는?
 
 ### Level 2 — 백엔드 엔지니어링 (일본 메가벤처 면접 단골)
 - [x] **singleflight**: 같은 타일 동시 요청을 1회로 합치기 (직접 구현 → `x/sync/singleflight`와 비교)

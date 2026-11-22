@@ -77,6 +77,22 @@ export type Dictionary = {
   warnKeyMoneyHigh: string;
   warnOptionalFees: string;
   warnTotalHigh: string;
+  roomTitle: string;
+  roomIntro: string;
+  roomSizeLabel: string;
+  roomUnitLabel: string;
+  roomShow: string;
+  roomInvalid: string;
+  roomLoading: string;
+  unitPyeong: string;
+  roomShape: string;
+  roomSceneLabel: string;
+  furnitureTitle: string;
+  furnitureHint: string;
+  furnitureTurn: string;
+  furnitureRemove: string;
+  furnitureTooBig: string;
+  furnitureCannotTurn: string;
 };
 
 // Record<Lang, Dictionary> makes a missing language or key a compile error.
@@ -168,6 +184,22 @@ const dictionaries: Record<Lang, Dictionary> = {
       "Extra items such as disinfection (消毒) or support services are often optional. Ask whether each one is required.",
     warnTotalHigh:
       "Initial costs above about six months of rent are high by a common rule of thumb. Compare with similar homes.",
+    roomTitle: "Room size",
+    roomIntro: "Enter the size printed on the listing to see how big the room is and whether your furniture fits.",
+    roomSizeLabel: "Room size",
+    roomUnitLabel: "Unit",
+    roomShow: "Show",
+    roomInvalid: "Enter a size greater than 0 that a room can have.",
+    roomLoading: "Drawing the room…",
+    unitPyeong: "pyeong / tsubo",
+    roomShape: "Drawn as {w} m × {d} m. The real shape may differ.",
+    roomSceneLabel: "3D view of the room with the furniture you placed",
+    furnitureTitle: "Try furniture",
+    furnitureHint: "Tap a piece of furniture below to place it, then drag it around the room.",
+    furnitureTurn: "Turn 90°",
+    furnitureRemove: "Remove",
+    furnitureTooBig: "{name} is larger than this room.",
+    furnitureCannotTurn: "There is no space to turn it in this room.",
   },
   ko: {
     languageLabel: "언어",
@@ -256,6 +288,22 @@ const dictionaries: Record<Lang, Dictionary> = {
       "소독(消毒)이나 지원 서비스 같은 추가 항목은 선택 사항인 경우가 많습니다. 항목마다 꼭 필요한지 물어보세요.",
     warnTotalHigh:
       "초기비용이 월세 약 6개월분을 넘으면 흔히 높은 편으로 봅니다. 비슷한 집과 비교해 보세요.",
+    roomTitle: "방 크기",
+    roomIntro: "매물에 적힌 크기를 넣으면 방이 얼마나 넓은지, 가구가 들어가는지 볼 수 있습니다.",
+    roomSizeLabel: "방 크기",
+    roomUnitLabel: "단위",
+    roomShow: "보기",
+    roomInvalid: "0보다 크고 방으로 가능한 크기를 입력해 주세요.",
+    roomLoading: "방을 그리고 있습니다…",
+    unitPyeong: "평",
+    roomShape: "가로 {w} m × 세로 {d} m로 그렸습니다. 실제 모양은 다를 수 있습니다.",
+    roomSceneLabel: "놓은 가구가 보이는 방의 3D 화면",
+    furnitureTitle: "가구 놓아 보기",
+    furnitureHint: "아래에서 가구를 눌러 놓고, 방 안에서 끌어 옮겨 보세요.",
+    furnitureTurn: "90° 돌리기",
+    furnitureRemove: "빼기",
+    furnitureTooBig: "{name}은(는) 이 방보다 큽니다.",
+    furnitureCannotTurn: "이 방에서는 돌릴 공간이 없습니다.",
   },
   ja: {
     languageLabel: "ことば",
@@ -346,6 +394,22 @@ const dictionaries: Record<Lang, Dictionary> = {
       "しょうどく（消毒）や サポートサービスなどは、えらべる ことが おおいです。ひとつずつ、かならず ひつようか きいて ください。",
     warnTotalHigh:
       "はじめに はらう おかねが やちんの やく 6かげつぶんより おおいと、たかい ほうです。にて いる へやと くらべて ください。",
+    roomTitle: "へやの ひろさ",
+    roomIntro: "へやの こうこくに かいて ある ひろさを いれて ください。へやの おおきさと、かぐが はいるか どうかが わかります。",
+    roomSizeLabel: "へやの ひろさ",
+    roomUnitLabel: "たんい",
+    roomShow: "みます",
+    roomInvalid: "0より おおきい、へやの ひろさを いれて ください。",
+    roomLoading: "へやを かいて います…",
+    unitPyeong: "つぼ（坪）",
+    roomShape: "よこ {w} m × たて {d} m で かきました。ほんとうの かたちは ちがう ことが あります。",
+    roomSceneLabel: "おいた かぐが みえる へやの 3Dの がめん",
+    furnitureTitle: "かぐを おいて みます",
+    furnitureHint: "したの かぐを おすと へやに おけます。へやの なかで うごかして ください。",
+    furnitureTurn: "90° まわします",
+    furnitureRemove: "とります",
+    furnitureTooBig: "{name}は この へやより おおきいです。",
+    furnitureCannotTurn: "この へやでは まわす ばしょが ありません。",
   },
 };
 

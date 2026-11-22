@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import {
   checkHousing,
-  type CheckFailure,
+  type ApiFailure,
   type CostResult,
   type Report,
   type Section,
@@ -20,7 +20,7 @@ type Props = {
 
 type State =
   | { status: "loading" }
-  | { status: "failed"; reason: CheckFailure }
+  | { status: "failed"; reason: ApiFailure }
   | { status: "done"; report: Report };
 
 export function ResultView({ lang, dict }: Props) {
@@ -48,7 +48,7 @@ export function ResultView({ lang, dict }: Props) {
       }
       setState(
         result.ok
-          ? { status: "done", report: result.report }
+          ? { status: "done", report: result.data }
           : { status: "failed", reason: result.reason },
       );
     });
@@ -68,7 +68,7 @@ export function ResultView({ lang, dict }: Props) {
   }
 
   if (state.status === "failed") {
-    const failureText: Record<CheckFailure, string> = {
+    const failureText: Record<ApiFailure, string> = {
       network: dict.resultFailedNetwork,
       invalid: dict.resultFailedInvalid,
       server: dict.resultFailedServer,
