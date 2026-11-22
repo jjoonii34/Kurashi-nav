@@ -23,7 +23,7 @@ export function StepTabs({ lang, dict }: Props) {
   return (
     <nav
       aria-label={dict.stepsLabel}
-      className="flex h-11 shrink-0 border-b border-line px-2 text-sm"
+      className="flex h-11 px-2 text-sm lg:order-2 lg:ml-10 lg:h-14 lg:px-0 lg:text-base"
     >
       {tabs.map(({ label, path }) => {
         if (path === undefined) {
@@ -31,7 +31,7 @@ export function StepTabs({ lang, dict }: Props) {
             <span
               key={label}
               aria-disabled="true"
-              className="flex flex-1 items-center justify-center text-ink-muted/50"
+              className="flex flex-1 items-center justify-center text-ink-muted/50 lg:flex-none lg:px-5"
             >
               {label}
             </span>
@@ -43,7 +43,7 @@ export function StepTabs({ lang, dict }: Props) {
             key={label}
             href={path}
             aria-current={current ? "page" : undefined}
-            className={`flex flex-1 items-center justify-center border-b-2 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand ${
+            className={`flex flex-1 items-center justify-center border-b-2 lg:flex-none lg:px-5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand ${
               current
                 ? "border-brand font-semibold text-brand"
                 : "border-transparent text-ink-muted"
