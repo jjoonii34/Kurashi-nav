@@ -5,7 +5,7 @@ import { LangSwitcher } from "@/components/LangSwitcher";
 import { StepTabs } from "@/components/StepTabs";
 import { dictionaryFor } from "@/i18n/dictionary";
 import { LANGS, isLang } from "@/i18n/langs";
-import { LocationProvider } from "@/state/location";
+import { CheckProvider } from "@/state/check";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -33,14 +33,22 @@ export default async function LangLayout({
   return (
     <html lang={lang}>
       <body className="flex min-h-dvh flex-col">
-        <header className="flex h-14 shrink-0 items-center justify-between border-b border-line px-4">
-          <Link href={`/${lang}`} className="text-base font-bold text-brand">
-            Kurashi Nav
-          </Link>
-          <LangSwitcher current={lang} label={dict.languageLabel} />
+        {/* Phone: logo row above the tab row. Desktop: one row, tabs between. */}
+        <header className="shrink-0 border-b border-line lg:flex lg:h-14 lg:items-center lg:px-6">
+          <div className="flex h-14 items-center justify-between border-b border-line px-4 lg:contents">
+            <Link
+              href={`/${lang}`}
+              className="text-base font-bold text-brand lg:order-1 lg:text-lg"
+            >
+              Kurashi Nav
+            </Link>
+            <div className="lg:order-3 lg:ml-auto">
+              <LangSwitcher current={lang} label={dict.languageLabel} />
+            </div>
+          </div>
+          <StepTabs lang={lang} dict={dict} />
         </header>
-        <StepTabs lang={lang} dict={dict} />
-        <LocationProvider>{children}</LocationProvider>
+        <CheckProvider>{children}</CheckProvider>
       </body>
     </html>
   );

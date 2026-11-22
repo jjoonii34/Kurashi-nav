@@ -52,6 +52,9 @@ jobs:
       - name: lint
         run: npm run lint
 
+      - name: test
+        run: npm test
+
       - name: build (static export)
         run: npm run build
 
