@@ -16,10 +16,11 @@ const (
 	EN     Lang = "en"
 	KO     Lang = "ko"
 	JAEasy Lang = "ja-easy" // やさしい日本語: short sentences, common kanji (frontend adds furigana)
+	ZH     Lang = "zh"      // Simplified Chinese
 )
 
 // All lists the supported languages.
-var All = []Lang{EN, KO, JAEasy}
+var All = []Lang{EN, KO, JAEasy, ZH}
 
 // Parse maps a user-supplied language tag to a supported Lang (default English).
 func Parse(s string) Lang {
@@ -28,6 +29,8 @@ func Parse(s string) Lang {
 		return KO
 	case "ja", "ja-jp", "ja-easy":
 		return JAEasy
+	case "zh", "zh-cn", "zh-hans":
+		return ZH
 	default:
 		return EN
 	}

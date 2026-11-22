@@ -48,6 +48,20 @@ var messages = i18n.Catalog{
 		"disclaimer": "この結果は参考です。災害の情報は国などのデータです。安全かどうかを約束するものではありません。" +
 			"お金は目安です。契約の前に、必ず市役所のハザードマップと重要事項説明を確認してください。",
 	},
+	i18n.ZH: {
+		string(LayerFlood):            "洪水（河流泛滥）浸水预想区域",
+		string(LayerStormSurge):       "风暴潮浸水预想区域",
+		string(LayerTsunami):          "海啸浸水预想区域",
+		string(LayerLandslide):        "泥石流、滑坡等灾害警戒区域",
+		string(LayerLiquefaction):     "地基液化倾向",
+		string(LayerZoning):           "用途地域（土地用途分区）",
+		string(LayerElementarySchool): "公立小学学区",
+		string(LayerJuniorHighSchool): "公立初中学区",
+		string(LayerTransactions):     "周边成交价格",
+		"unavailable":                 "暂时无法查询，请查看官方资料。",
+		"disclaimer": "本结果仅供参考。灾害信息来自公共数据，不保证安全或危险。费用为估算值。" +
+			"本服务不是法律或房地产咨询。签约前请务必通过市区町村的官方灾害地图和重要事项说明（重要事項説明）确认。",
+	},
 }
 
 func t(lang i18n.Lang, key string) string { return messages.T(lang, key) }

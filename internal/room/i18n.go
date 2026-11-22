@@ -71,4 +71,26 @@ var messages = i18n.Catalog{
 		"furniture_washing_machine": "洗濯機",
 		"furniture_tv_stand":        "テレビ台",
 	},
+	i18n.ZH: {
+		"part_R":   "一居室（ワンルーム）：厨房在房间里，中间没有门。",
+		"part_K":   "K（厨房）：用门或墙与房间隔开的小厨房。",
+		"part_DK":  "DK（餐厨）：可以放下餐桌的厨房。",
+		"part_LDK": "LDK（客厅、餐厅、厨房）：做饭、吃饭和休息都在一个较大的空间里。",
+		"part_S": "S（储藏间，サービスルーム／納戸）：采光或通风达不到建筑基准法对“居室”的要求的房间，" +
+			"多用于存放物品。",
+		"summary_rooms":    "除厨房空间外有 %d 个房间。",
+		"summary_one_room": "厨房在房间里的单间。",
+		"guideline_note":   "房地产公平交易协议会的广告规则：可以标为 DK 或 LDK 的最小面积由房间数决定。",
+		"size_note": "房源广告中的 1畳（也写作 帖）表示至少 1.62㎡。实际榻榻米的大小因地区而异。" +
+			"房间形状是为 3D 预览做的近似，请以户型图（間取り図）为准。家具尺寸为常见尺寸，并非精确值。",
+		"furniture_bed_single":      "单人床",
+		"furniture_bed_semi_double": "小双人床",
+		"furniture_futon_single":    "被褥（单人）",
+		"furniture_desk":            "书桌",
+		"furniture_sofa_2_seat":     "双人沙发",
+		"furniture_dining_table_2":  "双人餐桌",
+		"furniture_fridge_small":    "小型冰箱",
+		"furniture_washing_machine": "洗衣机",
+		"furniture_tv_stand":        "电视柜",
+	},
 }

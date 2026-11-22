@@ -108,7 +108,7 @@ internal/
   housing/          domain: the check itself, ports (interfaces), i18n
   cost/             initial-cost calculator (pure functions)
   room/             room sizes, layout codes, furniture presets (pure functions)
-  i18n/             languages (en / ko / ja-easy) and message catalogues
+  i18n/             languages (en / ko / ja-easy / zh) and message catalogues
   reinfolib/        MLIT API client + LayerSource adapter
   fakesource/       dummy LayerSource for local dev and tests
   geocode/          address → coordinate (static for now)
